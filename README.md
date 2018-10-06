@@ -1,21 +1,26 @@
 # ExpandableFAQ
 It’s a MIT-licensed (can be used in premium themes), high quality, native and responsive WordPress plugin to create and view expandable F.A.Q.'s
 
-Contributors: KestutisIT
-Donate link: https://profiles.wordpress.org/KestutisIT
-Website link: https://wordpress.org/plugins/expandable-faq/
-Tags: faq, faqs, Frequently Answered Questions, expand, collapse
-Requires at least: 4.6
-Tested up to: 4.9
-Requires PHP: 5.4
-Stable tag: trunk
-License: MIT License
-License URI: https://opensource.org/licenses/MIT
+**Contributors:** KestutisIT
 
-It’s a MIT-licensed (can be used in premium themes), high quality, native and responsive WordPress plugin to create and view expandable F.A.Q.'s
+**Website link:** https://wordpress.org/plugins/expandable-faq/
+
+**Tags:** faq, faqs, Frequently Answered Questions, expand, collapse
+
+**Requires at least:** 4.6
+
+**Tested up to:** 4.9
+
+**Requires PHP:** 5.4
+
+**Stable tag:** trunk
+
+**License:** MIT License
+
+**License URI:** https://opensource.org/licenses/MIT
 
 
-== Description ==
+# Description
 
 **First** - differently than any other similar plugin, this plugin is based on MIT license, which is a holly-grail for premium theme authors on i.e. ThemeForest or similar marketplaces.
 Differently to standard GPLv2 license you are not required to open-source your theme and you **CAN** include this plugin into your premium websites bundle packs.
@@ -56,7 +61,7 @@ Plus - I'm giving a promise to you, that this plugin is and will always be 100% 
 Finally - the code is poetry - __the better is the web, the happier is the world__.
 
 - - - -
-**Live Demo**
+# Live Demo
 [Expandable FAQ (Live Demo)](http://nativerental.com/cars/faq/ "Expandable FAQ (Live Demo)")
 
 
