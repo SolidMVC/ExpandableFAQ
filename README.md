@@ -60,7 +60,7 @@ Finally - the code is poetry - __the better is the web, the happier is the world
 [Expandable FAQ (Live Demo)](http://nativerental.com/cars/faq/ "Expandable FAQ (Live Demo)")
 
 
-== Installation ==
+# Installation
 
 This section describes how to install the plugin and get it working.
 
@@ -74,7 +74,7 @@ This section describes how to install the plugin and get it working.
 7. Congratulations, you're done! We wish you to have a pleasant work with our Expandable FAQ for WordPress.
 
 
-== Frequently Asked Questions ==
+# Frequently Asked Questions
 
 = Does it allows to have more than one F.A.Q. item expanded? =
 
@@ -90,24 +90,24 @@ to your website's FAQ page and make automatically expand specific FAQ with a pag
 `
 
 
-== Screenshots ==
+# Screenshots
 
-1. Expandable FAQ - Front-End F.A.Q.'s
-2. Expandable FAQ - Admin FAQ Manager
-3. Expandable FAQ - Admin Global Settings
-4. Expandable FAQ - Admin Import Demo
-5. Expandable FAQ - Admin Plugin Status
-6. Expandable FAQ - Admin User Manual
+![1. Expandable FAQ - Front-End F.A.Q.'s](https://ps.w.org/expandable-faq/assets/screenshot-1.jpg)
+![2. Expandable FAQ - Admin FAQ Manager](https://ps.w.org/expandable-faq/assets/screenshot-2.jpg)
+![3. Expandable FAQ - Admin Global Settings](https://ps.w.org/expandable-faq/assets/screenshot-3.jpg)
+![4. Expandable FAQ - Admin Import Demo](https://ps.w.org/expandable-faq/assets/screenshot-4.jpg)
+![5. Expandable FAQ - Admin Plugin Status](https://ps.w.org/expandable-faq/assets/screenshot-5.jpg)
+![6. Expandable FAQ - Admin User Manual](https://ps.w.org/expandable-faq/assets/screenshot-6.jpg)
 
 
 
-== Changelog ==
+# Changelog
 
 = 6.0 =
 * Initial release! Based on S.O.L.I.D. MVC Engine, Version 6 (without extensions).
 
 
-== Upgrade Notice ==
+# Upgrade Notice
 
 = 6.0 =
 * Initial release!
