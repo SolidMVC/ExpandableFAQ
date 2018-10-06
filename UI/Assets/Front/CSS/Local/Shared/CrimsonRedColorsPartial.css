@@ -1,0 +1,9 @@
+/**
+ * Colors style sheet (CSS4 VARIABLES)
+ * License: Licensed under the AGPL license.
+ */
+:root {
+    --primary-color: #DE2E2F; /* Crimson Red */
+    --primary-light-color: #f05858; /* Light Red */
+    --secondary-color: #BA0001; /* Dark Red */
+}

@@ -1,0 +1,9 @@
+/**
+ * Colors style sheet (CSS4 VARIABLES)
+ * License: Licensed under the AGPL license.
+ */
+:root {
+    --primary-color: #4C8AB1; /* Steel Blue */
+    --primary-light-color: #51b0d7; /* Light Blue */
+    --secondary-color: #1A70A7; /* Dark Steel Blue */
+}

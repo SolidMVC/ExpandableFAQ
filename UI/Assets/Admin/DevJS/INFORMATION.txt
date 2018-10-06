@@ -1,0 +1,3 @@
+What is development scripts?
+For JS, the development mode mode means that all JS files are NOT merged into one file (are NOT packed)
+and are NOT minified.

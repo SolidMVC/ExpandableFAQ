@@ -1,0 +1,13 @@
+What is the purpose of ""/3rdParty/" assets (a.k.a. "Vendor assets") folder,
+and why the 3rd party assets are not a part of regular asset folders?
+----------------------------------------------------------------------------
+The answer is simple:
+1. Continuous integration - your 3rd party assets should be related by ZERO LINKS to your code.
+Or at least have a minimum links as possible. Then you can just drag-and-drop the new 3rd party assets version
+or update that 3rd party asset folder via Source control (i.e. "Git Pull").
+
+2. Versioning - you always want to be up-to-date with the last version of your 3rd party assets if you can.
+By having your 3rd party assets in a separate folder you will never have to bother if the structure of 3rd party
+is the same or it is changed, as long as you keep the entry point file name the same
+(or re-link it in your main code after upgrade - this is a rare situation if your vendor scripts
+does NOT have version suffix in they entry point file name).

@@ -1,0 +1,10 @@
+/**
+ * Plugin Stylesheet
+ * Style Name: Steel Blue
+ * License: Licensed under the AGPL license.
+ */
+/* #1. First - Load the style colors (variables) */
+@import url("Shared/SteelBlueColorsPartial.css");
+
+/* #2. Then - Load the layout */
+@import url("Shared/LayoutPartial.css");

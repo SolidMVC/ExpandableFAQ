@@ -1,0 +1,3 @@
+What is compatibility styles?
+Style in this folder will get loaded only if the current active theme folder name
+will match the style file name (excl. the file extension).

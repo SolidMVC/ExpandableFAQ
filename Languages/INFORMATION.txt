@@ -1,0 +1,107 @@
+The files in this ("/Languages/") folder are created at the same time when plugin package is created.
+So that means, that any file that are in this folder (or in it sub-folders, if the extensions feature is used),
+COMES WITH the plugin install package.
+
+By keeping that in mind, if you are an translator-only, you DO NOT WANT want to add your own translations to this directory,
+as they will be lost during plugin updates. Instead, you want store your translations at:
+a) If plugin is extensions-based:
+    /wp-content/languages/<EXT_FOLDER_NAME>/<LOCALE>.php
+    (e.g. /wp-content/languages/MunicipalityVoting/en_US.php, when pre-packaged plugin extension language files are located at
+       at /wp-content/plugins/VotingSystem/Languages/MunicipalityVoting/), to keep them safe from loss during updates.
+b) If plugin is NOT using extensions feature:
+    /wp-content/languages/<PLUGIN_NAME>/<LOCALE>.php
+    (e.g. /wp-content/languages/InternetVoting/en_US.php, when pre-packaged plugin language files are located at
+       at /wp-content/plugins/InternetVoting/Languages/), to keep them safe from loss during updates.
+
+========================================================================================================================
+
+
+========================================================================================================================
+========================================================================================================================
+========================================================================================================================
+F.A.Q.:
+
+1. What language file formats are supported to be in this folder (or in external wp-content/languages/ folder)?
+=====================================
+The language files can be in one of two formats:
+a) Preferred - Unicode CLDR '.php' KEY=>VALUE array-structured language files ( http://cldr.unicode.org/ ),
+               that CAN BE EDITED INSTANTLY with any free (i.e. Notepad++) or paid (i.e. PHPStorm IDE).
+               This KEY=>ARRAY method is faster than .PO/.MO files ('when the milliseconds matter') and
+               also it is fully capable to use plugin folder as a 'base' MVC abstraction layer,
+               with ability to use it for UNLIMITED amount of plugin-extensions on that base.
+               Plus CLDR KEY=>VALUE format is directly-compatible with world class-standards of 3rd party well-known libraries,
+               i.e. ISO 3166 Country List, Google's "Lib Phone Number" etc.
+               Also Unicode CLDR is compatible with .PO/.MO structure via transpiler file (see F.A.Q. below for more details).
+b) Optional  - .PO, .MO files, made with Shareware (Paid-Only) PoEditor,
+               that CANNOT BE EDITED INSTANTLY (any .PO/.MO file has to be regenerated), is slower than php KEY=>VALUE arrays,
+               and are not capable to work with plugin-extensions, because the primary language text (usually in English)
+               are always hardcoded straight into Model / Controller / View files and Templates, i.e. "__('Confirm ballot vote')",
+               that makes the plugin almost impossible to translate that into different extensions text.
+
+
+2. How Unicode CLDR files looks like?
+=====================================
+The "Unicode CLDR Project"-based language file, i.e. "en_US.php" will have the content of:
+-----------------------------------
+return array(
+    'TEST_BUTTON_LABEL' => 'Test',
+    ...,
+);
+-----------------------------------
+In the templates it will get loaded as:
+<?=$lang['TEST_BUTTON_LABEL'];?>
+
+And it the Models it will be loaded as:
+-----------------------------------
+<?php
+...
+$dynamicLabel = $this->lang->getPrint('TEST_BUTTON_LABEL');
+...
+-----------------------------------
+
+
+3. What are the benefits of Unicode CLDR KEY=>VALUE array-type language files versus .PO/.MO:
+=====================================
+Unicode CLDR KEY=>VALUE array-type language files has the following benefits versus .PO/.MO files:
+    1) Easier to edit for developers - any developer knows what is array, and they can add / fix / update the language file
+    immediately and absolutely free with any editor they want, i.e. Notepad++.
+    While PO/MO files can be edited only by shareware software,
+    and it requires PO/MO file regeneration = NO instant editing.
+
+    2) Via PHP you can also create CLDR .php KEY=>VALUE file parser/generator as same as for PO/MO.
+
+    3) PO/MO-only idea is absolutely bad for plugins that works with extension-base. I.e. if you will use __(..) text in all plugin,
+    models, controllers and templates for "Municipality-Voting" case, and you want your plugin to be only a base of "Voting"
+    with two extensions - "Municipality Voting" and "SMS Polls", then with PO/MO-only you just won't be able to have proper translations system at all.
+    While with CLDR .php KEY=>VALUE arrays you can always use abstract versions for keys, i.e. VOTE_BUTTON_LABEL,
+    and define it's exact value in the CLDR language files, that will be different for "Municipality Voting" and "SMS Polls", i.e.
+    "Languages/MunicipalityVoting/en_US.php":
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    $lang['VOTE_BUTTON_LABEL'] = 'Confirm ballot vote';
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    and
+    "Languages/SMS_Pools/en_US.php":
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    $lang['VOTE_BUTTON_LABEL'] = 'Confirm SMS vote';
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    4) .php arrays reading is FASTER than .PO/.MO file parsing. As that is another layer of processor.
+    And when milliseconds matters, it does make sense to save them.
+
+    5) Event if you use CLDR .php KEY=>VALUE Arrays, you can still go with PO/MO for translations in desired languages,
+    if you want, by just creating a very simple intermediate language file(-s), i.e.
+    'pt_PT.php' and 'br_BR.php' with content:
+    <?php include('po_MO.php'); ?>
+
+    Then in 'po_MO.php' file you can just use:
+    $lang['VOTE_BUTTON_LABEL'] = __('Confirm ballot vote');
+
+    That's it - it is enough that your shareware .PO/.MO software can pick-up all these language lines and create the translation files.
+
+    6) Unicode CLDR KEY=>ARRAY value language file are much more cross-platform and cross-system.
+    I.e. if you will want to easily integrate Google PhoneLib,
+    to extract phone details to specific language, or use some world-class libraries
+    i.e. for country list by the country codes - again all they are written in KEY=>VALUE format,
+    and with Unicode CLDR language file format you can run/include
+    them immediately directly into your language file / folder. With .PO/.MO files you just CAN'T DO THAT AT ALL!

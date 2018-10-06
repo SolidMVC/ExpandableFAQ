@@ -1,0 +1,4 @@
+What is the purpose of /SQLs/ folder?
+This folder is dedicated for SQL-containing file (mostly demo SQLs, install SQLs, reset SQLs).
+This folder is useful if you would decide to create custom insert SQL queries to plugin-specific database tables, on your plugin installation,
+run reset SQLs on plugin re-activation

@@ -1,0 +1,9 @@
+/**
+ * Colors style sheet (CSS4 VARIABLES)
+ * License: Licensed under the AGPL license.
+ */
+:root {
+    --primary-color: #191919; /* Solid Black */
+    --primary-light-color: #828282; /* Dark Gray */
+    --secondary-color: #1EACC7; /* Light Blue */
+}

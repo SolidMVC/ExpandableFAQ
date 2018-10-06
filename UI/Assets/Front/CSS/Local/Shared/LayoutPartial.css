@@ -1,0 +1,114 @@
+/**
+ * A style sheet styles that are common to all plugin styles Plugin Stylesheet
+ * License: Licensed under the AGPL license.
+ */
+/*************************************************************************/
+/*************************** GLOBAL STYLES *******************************/
+/*************************************************************************/
+.expandable-faq-wrapper label.error {
+    display: inline-block;
+    font-size: 12px;
+    color: #D00;
+    padding-left: 10px;
+    font-style: italic;
+}
+.expandable-faq-wrapper {
+    line-height: 1.56em; /*equal to 25px for default font size of 16px*/
+}
+.expandable-faq-wrapper input[type="text"],
+.expandable-faq-wrapper select,
+.expandable-faq-wrapper textarea
+{
+    height: 40px;
+    font-size: 16px;
+}
+.expandable-faq-wrapper .dynamic-requirement {
+    color: transparent;
+    visibility: hidden;
+}
+/* this is a dynamic item */
+.expandable-faq-wrapper .dynamic-requirement.required {
+    color: #DE2E2F; /* IE 11 Compatibility */
+    color: var(--primary-color);
+    font-weight: bold;
+    visibility: visible;
+}
+.expandable-faq-wrapper .is-required {
+    color: #DE2E2F; /* IE 11 Compatibility */
+    color: var(--primary-color);
+    font-weight: bold;
+}
+.expandable-faq-wrapper .is-not-required {
+    color: #006400;
+    font-weight: bold;
+}
+.expandable-faq-wrapper .highlight {
+    color: #DE2E2F; /* IE 11 Compatibility */
+    color: var(--primary-color);
+}
+.expandable-faq-wrapper h2.top-padded {
+    margin-top: 60px;
+}
+/******************************************************************/
+/*********************** FAQS LIST ********************************/
+/******************************************************************/
+.expandable-faq-faqs-list {
+    clear: both;
+}
+
+.expandable-faq-faqs-list .toggle-list {
+    clear: both;
+    width: 100%;
+    margin-bottom: 0;
+    border-bottom: 1px solid #afafaf;
+}
+.expandable-faq-faqs-list .toggle-list .question-row {
+    font-size: 13px;
+    font-weight: 400;
+    color: #000000;
+    line-height: 50px;
+    border-top: 1px solid #afafaf;
+}
+.expandable-faq-faqs-list .toggle-list .question-row:hover {
+    cursor: pointer;
+    color: #F05858; /* IE 11 Compatibility */
+    color: var(--primary-light-color);
+}
+.expandable-faq-faqs-list .toggle-list .question-row .fa {
+    font-size: 11px;
+    color: white;
+    padding: 6px;
+    margin-right: 13px;
+}
+.expandable-faq-faqs-list .toggle-list .question-row .fa-plus {
+    background: #333333;
+}
+.expandable-faq-faqs-list .toggle-list .question-row:hover .fa-plus,
+.expandable-faq-faqs-list .toggle-list .question-row .fa-minus {
+    background: #F05858; /* IE 11 Compatibility */
+    background: var(--primary-light-color);
+}
+.expandable-faq-faqs-list .toggle-list .answer-row {
+    font-size: 16px;
+    padding: 10px 0 15px 0;
+    line-height: 25px;
+    margin-left: 0;
+}
+@media (max-width: 768px) {
+    .expandable-faq-faqs-list .toggle-list .question-row {
+        line-height: 44px;
+    }
+    .expandable-faq-faqs-list .toggle-list .answer-row {
+        padding: 0 0 10px 0;
+    }
+}
+.expandable-faq-faqs-list .no-faqs-available {
+    text-align: center;
+}
+/******************************************************************/
+/******************** RIGHT TO LEFT CLASSES ***********************/
+/******************************************************************/
+.rtl .expandable-faq-wrapper {
+    direction: rtl;
+    unicode-bidi: embed;
+}

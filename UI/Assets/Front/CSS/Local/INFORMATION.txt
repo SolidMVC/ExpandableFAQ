@@ -1,0 +1,7 @@
+What is local styles?
+Styles in this folder will get loaded only for plugin scope. That means, that they will only be loaded
+if they are enqueued in specific plugin template file.
+
+NOTES:
+1. There is no need to have a separate file for RTL classes/images. PHP does process that by giving an additional rtl body class name.
+Then it is super easy to handle all that in same CSS file as non-rtl, just by using that prefix when needed.

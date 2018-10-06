@@ -1,0 +1,13 @@
+What is the purpose if /Libraries/ folder?
+In this folder sub-folders you should put all your 3rd party code packages, and in the /Libraries/ folder
+you should put transpilers from 3rd Party libraries to your Plugin code. This is important to do,
+so that you can standardize the calls of your 3rd party methods in your code.
+------------------------------------------------------------------------
+
+What is transpiler?
+Transpiler - It's a source-to-source compiler, it translates source code
+from one language to another (or to another version of the same language).
+
+Note: Library transpiler class should not have a namespace, because all transpilers are loaded as dynamic libraries
+and that would anyway require a full-qualified namespaces for each transpiler constructor. So to avoid that,
+we just do not use namespaces for transpilers at all.

@@ -1,0 +1,778 @@
+/**
+ * Plugin Admin Stylesheet
+ * License: Licensed under the AGPL license.
+ */
+/*************************************************************************/
+/******************** SPECIFIC WORDPRESS ADMIN STYLES ********************/
+/*************************************************************************/
+/* Because admin footer text and footer version is removed by the plugin, we also remove the white block */
+#wpbody-content {
+    padding-bottom: 0 !important;
+}
+/*************************************************************************/
+/*************************** GLOBAL STYLES *******************************/
+/*************************************************************************/
+.entry-description-page-not-set {
+    color: red;
+    font-style: italic;
+    font-weight: bold;
+}
+.respondent-no-response-yet {
+    font-weight: bold;
+}
+.clear {
+    clear: both;
+}
+.failed {
+    color: #FF0000;
+}
+.success {
+    color: #006600;
+}
+.not-important {
+    color: silver;
+}
+.dynamic-requirement {
+    color: transparent;
+    visibility: hidden;
+}
+/*there is no missing '-' bellow, because of dynamic item*/
+.dynamic-requirement.required {
+    color: #DE2E2F;
+    font-weight: bold;
+    visibility: visible;
+}
+.is-required {
+    color: #DE2E2F;
+    font-weight: bold;
+}
+.is-not-required {
+    color: #006400;
+    font-weight: bold;
+}
+.not-translated {
+    font-size: 10px;
+    color: gray;
+    cursor: pointer;
+}
+.special-notes {
+    font-size: 10px;
+    color: purple;
+    font-weight: bold;
+    cursor: pointer;
+}
+.admin-info-message {
+    margin: 0 auto;
+    margin-top: 40px;
+    border-radius: 5px 5px 5px 5px;
+    border: 1px solid black;
+    line-height: 31px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 7px;
+    padding-bottom: 9px;
+    background-color: #424B58;
+    font-weight: normal;
+    font-size: 20px;
+    color: white;
+
+}
+.admin-wide-message {
+    max-width: 1220px;
+}
+.admin-standard-width-message {
+    max-width: 1089px;
+}
+.admin-error-message {
+    color: red;
+}
+.admin-error-message .buttons {
+    margin-top: 20px;
+    text-align: center;
+}
+.admin-error-message .back-button {
+    width: 200px;
+    height: 40px;
+    font-size: 14px;
+    font-weight: bold;
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 5px 5px 5px 5px;
+    cursor: pointer;
+}
+.admin-error-message .back-button:hover {
+    background-color: #c0c0c0;
+}
+.admin-okay-message {
+
+}
+.admin-debug-message {
+
+}
+div.expandable-faq-tabbed-admin a {
+    text-decoration: underline;
+}
+div.expandable-faq-tabbed-admin a:hover {
+    text-decoration: none;
+}
+/*************************************************************************/
+/**************************** MAIN STYLES ********************************/
+/*************************************************************************/
+div.car-expandable-faq-error {
+    margin: 0 0 0 -20px;
+    display: block;
+    overflow: hidden;
+    padding: 0;
+    background-attachment: fixed;
+    background-position: 50% 0;
+    background-size: cover;
+    -webkit-text-size-adjust: none;
+    background-image: url("../Images/CyanBG.jpg");
+}
+.expandable-faq-tabbed-admin {
+    margin: 0 0 0 -20px;
+    display: block;
+    overflow: hidden;
+    padding: 0;
+    background-attachment: fixed;
+    background-position: 50% 0;
+    background-size: cover;
+    -webkit-text-size-adjust: none;
+    background-image: url("../Images/CyanBG.jpg");
+    min-height: 1407px; /*4K screen ready: 3840x2160*/
+}
+div.expandable-faq-tabbed-admin .body {
+    margin: 0 auto;
+    padding: 40px;
+}
+div.expandable-faq-tabbed-admin-narrow .body {
+    /*min-width: 1000px;*/
+    max-width: 1000px;
+}
+div.expandable-faq-tabbed-admin-medium .body {
+    /*min-width: 1120px;*/
+    max-width: 1120px;
+}
+div.expandable-faq-tabbed-admin-wide .body {
+    /*min-width: 1250px;*/
+    max-width: 1250px;
+}
+@media screen and (max-width: 1000px) {
+    div.expandable-faq-tabbed-admin .body {
+        padding: 20px;
+    }
+}
+@media screen and (max-width: 767px) {
+    div.expandable-faq-tabbed-admin .body {
+        padding: 10px;
+    }
+}
+/***********************************************************************************/
+div.expandable-faq-tabbed-admin .order-search-form a,
+div.modern-tabs .order-search-form a,
+div.expandable-faq-tabbed-admin .pickup-search-form a,
+div.modern-tabs .pickup-search-form a,
+div.expandable-faq-tabbed-admin .return-search-form a,
+div.modern-tabs .return-search-form a,
+div.expandable-faq-tabbed-admin .expandable-faq-entries-availability-search-form a,
+div.expandable-faq-tabbed-admin .expandable-faq-items-availability-search-form a,
+div.modern-tabs .expandable-faq-entries-availability-search-form a,
+div.modern-tabs .expandable-faq-items-availability-search-form a,
+div.expandable-faq-tabbed-admin .expandable-faq-extras-availability-search-form a,
+div.modern-tabs .expandable-faq-extras-availability-search-form a {
+    text-decoration: none;
+}
+
+div.expandable-faq-tabbed-admin h1.search-title,
+div.expandable-faq-tabbed-admin h2.search-title {
+    width: 470px;
+    float: left;
+}
+
+div.expandable-faq-tabbed-admin h1.search-results-title,
+div.expandable-faq-tabbed-admin h2.search-results-title {
+    width: 800px;
+    float: left;
+}
+div.expandable-faq-tabbed-admin .typography .big-text {
+    font-size: 16px;
+}
+div.expandable-faq-tabbed-admin .typography .notes {
+    font-size: 10px;
+}
+div.expandable-faq-tabbed-admin .typography table.settings-table tbody tr.field-setting:nth-child(odd) {
+    background-color: white;
+}
+div.expandable-faq-tabbed-admin .typography table.settings-table tr th:first-child,
+div.expandable-faq-tabbed-admin .typography table.settings-table tr td:first-child {
+    padding-left: 6px;
+}
+div.expandable-faq-tabbed-admin .typography table.settings-table tr th,
+div.expandable-faq-tabbed-admin .typography table.settings-table tr td {
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+div.expandable-faq-tabbed-admin .typography table.settings-table tbody tr td > input[type="checkbox"] {
+    margin-top: -6px;
+}
+div.expandable-faq-tabbed-admin .typography table.settings-table tbody tr td.pseudo {
+    font-family: "Courier New", Courier, monospace;
+    color: navy;
+    text-align: right;
+}
+div.car-expandable-faq-settings-admin div.section-header,
+div.car-expandable-faq-settings-admin form table.google-settings thead tr th {
+    font-size: 16px;
+    font-weight: bold;
+    background-color: white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 6px;
+    padding-right: 6px;
+}
+div.car-expandable-faq-settings-admin form table.google-settings tbody tr:first-child td {
+    padding-top: 10px;
+}
+div.car-expandable-faq-settings-admin form table.google-settings tbody tr:last-child td {
+    padding-bottom: 10px;
+}
+div.car-expandable-faq-settings-admin ul.justify,
+div.car-expandable-faq-settings-admin ol.justify,
+div.car-expandable-faq-settings-admin p.justify {
+    text-align: justify;
+}
+div.car-expandable-faq-settings-admin p.top-padded,
+div.car-expandable-faq-settings-admin div.top-padded {
+    padding-top: 20px;
+    padding-bottom: 0;
+}
+div.car-expandable-faq-settings-admin ol.small-description,
+div.car-expandable-faq-settings-admin p.small-description {
+    font-size: 11px;
+    line-height: 1.5em;
+    margin-top: 0;
+}
+div.car-expandable-faq-settings-admin form table.organization-details-table thead tr th {
+    font-size: 16px;
+    font-weight: bold;
+    background-color: white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+div.car-expandable-faq-settings-admin form table.contact-details-table thead tr th {
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+div.car-expandable-faq-settings-admin form table.contact-details-table tbody tr td > input[type="text"] {
+    width: 200px;
+}
+div.car-expandable-faq-settings-admin form table tbody tr td > select.visibility-dropdown {
+    width: 250px;
+}
+div.car-expandable-faq-settings-admin form table tbody tr td > select.requirement-dropdown {
+    width: 140px;
+}
+div.expandable-faq-tabbed-admin .typography .big-labels select {
+    height: 44px;
+    margin-top: -5px;
+    width: 400px;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: white;
+    border: 1px solid #ECECEC;
+}
+.expandable-faq-tabbed-admin .typography p.padded {
+    padding-bottom: 20px;
+}
+div.expandable-faq-tabbed-admin .col-date-field {
+    font-size: 16px;
+    float: left;
+    text-align: right;
+    margin-top: 3px;
+}
+div.expandable-faq-tabbed-admin .col-date-field input[type="text"] {
+    width: 110px;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+}
+div.expandable-faq-tabbed-admin .col-date-field select {
+    height: 43px;
+    margin-top: -4px;
+    width: 180px;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: white;
+    border: 1px solid #ECECEC;
+}
+div.car-expandable-faq-settings-admin input[type="text"] {
+    width: 340px;
+    padding: 8px;
+    font-size: 14px;
+    font-weight: normal;
+}
+div.car-expandable-faq-settings-admin textarea {
+    padding: 8px;
+    font-size: 14px;
+    font-weight: normal;
+    background-color: white;
+    width: 340px;
+}
+div.car-expandable-faq-settings-admin select {
+    height: 38px;
+    width: 340px;
+    padding: 8px;
+    padding-left: 2px;
+    font-size: 14px;
+    font-weight: normal;
+    background-color: white;
+    border: 1px solid #ECECEC;
+}
+div.car-expandable-faq-settings-admin select.on-the-right-narrow-input-box {
+    width: 267px;
+    position: relative;
+    top: -2px;
+}
+div.expandable-faq-tabbed-admin .col-search {
+    text-align: right;
+    float: right;
+    margin-top: 3px;
+}
+div.expandable-faq-tabbed-admin .col-search input[type="submit"],
+div.expandable-faq-tabbed-admin .col-search input[type="button"],
+div.car-expandable-faq-settings-admin input[type="submit"],
+div.car-expandable-faq-settings-admin input[type="button"],
+div.car-expandable-faq-status-admin input[type="submit"],
+div.car-expandable-faq-status-admin input[type="button"],
+div.car-expandable-faq-demo-admin input[type="submit"],
+div.car-expandable-faq-demo-admin input[type="button"] {
+    cursor: pointer;
+    text-align: center;
+    font-weight: bold;
+    padding: 10px;
+    font-size: 16px;
+    background: #ffffff;
+    border: 1px solid #ddd;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    outline: none;
+}
+div.expandable-faq-tabbed-admin .col-search input[type="submit"]:hover,
+div.expandable-faq-tabbed-admin .col-search input[type="button"]:hover,
+div.car-expandable-faq-settings-admin input[type="submit"]:hover,
+div.car-expandable-faq-settings-admin input[type="button"]:hover,
+div.car-expandable-faq-status-admin input[type="submit"]:hover,
+div.car-expandable-faq-status-admin input[type="button"]:hover,
+div.car-expandable-faq-demo-admin input[type="submit"]:hover,
+div.car-expandable-faq-demo-admin input[type="button"]:hover {
+    color: white;
+    background-color: #2DA5DA;
+}
+div.expandable-faq-tabbed-admin .col-search input[type="submit"]:disabled,
+div.expandable-faq-tabbed-admin .col-search input[type="button"]:disabled,
+div.car-expandable-faq-settings-admin input[type="submit"]:disabled,
+div.car-expandable-faq-settings-admin input[type="button"]:disabled {
+    color: rgba(51, 51, 51, 0.5);
+    background-color: #fff;
+    cursor: default;
+}
+div.expandable-faq-tabbed-admin .col-search input[type="submit"].wide-button,
+div.expandable-faq-tabbed-admin .col-search input[type="button"].wide-button {
+    min-width: 110px;
+}
+div.expandable-faq-tabbed-admin img.date-selector-image {
+    height: 30px;
+    width: 30px;
+    margin-bottom: -9px;
+    border: 0;
+    margin-left: 8px;
+    cursor: pointer;
+}
+/**************************************/
+.pickup-search-form .col-date-field,
+.return-search-form .col-date-field {
+    width: 570px;
+}
+.pickup-search-form .col-search,
+.return-search-form .col-search {
+    width: 150px;
+}
+.order-search-form .col-date-field {
+    width: 513px;
+}
+.order-search-form .col-search {
+    width: 207px;
+}
+
+.expandable-faq-entries-availability-search-form .col-date-field,
+.expandable-faq-items-availability-search-form .col-date-field,
+.expandable-faq-extras-availability-search-form .col-date-field {
+    width: 510px;
+}
+.expandable-faq-entries-availability-search-form .col-search,
+.expandable-faq-items-availability-search-form .col-search,
+.expandable-faq-extras-availability-search-form .col-search {
+    width: 220px;
+}
+
+.calendar-search-results .col-search {
+    width: 340px;
+}
+.order-search-form .col-search input[type="submit"],
+.pickup-search-form .col-search input[type="submit"],
+.return-search-form .col-search input[type="submit"] {
+    width: 120px;
+}
+.expandable-faq-entries-availability-search-form .col-search input[type="submit"],
+.expandable-faq-items-availability-search-form .col-search input[type="submit"],
+.expandable-faq-extras-availability-search-form .col-search input[type="submit"] {
+    width: 180px;
+}
+.respondent-search-results .col-search input[type="button"] {
+    width: 320px;
+}
+.calendar-search-results .col-search input[type="button"] {
+    width: 320px;
+}
+
+
+/************************ RESPONDENTS ************************/
+div.car-expandable-faq-respondents-admin .respondent-search-form a,
+div.car-expandable-faq-respondents-admin .activity-search-form a {
+    text-decoration: none;
+}
+div.car-expandable-faq-respondents-admin h1.page-title,
+div.car-expandable-faq-respondents-admin h2.page-title {
+    width: 300px;
+    float: left;
+}
+div.car-expandable-faq-respondents-admin .respondent-search-fields {
+    font-size: 16px;
+    float: left;
+    text-align: right;
+    margin-top: 3px;
+    width: 664px;
+}
+div.car-expandable-faq-respondents-admin .activity-search-fields {
+    font-size: 16px;
+    float: left;
+    text-align: right;
+    margin-top: 3px;
+    width: 778px;
+}
+div.car-expandable-faq-respondents-admin .respondent-search-fields select,
+div.car-expandable-faq-respondents-admin .activity-search-fields select {
+    height: 45px;
+    width: 185px;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: white;
+    border: 1px solid #ECECEC;
+}
+div.car-expandable-faq-respondents-admin .respondent-search-fields input[type="text"],
+div.car-expandable-faq-respondents-admin .activity-search-fields input[type="text"] {
+    width: 110px;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+}
+div.car-expandable-faq-respondent-search-results h1.page-title,
+div.car-expandable-faq-respondent-search-results h2.page-title {
+    width: 900px;
+    float: left;
+}
+div.car-expandable-faq-respondent-search-results .back-to-list {
+    text-align: right;
+    float: right;
+    margin-top: 3px;
+    width: 300px;
+}
+/************************ ADD ORDER ************************/
+#container-inside form.order-options-form div.order-summary {
+    text-align: left;
+    vertical-align: top;
+    float: left;
+    border-right: 1px solid #999;
+    padding-left: 5px;
+    width: 41.5%;
+}
+#container-inside form.order-options-form div.additional-fields {
+    text-align: left;
+    float: left;
+    vertical-align: top;
+    padding-left: 12px;
+    width: 56%;
+}
+#container-inside form.order-options-form div.info-line {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    font-size: 14px;
+    font-weight: 300;
+}
+#container-inside form.order-options-form .respondent-data-label {
+    clear: both;
+    width: 33%;
+    float: left;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-size: 14px;
+    font-weight: 300;
+}
+#container-inside form.order-options-form .respondent-data-input {
+    width: 65%;
+    padding-left: 2%;
+    float: left;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    font-size: 14px;
+}
+#container-inside form.order-options-form .respondent-data-input input[type="text"] {
+    width: 100%;
+}
+#container-inside form.order-options-form .respondent-data-input textarea {
+    width: 100%;
+}
+/************************ STATUS ************************/
+div.car-expandable-faq-status-admin input[type="text"] {
+    width: 340px;
+    padding: 8px;
+    font-size: 14px;
+    font-weight: normal;
+}
+div.car-expandable-faq-status-admin textarea {
+    padding: 8px;
+    font-size: 14px;
+    font-weight: normal;
+    background-color: white;
+    width: 340px;
+}
+div.car-expandable-faq-status-admin select {
+    height: 38px;
+    width: 340px;
+    padding: 8px;
+    padding-left: 2px;
+    font-size: 14px;
+    font-weight: normal;
+    background-color: white;
+    border: 1px solid #ECECEC;
+}
+.car-expandable-faq-status-admin input.personal-token {
+}
+.car-expandable-faq-status-admin form.activation-form {
+    line-height: 38px;
+}
+/************************ DEMOS ************************/
+.car-expandable-faq-demo-admin div.typography ul
+{
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+.car-expandable-faq-demo-admin div.typography pre
+{
+    margin-top: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    background-color: white;
+    margin-bottom: 15px;
+}
+/************************ INSTRUCTIONS ************************/
+.car-expandable-faq-manual-admin div.typography ul
+{
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+.car-expandable-faq-manual-admin div.typography pre
+{
+    margin-top: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    background-color: white;
+    margin-bottom: 15px;
+}
+/************************ OTHER ************************/
+div.expandable-faq-tabbed-admin .dataTables_wrapper table.dataTable .item-period {
+    font-size: 10px;
+    color: #2DA5DA;
+}
+div.expandable-faq-tabbed-admin input[type="button"].add-new,
+div.expandable-faq-tabbed-admin input[type="button"].back-to {
+    float: right;
+    height: 34px;
+    margin-top: 8px;
+    padding: 0 10px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #ffffff;
+    border: 1px solid silver;
+    border-radius: 3px 3px 3px 3px;
+}
+div.expandable-faq-tabbed-admin input[type="button"].tall-back-to {
+    float: right;
+    height: 45px;
+    margin-top: 2px;
+    padding: 0 10px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #ffffff;
+    border: 1px solid silver;
+    border-radius: 3px 3px 3px 3px;
+    font-weight: bold;
+}
+div.expandable-faq-tabbed-admin input.preview[type="button"] {
+    float: none;
+    height: 36px;
+    margin: 0;
+    padding: 0 10px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #ffffff;
+    border: 1px solid silver;
+    border-radius: 3px 3px 3px 3px;
+    vertical-align: middle;
+}
+div.expandable-faq-tabbed-admin input[type="button"].add-new:hover,
+div.expandable-faq-tabbed-admin input[type="button"].back-to:hover,
+div.expandable-faq-tabbed-admin input[type="button"].tall-back-to:hover {
+    background-color: #DEE1E3;
+}
+div.expandable-faq-tabbed-admin input[type="button"].preview:hover {
+    color: white;
+    background-color: #2DA5DA;
+}
+.expandable-faq-tabbed-admin .typography .ui-datepicker-header,
+.expandable-faq-tabbed-admin .typography .ui-widget-header {
+    padding: 8px 10px 8px 7px;
+}
+.expandable-faq-tabbed-admin .typography .ui-state-active,
+.expandable-faq-tabbed-admin .typography .ui-widget-content .ui-state-active,
+.expandable-faq-tabbed-admin .typography .ui-widget-header .ui-state-active {
+    background: #2DA5DA none;
+    color: white;
+}
+/* Hide the ^ v icons in table column labels */
+div.expandable-faq-tabbed-admin .ui-state-default .ui-icon {
+    background: none;
+    display: none;
+}
+div.expandable-faq-tabbed-admin .dataTables_wrapper table.dataTable thead .sorting,
+div.expandable-faq-tabbed-admin .dataTables_wrapper table.dataTable thead .sorting_asc,
+div.expandable-faq-tabbed-admin .dataTables_wrapper table.dataTable thead .sorting_desc {
+    background: none;
+}
+div.expandable-faq-tabbed-admin .dataTables_wrapper .ui-toolbar .dataTables_length,
+div.expandable-faq-tabbed-admin .dataTables_wrapper .ui-toolbar .dataTables_filter {
+    color: white;
+    font-weight: normal;
+}
+/*Remove big padding in thead and content*/
+div.expandable-faq-tabbed-admin .dataTables_wrapper table.dataTable thead th {
+    padding: 6px 6px;
+}
+div.expandable-faq-tabbed-admin .dataTables_wrapper table.dataTable tbody td {
+    padding: 6px 6px;
+}
+div.expandable-faq-tabbed-admin .dataTables_wrapper .ui-toolbar select {
+    background-color: white;
+    border: 1px solid white;
+    border-radius: 3px 3px 3px 3px;
+}
+div.expandable-faq-tabbed-admin .dataTables_wrapper .dataTables_filter input {
+    height: 28px;
+    border: 1px solid white;
+    border-radius: 3px 3px 3px 3px;
+}
+/*div.expandable-faq-tabbed-admin div.DataTables_sort_wrapper {
+    padding: 5px 5px 5px 5px;
+    font-weight: bold;
+    text-align: center;
+}*/
+
+/*Remove responsive icon coming from AdminTabs*/
+div.expandable-faq-tabbed-admin .modern-tabs .typography .dataTables_wrapper ul li::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    background: transparent;
+}
+div.expandable-faq-tabbed-admin th.ui-state-default:last-child div.DataTables_sort_wrapper {
+    text-align: right;
+}
+div.expandable-faq-tabbed-admin .dataTables_wrapper td {
+    color: black;
+}
+/*Nice datatables info color*/
+div.expandable-faq-tabbed-admin .dataTables_wrapper .dataTables_info {
+    color: white;
+}
+
+div.expandable-faq-tabbed-admin .dataTables_wrapper .ui-toolbar .ui-buttonset a.ui-button {
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 6px;
+    padding-right: 6px;
+}
+div.expandable-faq-tabbed-admin .dataTables_wrapper .ui-toolbar .ui-buttonset a.ui-button.ui-state-disabled {
+    color: #888888;
+}
+div.expandable-faq-tabbed-admin div.modern-tabs .typography h1 {
+    margin-bottom: 20px;
+}
+
+table.price-plans-table tr.price-plan-heading {
+    background: #2DA5DA none;
+}
+table.price-plans-table tr.odd {
+    background: #FFF none;
+}
+table.price-plans-table tr.even {
+    /*nothing is here*/
+}
+table.price-plans-table tr td.price-plan-big-label {
+    font-size: 18px;
+    padding-left: 5px;
+    color: white;
+    text-align: left;
+}
+table.price-plans-table tr td.price-plan-description {
+    text-align: left;
+    width: 85px;
+    color: black;
+    padding-left: 5px;
+}
+table.price-plans-table tr td.price-plan-label {
+    text-align: left;
+    width: 70px;
+    color: black;
+    padding-left: 5px;
+}
+span.price-plan-link {
+    color: black;
+    font-weight: bold;
+}
+td.price-plan-links {
+    text-align: center;
+    padding-left: 5px;
+    padding-right: 5px;
+    width: 100px;
+    vertical-align: middle;
+}
+
+div.payment-settings select {
+    width: 120px;
+}
+
+/************************ OTHER - EDIT ************************/
+.add-edit-car select[name="entry_page_id"] {
+    width: 170px;
+}
