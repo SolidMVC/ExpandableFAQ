@@ -54,9 +54,11 @@ Plus - I'm giving a promise to you, that this plugin is and will always be 100% 
 Finally - the code is poetry - __the better is the web, the happier is the world__.
 
 - - - -
-**Live Demo**
+== Live Demo ==
 [Expandable FAQ (Live Demo)](http://nativerental.com/cars/faq/ "Expandable FAQ (Live Demo)")
 
+== GitHub Repository (for those, who want to contribute via "Pull Requests") ==
+https://github.com/SolidMVC/ExpandableFAQ
 
 == Installation ==
 
