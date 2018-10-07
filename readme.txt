@@ -18,12 +18,10 @@ It’s a MIT-licensed (can be used in premium themes), high quality, native and 
 **First** - differently than any other similar plugin, this plugin is based on MIT license, which is a holly-grail for premium theme authors on i.e. ThemeForest or similar marketplaces.
 Differently to standard GPLv2 license you are not required to open-source your theme and you **CAN** include this plugin into your premium websites bundle packs.
 I do say here **bundle packs**, because you should never have an F.A.Q. to be a part of your theme, because that would be a bad idea - you need to leave your customers a flexibility for the future scale:
-What if your customers will decide later go with some kind of fancy **knowledge base** system like in Change.org `/help/` part or Envato.com `Support` part - if your customer will grow that big,
-he won't need to have F.A.Q. plugin anymore on their website, he will want to replace it with that fancy **knowledge base** system.
+What if your customers will decide later go with some kind of fancy **knowledge base** system like in Change.org `/help/` part or Envato.com `Support` part - if your customer will grow that big, he won't need to have F.A.Q. plugin anymore on their website, he will want to replace it with that fancy **knowledge base** system.
 So my advise is to include this plugin in your bundle pack's `/Optional Plugins/` folder, so that you can tell about in the installation instructions, but make it fully independent from your theme.
 
-**Second** - this plugin is fully **MVC + Templates** based. This means that it's code is not related at all to it's UI,
-and that allows you easily to override it's UI templates and Assets (CSS, JS, Images) by your theme very easily (and there is detailed step-by-step instructions given how to do that).
+**Second** - this plugin is fully **MVC + Templates** based. This means that it's code is not related at all to it's UI, and that allows you easily to override it's UI templates and Assets (CSS, JS, Images) by your theme very easily (and there is detailed step-by-step instructions given how to do that).
 This means that you making a theme to be what the theme has to be - a UI part of your website, nothing more.
 
 **Third** - it is much more secure than any other plugin's on the market. It is based on top-end S.O.L.I.D. coding principle with input data validation with data-patterns, output escaping.
@@ -37,8 +35,7 @@ At this point, if you need more than one language, I'd strongly advise to go wit
 
 **Seventh** - it has nice user experience - it's has a default design, it does allow you to have more than one F.A.Q. item open at the same time - so it don't have that annoying `accordion` feature.
 
-**But the most important** is that this plugin is and always be **ads-free**. I personally really hate these **freemium**, **ads-full** or **tracking** plugins which makes majority
-of the plugins on w.org plugins directly (and, actually, many of premium marketplaces). So this is the key features we always maintain:
+**But the most important** is that this plugin is and always be **ads-free**. I personally really hate these **freemium**, **ads-full** or **tracking** plugins which makes majority of the plugins on w.org plugins directly (and, actually, many of premium marketplaces). So this is the key features we always maintain:
 1. Never track your data (nor even by putting some kind of GDPR-compliance agreement checkbox, like `Error Log Monitor` plugin),
 2. Never make it pseudo-ads-full (even such a big plugins like `WooCommerce` or `Contact Form 7` has nearly 80% of their home screen or 20% of their main buttons about `how to install \ buy other plugins`
 - this is a really ugly behavior of pushing-more and going to Facebook-like business, where you get like drug-addicted to company products).
