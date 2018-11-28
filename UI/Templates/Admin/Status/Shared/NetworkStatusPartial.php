@@ -8,7 +8,7 @@ defined( 'ABSPATH' ) or die( 'No script kiddies, please!' );
     <div style="padding-bottom: 20px;" class="big-text">
         <strong><?=$lang['LANG_STATUS_NETWORK_ENABLED_TEXT'];?>:</strong> <?=$lang['LANG_YES_TEXT'];?><br />
         <br />
-        <strong><?=$lang['LANG_STATUS_DATABASE_MIN_VERSION_TEXT'];?>:</strong> <?=$minDatabaseVersion;?><br />
+        <strong><?=$lang['LANG_STATUS_DATABASE_MIN_VERSION_TEXT'];?>:</strong> <?=$minDatabaseSemver;?><br />
         <br />
         <?php if($updateAvailable): ?>
             <?php if($majorUpgradeAvailable): ?>
@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) or die( 'No script kiddies, please!' );
                 <span style="color: #2da5da; font-weight: bold"><?=$lang['LANG_STATUS_MINOR_UPDATE_AVAILABLE_TEXT'];?></span><br />
             <?php endif; ?>
             <br />
-            <strong><?=$lang['LANG_STATUS_NEWEST_VERSION_AVAILABLE_TEXT'];?>:</strong> <?=$newestVersionAvailable;?><br />
+            <strong><?=$lang['LANG_STATUS_NEWEST_VERSION_AVAILABLE_TEXT'];?>:</strong> <?=$newestSemverAvailable;?><br />
             <br />
             <?=$lang['LANG_STATUS_UPDATE_FOLLOW_STEPS_TEXT'];?>:
             <ol>
@@ -29,11 +29,14 @@ defined( 'ABSPATH' ) or die( 'No script kiddies, please!' );
                 <li><?=$lang['LANG_STATUS_UPDATE_STEP_CLICK_UPDATE_TEXT'];?>,</li>
                 <li><?=$lang['LANG_STATUS_UPDATE_STEP_DONE_TEXT'];?>.</li>
             </ol>
-        <?php else: ?>
+        <?php elseif($updateAvailable === FALSE && $canUpdate): ?>
             <?php printf($lang['LANG_STATUS_YOU_HAVE_S_NO_UPDATE_AVAILABLE_TEXT'], '<span style="color: green; font-weight: bold">'.$lang['LANG_STATUS_THE_NEWEST_VERSION_TEXT'].'</span>'); ?>
+        <?php elseif($updateAvailable === FALSE && $updateExists): ?>
+            <!-- Update exists, but system is not compatible to update -->
+            <strong><?=$lang['LANG_STATUS_NEWEST_EXISTING_VERSION_TEXT'];?>:</strong> <?=$newestExistingSemver;?>
         <?php endif; ?>
     </div>
-    <?php if($databaseMatchesCodeVersion === FALSE): ?>
+    <?php if($databaseMatchesCodeSemver === FALSE): ?>
         <?php if($canMajorlyUpgrade): ?>
             <div style="padding-bottom: 20px;" class="big-text">
                 <strong><?=$lang['LANG_STATUS_SYSTEM_READY_FOR_UPGRADE_TEXT'];?></strong>

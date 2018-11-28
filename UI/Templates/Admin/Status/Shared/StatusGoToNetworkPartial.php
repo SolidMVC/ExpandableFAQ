@@ -7,7 +7,7 @@ defined( 'ABSPATH' ) or die( 'No script kiddies, please!' );
 <div style="padding-bottom: 20px;" class="big-text">
     <strong><?=$lang['LANG_STATUS_NETWORK_ENABLED_TEXT'];?>:</strong> <?=$networkEnabled;?><br />
     <br />
-    <strong><?=$lang['LANG_STATUS_INSTALLED_VERSION_TEXT'];?>:</strong> <?=$installedPluginVersion;?>
+    <strong><?=$lang['LANG_STATUS_INSTALLED_VERSION_TEXT'];?>:</strong> <?=$installedPluginSemver;?>
 </div>
 <div>
     <?=$lang['LANG_STATUS_GO_TO_NETWORK_ADMIN_TEXT'];?>

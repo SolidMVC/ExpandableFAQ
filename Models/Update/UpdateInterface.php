@@ -16,7 +16,10 @@ interface UpdateInterface
     public function alterDatabaseEarlyStructure();
     public function updateDatabaseData();
     public function alterDatabaseLateStructure();
-    public function updateDatabaseVersion();
+    // NOTE: Expandable FAQ does not have any custom roles
+    public function updateCustomCapabilities();
+    public function patchData();
+    public function updateDatabaseSemver();
 
     // Base methods
     public function __construct(ConfigurationInterface &$paramConf, LanguageInterface &$paramLang, $paramBlogId);

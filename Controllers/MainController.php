@@ -245,7 +245,7 @@ final class MainController
      */
     public function modifyActionLinks(array $paramExistingActionLinks)
     {
-        $modifiedActionLinks = array("");
+        $modifiedActionLinks = array();
 
         if($this->canProcess)
         {
@@ -421,7 +421,7 @@ final class MainController
             $objInstaller->setTables();
         } catch (\Exception $e)
         {
-            if(StaticValidator::inWPDebug())
+            if(StaticValidator::inWP_Debug())
             {
                 // In WP activation we can kill the install only via 'trigger_error' with 'E_USER_ERROR' param
                 $error = sprintf(static::LANG_ERROR_IN_METHOD_TEXT, __FUNCTION__, $e->getMessage());
@@ -466,7 +466,7 @@ final class MainController
             $objInstaller->registerAllForTranslation();
         } catch (\Exception $e)
         {
-            if(StaticValidator::inWPDebug())
+            if(StaticValidator::inWP_Debug())
             {
                 // In WP activation we can kill the install only via 'trigger_error' with 'E_USER_ERROR' param
                 $error = sprintf(static::LANG_ERROR_IN_METHOD_TEXT, __FUNCTION__, $e->getMessage());
@@ -505,7 +505,7 @@ final class MainController
                 switch_to_blog($conf->getBlogId());
             } catch (\Exception $e)
             {
-                if(StaticValidator::inWPDebug())
+                if(StaticValidator::inWP_Debug())
                 {
                     // In WP activation we can kill the install only via 'trigger_error' with 'E_USER_ERROR' param
                     $error = sprintf(static::LANG_ERROR_IN_METHOD_TEXT, __FUNCTION__, $e->getMessage());
@@ -528,7 +528,7 @@ final class MainController
                 flush_rewrite_rules();
             } catch (\Exception $e)
             {
-                if(StaticValidator::inWPDebug())
+                if(StaticValidator::inWP_Debug())
                 {
                     // In WP activation we can kill the install only via 'trigger_error' with 'E_USER_ERROR' param
                     $error = sprintf(static::LANG_ERROR_IN_METHOD_TEXT, __FUNCTION__, $e->getMessage());
@@ -596,7 +596,7 @@ final class MainController
                 }
             } catch (\Exception $e)
             {
-                if(StaticValidator::inWPDebug())
+                if(StaticValidator::inWP_Debug())
                 {
                     // In WP activation we can kill the install only via 'trigger_error' with 'E_USER_ERROR' param
                     $error = sprintf(static::LANG_ERROR_IN_METHOD_TEXT, __FUNCTION__, $e->getMessage());
@@ -658,7 +658,7 @@ final class MainController
                 }
             } catch (\Exception $e)
             {
-                if(StaticValidator::inWPDebug())
+                if(StaticValidator::inWP_Debug())
                 {
                     // In WP activation we can kill the install only via 'trigger_error' with 'E_USER_ERROR' param
                     $error = sprintf(static::LANG_ERROR_IN_METHOD_TEXT, __FUNCTION__, $e->getMessage());
@@ -849,7 +849,7 @@ final class MainController
                 $objAssetController = new \ExpandableFAQ\Controllers\Front\AssetController($conf, $lang);
 
                 // Process only if the plugin is installed, is updated to the latest version and there is data for this extension on this blog
-                if ($objStatus->checkPluginDataExists($conf->getPluginVersion()))
+                if ($objStatus->checkPluginDataExists($conf->getPluginSemver()))
                 {
                     // Register post types
                     // Note: it hooks to 'init' so that the post type registration would not be necessarily executed.
@@ -914,7 +914,7 @@ final class MainController
                 $objShortcodeController = new \ExpandableFAQ\Controllers\Front\ShortcodeController($conf, $lang);
 
                 // Process only if the plugin is installed and there is data for this blog
-                if ($objStatus->checkPluginDataExists($conf->getPluginVersion()))
+                if ($objStatus->checkPluginDataExists($conf->getPluginSemver()))
                 {
                     // Finally - parse the shortcode
                     $retContent = $objShortcodeController->parse($attributes);
@@ -1357,7 +1357,7 @@ final class MainController
         if(sizeof($errorMessagesToAdd) > 0)
         {
             $throwMessage = implode('<br />', $errorMessagesToAdd);
-            if(StaticValidator::inWPDebug() && sizeof($debugMessagesToAdd) > 0)
+            if(StaticValidator::inWP_Debug() && sizeof($debugMessagesToAdd) > 0)
             {
                 $throwMessage .= '<br />'.implode('<br />', $debugMessagesToAdd);
             }
@@ -1368,7 +1368,7 @@ final class MainController
 
     private function processError($paramMethodName, $paramErrorMessage)
     {
-        if(StaticValidator::inWPDebug())
+        if(StaticValidator::inWP_Debug())
         {
             // Load errors only in local or global debug mode
             $validMethodName = esc_html($paramMethodName);
@@ -1380,7 +1380,7 @@ final class MainController
             if(!is_null($this->confWithoutRouting))
             {
                 $validErrorMessage = '<div class="'.$this->confWithoutRouting->getPluginCSS_Prefix().'error"><div id="message" class="error"><p>'.$validErrorMessage.'</p></div></div>';
-                _doing_it_wrong($validMethodName, $validErrorMessage, $this->confWithoutRouting->getPluginVersion());
+                _doing_it_wrong($validMethodName, $validErrorMessage, $this->confWithoutRouting->getPluginSemver());
             } else
             {
                 // $confWithoutRouting is NULL

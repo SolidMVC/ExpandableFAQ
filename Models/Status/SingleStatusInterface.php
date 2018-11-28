@@ -35,33 +35,51 @@ interface SingleStatusInterface
     public function getInfoLinks();
 
     /**
-     * @note1 - This function maintains backwards compatibility to NS V6.0 and newer
+     * @note1 - This function maintains backwards compatibility to SMVC 6.0.0 and newer
      * @note2 - This function says if there are plugin struct
-     * @param float $paramRequiredPluginVersion
+     * @param string $paramRequiredPluginSemver
      * @return bool
      */
-    public function checkPluginDBStructExists($paramRequiredPluginVersion);
+    public function checkPluginDB_StructExists($paramRequiredPluginSemver);
 
     /**
-     * @note1 - This function maintains backwards compatibility to NS V6.0 and newer
+     * @note1 - This function maintains backwards compatibility to SMVC 6.0.0 and newer
      * @note2 - This function says if there data exists for at least one extension
-     * @param float $paramRequiredPluginVersion
+     * @param string $paramRequiredPluginSemver
      * @return bool
      */
-    public function checkPluginDataExists($paramRequiredPluginVersion);
+    public function checkPluginDataExists($paramRequiredPluginSemver);
 
     /**
-     * @note - This function maintains backwards compatibility to NS V6.0 and newer
-     * @return float
+     * @note - This function maintains backwards compatibility to SMVC 6.0.0 and newer
+     * @return string
      */
-    public function getPluginVersionInDatabase();
+    public function getPluginSemverInDatabase();
 
     /**
-     * Is the NS database version is newer or same as code version. If no - we should be read for update
+     * @note - This function maintains backwards compatibility to SMVC 6.0.0 and newer
+     * @return string
+     */
+    public function getEditPluginSemverInDatabase();
+
+    /**
+     * @note - This function maintains backwards compatibility to SMVC 6.0.0 and newer
+     * @return string
+     */
+    public function getPrintPluginSemverInDatabase();
+
+    /**
+     * Is the NS database semver is newer or same as code semver. If no - we should be read for update
      * @note make sure the blog id here is ok for network
      * @return bool
      */
     public function isPluginDataUpToDateInDatabase();
+
+    /**
+     * NOTE: Update may exist, but the system might be not compatible for update
+     * @return bool
+     */
+    public function checkPluginUpdateExists();
 
     /**
      * @return bool
@@ -69,7 +87,7 @@ interface SingleStatusInterface
     public function canUpdatePluginDataInDatabase();
 
     /**
-     * Can we do a major upgrade, i.e. from V1 to V2 etc., not V1 to V1.1
+     * Can we do a major upgrade, i.e. from 1.*.* to 2.*.* etc., not 1.0.* to 1.1.*
      * @return bool
      */
     public function canMajorlyUpgradePluginDataInDatabase();

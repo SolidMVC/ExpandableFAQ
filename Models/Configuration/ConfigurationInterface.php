@@ -13,10 +13,24 @@ use ExpandableFAQ\Models\Routing\RoutingInterface;
 
 interface ConfigurationInterface
 {
-    // Constructor
+    // Used mostly for an autoloader
+    const PLUGIN_NAMESPACE                      = "ExpandableFAQ";
+
+    /**
+     * @param \wpdb $paramWPDB
+     * @param int $paramBlogId
+     * @param string $paramRequiredPHP_Version
+     * @param string $paramCurrentPHP_Version
+     * @param float $paramRequiredWP_Version
+     * @param float $paramCurrentWP_Version
+     * @param string $paramOldestCompatiblePluginSemver
+     * @param string $paramPluginSemver
+     * @param string $paramPluginPathWithFilename
+     * @param array $params
+     */
     public function __construct(
         \wpdb &$paramWPDB, $paramBlogId, $paramRequiredPHP_Version, $paramCurrentPHP_Version, $paramRequiredWP_Version,
-        $paramCurrentWP_Version, $paramOldestCompatiblePluginVersion, $paramPluginVersion, $paramPluginPathWithFilename, array $params
+        $paramCurrentWP_Version, $paramOldestCompatiblePluginSemver, $paramPluginSemver, $paramPluginPathWithFilename, array $params
     );
 
     // Dependency Injection Methods
@@ -43,10 +57,11 @@ interface ConfigurationInterface
     public function getCurrentPHP_Version();
     public function getRequiredWP_Version();
     public function getCurrentWP_Version();
-    public function getOldestCompatiblePluginVersion();
-    public function getPluginVersion();
+    public function getOldestCompatiblePluginSemver();
+    public function getPluginSemver();
+    public function getEditPluginSemver();
+    public function getPrintPluginSemver();
     public function isNetworkEnabled();
-    public function getPluginId();
     public function getPluginPrefix();
     public function getPluginHandlePrefix();
     public function getPluginURL_Prefix();

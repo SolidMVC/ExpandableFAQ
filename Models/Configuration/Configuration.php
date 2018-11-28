@@ -12,9 +12,6 @@ use ExpandableFAQ\Models\Routing\RoutingInterface;
 
 final class Configuration implements ConfigurationInterface
 {
-    // Used mostly for an autoloader
-    const PLUGIN_NAMESPACE                      = "ExpandableFAQ";
-
     private $routing                            = NULL; // Dependency injection for routing interface
 
     private $internalWPDB                       = NULL;
@@ -25,9 +22,8 @@ final class Configuration implements ConfigurationInterface
     private $currentPHP_Version                 = '0.0.0';
     private $requiredWP_Version                 = 4.6;
     private $currentWP_Version                  = 0.0;
-    private $oldestCompatiblePluginVersion      = 0.0;
-    private $pluginVersion                      = 0.0;
-    private $pluginId                           = 0;
+    private $oldestCompatiblePluginSemver       = '0.0.0';
+    private $pluginSemver                       = '0.0.0';
     private $pluginPrefix                       = "";
     private $pluginHandlePrefix                 = "";
     private $pluginURL_Prefix                   = "";
@@ -57,9 +53,21 @@ final class Configuration implements ConfigurationInterface
     // URLs
     private $pluginURL                          = "";
 
+    /**
+     * @param \wpdb $paramWPDB
+     * @param int $paramBlogId
+     * @param string $paramRequiredPHP_Version
+     * @param string $paramCurrentPHP_Version
+     * @param float $paramRequiredWP_Version
+     * @param float $paramCurrentWP_Version
+     * @param string $paramOldestCompatiblePluginSemver
+     * @param string $paramPluginSemver
+     * @param string $paramPluginPathWithFilename
+     * @param array $params
+     */
     public function __construct(
-        \wpdb &$paramWPDB, $paramBlogId, $paramRequiredPHPVersion, $paramCurrentPHPVersion, $paramRequiredWPVersion,
-        $paramCurrentWPVersion, $paramOldestCompatiblePluginVersion, $paramPluginVersion, $paramPluginPathWithFilename, array $params
+        \wpdb &$paramWPDB, $paramBlogId, $paramRequiredPHP_Version, $paramCurrentPHP_Version, $paramRequiredWP_Version,
+        $paramCurrentWP_Version, $paramOldestCompatiblePluginSemver, $paramPluginSemver, $paramPluginPathWithFilename, array $params
     ) {
         // Makes sure the plugin is defined before trying to use it, because by default it is available only for admin section
         if(!function_exists('is_plugin_active_for_network'))
@@ -70,19 +78,18 @@ final class Configuration implements ConfigurationInterface
         $this->internalWPDB = $paramWPDB;
         $this->blogId = absint($paramBlogId);
 
-        $this->requiredPHP_Version               = !is_array($paramRequiredPHPVersion) ? preg_replace('[^0-9\.,]', '', $paramRequiredPHPVersion) : '5.4.0';
-        $this->currentPHP_Version                = !is_array($paramCurrentPHPVersion) ? preg_replace('[^0-9\.,]', '', $paramCurrentPHPVersion) : '0.0.0';
-        $this->requiredWP_Version                = !is_array($paramRequiredWPVersion) ? preg_replace('[^0-9\.,]', '', $paramRequiredWPVersion) : 4.6;
-        $this->currentWP_Version                 = !is_array($paramCurrentWPVersion) ? preg_replace('[^0-9\.,]', '', $paramCurrentWPVersion) : 0.0;
-        $this->oldestCompatiblePluginVersion    = !is_array($paramOldestCompatiblePluginVersion) ? preg_replace('[^0-9\.,]', '', $paramOldestCompatiblePluginVersion) : 0.0;
-        $this->pluginVersion                    = !is_array($paramPluginVersion) ? preg_replace('[^0-9\.,]', '', $paramPluginVersion) : 0.0;
+        $this->requiredPHP_Version              = !is_array($paramRequiredPHP_Version) ? preg_replace('[^0-9\.,]', '', $paramRequiredPHP_Version) : '5.4.0';
+        $this->currentPHP_Version               = !is_array($paramCurrentPHP_Version) ? preg_replace('[^0-9\.,]', '', $paramCurrentPHP_Version) : '0.0.0';
+        $this->requiredWP_Version               = !is_array($paramRequiredWP_Version) ? preg_replace('[^0-9\.,]', '', $paramRequiredWP_Version) : 4.6;
+        $this->currentWP_Version                = !is_array($paramCurrentWP_Version) ? preg_replace('[^0-9\.,]', '', $paramCurrentWP_Version) : 0.0;
+        $this->oldestCompatiblePluginSemver     = !is_array($paramOldestCompatiblePluginSemver) ? preg_replace('[^0-9A-Za-z-\+\.]', '', $paramOldestCompatiblePluginSemver) : '0.0.0';
+        $this->pluginSemver                     = !is_array($paramPluginSemver) ? preg_replace('[^0-9A-Za-z-\+\.]', '', $paramPluginSemver) : '0.0.0';
 
         // We must use plugin_basename here, despite that we used full path for activation hook, because in database the plugin is still saved UNIX like:
         // network_db_prefix_options:
         //      Row: active_plugins
         //      Value (in JSON): <..>;i:0;s:32:"ExpandableFAQ/ExpandableFAQ.php";<..>
         $this->networkEnabled                   = is_plugin_active_for_network(plugin_basename($paramPluginPathWithFilename));
-        $this->pluginId                         = isset($params['plugin_id']) ? abs(intval($params['plugin_id'])) : 0;
         $this->pluginPrefix                     = isset($params['plugin_prefix']) ? sanitize_key($params['plugin_prefix']) : '';
         $this->pluginHandlePrefix               = isset($params['plugin_handle_prefix']) ? sanitize_key($params['plugin_handle_prefix']) : '';
         $this->pluginURL_Prefix                 = isset($params['plugin_url_prefix']) ? sanitize_key($params['plugin_url_prefix']) : '';
@@ -208,7 +215,7 @@ final class Configuration implements ConfigurationInterface
             echo "<br />[Configuration] Current PHP Version: {$this->currentPHP_Version}\n";
             echo "<br />[Configuration] Required WP Version: {$this->requiredWP_Version}\n";
             echo "<br />[Configuration] Current WP Version: {$this->currentWP_Version}\n";
-            echo "<br />[Configuration] Plugin Version: {$this->pluginVersion}\n";
+            echo "<br />[Configuration] Plugin Semver: {$this->pluginSemver}\n";
             echo "<br />[Configuration] Network Enabled: ".var_export($this->networkEnabled, TRUE)."\n";
             echo "<br />[Configuration] Plugin Path With Filename: {$this->pluginPathWithFilename}\n";
             echo "<br />[Configuration] Plugin Path: {$this->pluginPath}\n";
@@ -312,24 +319,29 @@ final class Configuration implements ConfigurationInterface
         return $this->currentWP_Version;
     }
 
-    public function getOldestCompatiblePluginVersion()
+    public function getOldestCompatiblePluginSemver()
     {
-        return $this->oldestCompatiblePluginVersion;
+        return $this->oldestCompatiblePluginSemver;
     }
 
-    public function getPluginVersion()
+    public function getPluginSemver()
     {
-        return $this->pluginVersion;
+        return $this->pluginSemver;
+    }
+
+    public function getEditPluginSemver()
+    {
+        return esc_attr($this->pluginSemver);
+    }
+
+    public function getPrintPluginSemver()
+    {
+        return esc_html($this->pluginSemver);
     }
 
     public function isNetworkEnabled()
     {
         return $this->networkEnabled;
-    }
-
-    public function getPluginId()
-    {
-        return $this->pluginId;
     }
 
     public function getPluginPrefix()

@@ -13,13 +13,13 @@ interface LanguageInterface
 {
     /**
      * @param string $paramTextDomain
-     * @param string $paramGlobalExtLangPath
-     * @param string $paramLocalExtLangPath
+     * @param string $paramGlobalLangPath
+     * @param string $paramLocalLangPath
      * @param string $paramLocale
      * @param bool $paramStrictLocale
      * @throws \Exception
      */
-    public function __construct($paramTextDomain, $paramGlobalExtLangPath, $paramLocalExtLangPath, $paramLocale = "en_US", $paramStrictLocale = FALSE);
+    public function __construct($paramTextDomain, $paramGlobalLangPath, $paramLocalLangPath, $paramLocale = "en_US", $paramStrictLocale = FALSE);
 
     /**
      * @return string

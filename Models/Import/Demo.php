@@ -181,7 +181,7 @@ final class Demo extends AbstractStack implements StackInterface
                 // Settings table
                 $ok = $this->conf->getInternalWPDB()->query("
                     DELETE FROM {$this->conf->getPrefix()}".$validPluginTable."
-                    WHERE conf_key NOT IN ('conf_plugin_version', 'conf_timestamp')
+                    WHERE conf_key NOT IN ('conf_plugin_semver', 'conf_timestamp')
                     AND blog_id='{$this->conf->getBlogId()}'
                 ");
             } else

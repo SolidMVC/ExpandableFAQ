@@ -30,30 +30,30 @@ final class Language implements LanguageInterface
 
     /**
      * @param string $paramTextDomain
-     * @param string $paramGlobalExtLangPath
-     * @param string $paramLocalExtLangPath
+     * @param string $paramGlobalLangPath
+     * @param string $paramLocalLangPath
      * @param string $paramLocale
      * @param bool $paramStrictLocale
      * @throws \Exception
      */
-    public function __construct($paramTextDomain, $paramGlobalExtLangPath, $paramLocalExtLangPath, $paramLocale = "en_US", $paramStrictLocale = FALSE)
+    public function __construct($paramTextDomain, $paramGlobalLangPath, $paramLocalLangPath, $paramLocale = "en_US", $paramStrictLocale = FALSE)
     {
-        $this->setLocale($paramGlobalExtLangPath, $paramLocalExtLangPath, $paramLocale, $paramStrictLocale);
+        $this->setLocale($paramGlobalLangPath, $paramLocalLangPath, $paramLocale, $paramStrictLocale);
         $this->setTranslate($paramTextDomain);
     }
 
     /**
      * Load locale file
-     * @param string $paramGlobalExtLangPath
-     * @param string $paramLocalExtLangPath
+     * @param string $paramGlobalLangPath
+     * @param string $paramLocalLangPath
      * @param string $paramLocale
      * @param bool $paramStrictLocale
      * @throws \Exception
      */
-    private function setLocale($paramGlobalExtLangPath, $paramLocalExtLangPath, $paramLocale = "en_US", $paramStrictLocale = FALSE)
+    private function setLocale($paramGlobalLangPath, $paramLocalLangPath, $paramLocale = "en_US", $paramStrictLocale = FALSE)
     {
-        $validGlobalExtLangPath = sanitize_text_field($paramGlobalExtLangPath);
-        $validLocalExtLangPath = sanitize_text_field($paramLocalExtLangPath);
+        $validGlobalLangPath = sanitize_text_field($paramGlobalLangPath);
+        $validLocalLangPath = sanitize_text_field($paramLocalLangPath);
         $validLocale = !is_array($paramLocale) ? preg_replace('[^-_0-9a-zA-Z]', '', $paramLocale) : 'en_US';
 
         // If the locale mode is NOT strict, and 'lt_LT.php' file does not exist
@@ -61,30 +61,30 @@ final class Language implements LanguageInterface
         // nor in /wp-content/plugins/ExpandableFAQ/Languages/<EXT_FOLDER_NAME>/ folders
         if(
             $paramStrictLocale === FALSE &&
-            is_readable($validGlobalExtLangPath.$validLocale.'.php') === FALSE &&
-            is_readable($validLocalExtLangPath.$validLocale.'.php') === FALSE
+            is_readable($validGlobalLangPath.$validLocale.'.php') === FALSE &&
+            is_readable($validLocalLangPath.$validLocale.'.php') === FALSE
         )
         {
             // then set language default to en_US (with en_US.php as a corresponding file)
             $validLocale = "en_US";
         }
 
-        if($validGlobalExtLangPath != "SKIP" && is_readable($validGlobalExtLangPath.$validLocale.'.php'))
+        if($validGlobalLangPath != "SKIP" && is_readable($validGlobalLangPath.$validLocale.'.php'))
         {
             // Set used system locale
             $this->locale = $validLocale;
 
             // Include the Unicode CLDR language file
-            $unicodeCLRDFileToInclude = $validGlobalExtLangPath.$validLocale.'.php';
+            $unicodeCLRDFileToInclude = $validGlobalLangPath.$validLocale.'.php';
             $lang = include $unicodeCLRDFileToInclude;
-        } else if($validLocalExtLangPath != "SKIP" && is_readable($validLocalExtLangPath.$validLocale.'.php'))
+        } else if($validLocalLangPath != "SKIP" && is_readable($validLocalLangPath.$validLocale.'.php'))
         {
             // Set used system locale
             $this->locale = $validLocale;
 
             // Include the Unicode CLDR language file
             $this->locale = $validLocale;
-            $unicodeCLRDFileToInclude = $validLocalExtLangPath.$validLocale.'.php';
+            $unicodeCLRDFileToInclude = $validLocalLangPath.$validLocale.'.php';
             $lang = include $unicodeCLRDFileToInclude;
         } else
         {

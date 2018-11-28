@@ -13,6 +13,7 @@ use ExpandableFAQ\Models\AbstractStack;
 use ExpandableFAQ\Models\Configuration\ConfigurationInterface;
 use ExpandableFAQ\Models\StackInterface;
 use ExpandableFAQ\Models\Language\LanguageInterface;
+use ExpandableFAQ\Models\Validation\StaticValidator;
 
 final class Install extends AbstractStack implements StackInterface, InstallInterface
 {
@@ -217,16 +218,15 @@ final class Install extends AbstractStack implements StackInterface, InstallInte
         $trustedText
     ) {
         $validBlogId = intval($this->blogId);
-        $pluginVersion = number_format(floatval($this->conf->getPluginVersion()), 1,'.','');
-        $versionCode = abs(intval(floatval($this->conf->getPluginVersion()) * 10));
+        $pluginSemver = StaticValidator::getValidSemver($this->conf->getPluginSemver());
 
         $arrFrom = array(
             '[BLOG_ID]',
-            '[PLUGIN_VERSION]', '[VERSION_CODE]', '[TIMESTAMP]',
+            '[PLUGIN_SEMVER]', '[TIMESTAMP]',
         );
         $arrTo = array(
             $validBlogId,
-            $pluginVersion, $versionCode, time(),
+            $pluginSemver, time(),
         );
         $updatedText = str_replace($arrFrom, $arrTo, $trustedText);
 

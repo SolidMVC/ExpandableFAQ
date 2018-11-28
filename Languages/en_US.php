@@ -86,10 +86,14 @@ return array(
     'LANG_DATABASE_UPDATE_DATA_UPDATE_ERROR_TEXT' => 'Error on blog #%s: MySQL update error for plugin data!',
     'LANG_DATABASE_UPDATE_DATA_UPDATED_TEXT' => 'Completed on blog #%s: Plugin data has been updated successfully!',
     'LANG_DATABASE_UPDATE_QUERY_FAILED_FOR_TABLE_ERROR_TEXT' => 'Error on blog #%s: MySQL query could not be processed in \'%s\' table at counter #%s!',
-    'LANG_DATABASE_UPDATE_VERSION_UPDATE_ERROR_TEXT' => 'Error on blog #%s: MySQL update error for plugin database version!',
-    'LANG_DATABASE_UPDATE_VERSION_UPDATED_TEXT' => 'Completed on blog #%s: Plugin database version has been updated to %s!',
-    'LANG_DATABASE_UPDATE_ROLE_UPDATE_ERROR_TEXT' => 'Error on blog #%s: MySQL update error for plugin roles!',
-    'LANG_DATABASE_UPDATE_ROLE_UPDATED_TEXT' => 'Completed on blog #%s: Plugin roles has been updated successfully!',
+    'LANG_DATABASE_UPDATE_ROLES_UPDATE_ERROR_TEXT' => 'Error on blog #%s: MySQL update error for plugin roles!',
+    'LANG_DATABASE_UPDATE_ROLES_UPDATED_TEXT' => 'Completed on blog #%s: Plugin roles has been updated successfully!',
+    'LANG_DATABASE_UPDATE_CAPABILITIES_UPDATE_ERROR_TEXT' => 'Error on blog #%s: MySQL update error for plugin capabilities!',
+    'LANG_DATABASE_UPDATE_CAPABILITIES_UPDATED_TEXT' => 'Completed on blog #%s: Plugin capabilities has been updated successfully!',
+    'LANG_DATABASE_UPDATE_DATA_PATCH_ERROR_TEXT' => 'Error on blog #%s: MySQL update error for plugin data patch!',
+    'LANG_DATABASE_UPDATE_DATA_PATCHED_TEXT' => 'Completed on blog #%s: Plugin data has been patched successfully!',
+    'LANG_DATABASE_UPDATE_SEMANTIC_VERSION_UPDATE_ERROR_TEXT' => 'Error on blog #%s: MySQL update error for plugin database semantic version!',
+    'LANG_DATABASE_UPDATE_SEMANTIC_VERSION_UPDATED_TEXT' => 'Completed on blog #%s: Plugin database semantic version has been updated to %s!',
 
     // Demos Observer
     'LANG_DEMOS_TEXT' => 'Demos',
@@ -188,6 +192,7 @@ return array(
     'LANG_STATUS_INSTALLED_VERSION_TEXT' => 'Installed plugin version',
     'LANG_STATUS_MINOR_UPDATE_AVAILABLE_TEXT' => 'Minor plugin update available!',
     'LANG_STATUS_MAJOR_UPGRADE_AVAILABLE_TEXT' => 'Major plugin upgrade available!',
+    'LANG_STATUS_NEWEST_EXISTING_VERSION_TEXT' => 'Newest-existing version',
     'LANG_STATUS_NEWEST_VERSION_AVAILABLE_TEXT' => 'Newest version available',
     'LANG_STATUS_YOU_HAVE_S_NO_UPDATE_AVAILABLE_TEXT' => 'You have %s. No update available.',
     'LANG_STATUS_THE_NEWEST_VERSION_TEXT' => 'the newest plugin version',
@@ -209,9 +214,9 @@ return array(
     'LANG_STATUS_NOT_LOCALLY_ENABLED_OR_DB_UPDATE_IN_PROGRESS_ERROR_TEXT' => 'Error: Plugin is not locally-enabled, or database update is in progress.',
     'LANG_STATUS_NOT_NETWORK_ENABLED_OR_DB_UPDATE_IN_PROGRESS_ERROR_TEXT' => 'Error: Plugin is not network-enabled, or database update is in progress.',
     'LANG_STATUS_UPDATE_NOT_ALLOWED_ERROR_TEXT' => 'Failed: You are not allowed to update. You either already updated the plugin, 
-or you have plugin version older than 4.3 (in that case please install 4.3 plugin version first).',
+or you have plugin version older than 6.0.0 (in that case please install 6.0.0 plugin version first).',
     'LANG_STATUS_UPGRADE_NOT_ALLOWED_ERROR_TEXT' => 'Failed: You are not allowed to upgrade. You either already upgraded the plugin, 
-or you have plugin version older than 4.3 (in that case please install 4.3 plugin version first).',
+or you have plugin version older than 6.0.0 (in that case please install 6.0.0 plugin version first).',
 
     // Tables Observer
     'LANG_TABLES_TEXT' => 'Tables',

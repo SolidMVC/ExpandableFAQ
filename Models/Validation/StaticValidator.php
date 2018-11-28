@@ -1,7 +1,7 @@
 <?php
 /**
  * Modern data validator
- * Note 1: This model does not depend on any other class
+ * Note 1: This model does not depend on any other class, except semver
  * Note 2: This model must be used in static context only
  * @package ExpandableFAQ
  * @author KestutisIT
@@ -10,11 +10,13 @@
  */
 namespace ExpandableFAQ\Models\Validation;
 
+use ExpandableFAQ\Models\Semver\Semver;
+
 final class StaticValidator
 {
     protected static $debugMode = 0;
 
-    public static function inWPDebug()
+    public static function inWP_Debug()
     {
         $wpDebug = defined('WP_DEBUG') && WP_DEBUG == TRUE && defined('WP_DEBUG_DISPLAY') && WP_DEBUG_DISPLAY == TRUE;
 
@@ -59,16 +61,23 @@ final class StaticValidator
      * @note - This function is much faster that WordPress alternative esc_sql(sanitize_key($paramKey)),
      *         which using bunch of additional slow hooks and tree calls
      * @param string $paramKey
-     * @param string $paramDefaultKey
+     * @param string $defaultKey
      * @param bool $paramToLowercase
      * @param bool $paramWildcardAllowed
      * @return string
      */
-    public static function getValidKey($paramKey, $paramDefaultKey = '', $paramToLowercase = TRUE, $paramWildcardAllowed = FALSE)
+    public static function getValidKey($paramKey, $defaultKey = '', $paramToLowercase = TRUE, $paramWildcardAllowed = FALSE)
     {
         $regexp = $paramWildcardAllowed ? '[^-_0-9a-zA-Z\*]' : '[^-_0-9a-zA-Z]';
-        $rawData = !is_array($paramKey) ? $paramKey : $paramDefaultKey;
-        $validKey = preg_replace($regexp, '', $rawData); // No sanitization, uppercase needed
+        $rawData = !is_array($paramKey) ? $paramKey : $defaultKey;
+        $key = preg_replace($regexp, '', $rawData); // No sanitization, uppercase needed
+        if(!is_null($key) && !is_array($key))
+        {
+            $validKey = $key;
+        } else
+        {
+            $validKey = $defaultKey;
+        }
         $validKey = $paramToLowercase ? strtolower($validKey) : $validKey;
 
         return $validKey;
@@ -81,13 +90,13 @@ final class StaticValidator
      * NOTE #2: Spaces are mostly disallowed - for models (i.e. pricing model), types (i.e. transaction type, license type, counter type), group by (i.e. earnings group by), order by (i.e. customer order by)
      *          timeframe, sources (i.e. review source), actions (i.e. log action) and statuses
      * @param string $paramCode
-     * @param string $paramDefaultCode
+     * @param string $defaultCode
      * @param bool $paramToUppercase
      * @param bool $paramSpacesAllowed
      * @param bool $paramDotsAllowed
      * @return string
      */
-    public static function getValidCode($paramCode, $paramDefaultCode = '', $paramToUppercase = TRUE, $paramSpacesAllowed = TRUE, $paramDotsAllowed = FALSE)
+    public static function getValidCode($paramCode, $defaultCode = '', $paramToUppercase = TRUE, $paramSpacesAllowed = TRUE, $paramDotsAllowed = FALSE)
     {
         if($paramDotsAllowed)
         {
@@ -96,15 +105,116 @@ final class StaticValidator
         {
             $regexp = $paramSpacesAllowed ?  '[^-_0-9a-zA-Z ]' : '[^-_0-9a-zA-Z]';
         }
-        $rawData = !is_array($paramCode) ? $paramCode : $paramDefaultCode;
-        $validCode = preg_replace($regexp, '', $rawData); // No sanitization, uppercase needed
-
-        if($paramToUppercase)
+        $rawData = !is_array($paramCode) ? $paramCode : $defaultCode;
+        $code = preg_replace($regexp, '', $rawData); // No sanitization, uppercase needed
+        if(!is_null($code) && !is_array($code))
         {
-            $validCode = strtoupper($validCode);
+            $validCode = $code;
+        } else
+        {
+            $validCode = $defaultCode;
         }
+        $validCode = $paramToUppercase ? strtoupper($validCode) : $validCode;
 
         return $validCode;
+    }
+
+    /**
+     * Get valid semantic version
+     * @param string $paramSemver
+     * @param bool $paramVersionWildcardsAllowed - used for admin side on 'any version'
+     * @return string
+     */
+    public static function getValidSemver($paramSemver, $paramVersionWildcardsAllowed = FALSE)
+    {
+        $objSemver = new Semver($paramSemver, $paramVersionWildcardsAllowed);
+        return $objSemver->getSemver();
+    }
+
+    /**
+     * Compare two semantic versions
+     * NOTE: Wildcards are supported, if allowed
+     *
+     * @param string $paramSemver1
+     * @param string $paramSemver2
+     * @param string $paramOperator
+     * @param bool $paramSemver1VersionWildcardsAllowed
+     * @param bool $paramSemver2VersionWildcardsAllowed
+     * @return bool
+     */
+    public static function compareSemvers($paramSemver1, $paramSemver2, $paramOperator = '==', $paramSemver1VersionWildcardsAllowed = FALSE, $paramSemver2VersionWildcardsAllowed = FALSE)
+    {
+        $semver1Adjustment = 0;
+        $semver2Adjustment = 0;
+        if(in_array($paramOperator, array('<', 'lt')))
+        {
+            $semver1Adjustment = $paramSemver1VersionWildcardsAllowed ? -1 : 0; // In case of negativity, semver it will set it as '0'
+            $semver2Adjustment = $paramSemver2VersionWildcardsAllowed ? 1 : 0;
+        } else if(in_array($paramOperator, array('>', 'gt')))
+        {
+            $semver1Adjustment = $paramSemver1VersionWildcardsAllowed ? 1 : 0;
+            $semver2Adjustment = $paramSemver2VersionWildcardsAllowed ? -1 : 0; // In case of negativity, semver it will set it as '0'
+        }
+        $objSemver1 = new Semver($paramSemver1, $paramSemver1VersionWildcardsAllowed);
+        $objSemver2 = new Semver($paramSemver2, $paramSemver2VersionWildcardsAllowed);
+
+        $originalSemver1 = $objSemver1->getSemver();
+        $originalSemver2 = $objSemver2->getSemver();
+
+        // Prepare major for comparing
+        if($objSemver1->getMajor() == "*" && $objSemver2->getMajor() != "*")
+        {
+            $objSemver1->setMajor($objSemver2->getMajor() + $semver1Adjustment);
+        } else if($objSemver1->getMajor() != "*" && $objSemver2->getMajor() == "*")
+        {
+            $objSemver2->setMajor($objSemver1->getMajor() + $semver2Adjustment);
+        } else if($objSemver1->getMajor() == "*" && $objSemver2->getMajor() == "*")
+        {
+            $objSemver1->setMajor(0 + $semver1Adjustment);
+            $objSemver2->setMajor(0 + $semver2Adjustment);
+        }
+
+        // Prepare minor for comparing
+        if($objSemver1->getMinor() == "*" && $objSemver2->getMinor() != "*")
+        {
+            $objSemver1->setMinor($objSemver2->getMinor() + $semver1Adjustment);
+        } else if($objSemver1->getMinor() != "*" && $objSemver2->getMinor() == "*")
+        {
+            $objSemver2->setMinor($objSemver1->getMinor() + $semver2Adjustment);
+        } else if($objSemver1->getMinor() == "*" && $objSemver2->getMinor() == "*")
+        {
+            $objSemver1->setMinor(0 + $semver1Adjustment);
+            $objSemver2->setMinor(0 + $semver2Adjustment);
+        }
+
+        // Prepare patch for comparing
+        if($objSemver1->getPatch() == "*" && $objSemver2->getPatch() != "*")
+        {
+            $objSemver1->setPatch($objSemver2->getPatch() + $semver1Adjustment);
+        } else if($objSemver1->getPatch() != "*" && $objSemver2->getPatch() == "*")
+        {
+            $objSemver2->setPatch($objSemver1->getPatch() + $semver2Adjustment);
+        } else if($objSemver1->getPatch() == "*" && $objSemver2->getPatch() == "*")
+        {
+            $objSemver1->setPatch(0 + $semver1Adjustment);
+            $objSemver2->setPatch(0 + $semver2Adjustment);
+        }
+
+        $finalSemver1 = $objSemver1->getSemver();
+        $finalSemver2 = $objSemver2->getSemver();
+
+        $compareResult = version_compare($finalSemver1, $finalSemver2, $paramOperator);
+
+        if(static::$debugMode == 1)
+        {
+            $printOperator = esc_html(sanitize_text_field($paramOperator));
+            echo "<br /><strong>[Compare]</strong> Original Semvers: &#39;{$originalSemver1}&#39; {$printOperator} &#39;{$originalSemver2}&#39;";
+            echo "<br /><strong>[Compare]</strong> Adjustments: &#39;{$semver1Adjustment}&#39; (Semver 1), &#39;{$semver1Adjustment}&#39; (Semver 2)";
+            echo "<br /><strong>[Compare]</strong> Final Compare: &#39;{$finalSemver1}&#39; {$printOperator} &#39;{$finalSemver2}&#39;";
+            echo "<br /><strong>[Compare]</strong> Compare Result: ".var_export($compareResult, TRUE);
+        }
+
+        return $compareResult;
     }
 
     /**
@@ -117,10 +227,62 @@ final class StaticValidator
     public static function getValidUsername($paramUsername, $defaultUsername = '', $paramToLowercase = TRUE)
     {
         $rawData = !is_array($paramUsername) ? $paramUsername : $defaultUsername;
-        $validUsername = preg_replace('[^-_0-9a-zA-Z\.]', '', $rawData); // No sanitization, uppercase needed
+        $username = preg_replace('[^-_0-9a-zA-Z\.]', '', $rawData); // No sanitization, uppercase needed
+        if(!is_null($username) && !is_array($username))
+        {
+            $validUsername = $username;
+        } else
+        {
+            $validUsername = $defaultUsername;
+        }
         $validUsername = $paramToLowercase ? strtolower($validUsername) : $validUsername;
 
         return $validUsername;
+    }
+
+    /**
+     * @param string $paramString
+     * @return bool
+     */
+    public static function isValidDomainName($paramString)
+    {
+        $isValid = FALSE;
+        if(is_array($paramString))
+        {
+            // Domain regexp that supports xn-- domains as well, and unlimited sub-domains
+            // See (the updated answer part): https://stackoverflow.com/a/26987741/232330
+            $domainRegexp = '^(((?!-))(xn--|_{1,1})?[a-z0-9-]{0,61}[a-z0-9]{1,1}\.)*(xn--)?([a-z0-9\-]{1,61}|[a-z0-9-]{1,30}\.[a-z]{2,}))$';
+            if(preg_match($domainRegexp, $paramString) === FALSE)
+            {
+                // No invalid chars fount
+                $isValid = TRUE;
+            }
+        }
+
+        return $isValid;
+    }
+
+    /**
+     * @param string $paramString
+     * @param string $defaultDomain
+     * @return string
+     */
+    public static function getValidDomainName($paramString, $defaultDomain = '')
+    {
+        // Domain regexp that supports xn-- domains as well, and unlimited sub-domains
+        // See (the updated answer part): https://stackoverflow.com/a/26987741/232330
+        $domainRegexp = '^(((?!-))(xn--|_{1,1})?[a-z0-9-]{0,61}[a-z0-9]{1,1}\.)*(xn--)?([a-z0-9\-]{1,61}|[a-z0-9-]{1,30}\.[a-z]{2,}))$';
+        $rawData = !is_array($paramString) ? $paramString : $defaultDomain;
+        $domainName = preg_replace($domainRegexp, '', $rawData); // No sanitization, uppercase needed
+        if(!is_null($domainName) && !is_array($domainName))
+        {
+            $validDomainName = $domainName;
+        } else
+        {
+            $validDomainName = $defaultDomain;
+        }
+
+        return $validDomainName;
     }
 
     /**
@@ -149,14 +311,13 @@ final class StaticValidator
         return $validDate;
     }
 
-
     /**
      * Returns a valid date or 0000-00-00 if date is not valid
      * @param string $paramDate - date to validate
      * @param string $paramFormat - 'Y-m-d', 'm/d/Y', 'd/m/Y'
      * @return string
      */
-    public static function getValidISODate($paramDate, $paramFormat = 'Y-m-d')
+    public static function getValidISO_Date($paramDate, $paramFormat = 'Y-m-d')
     {
         $validISODate = "0000-00-00";
         if(static::isDate($paramDate, $paramFormat))
@@ -185,7 +346,7 @@ final class StaticValidator
      * @param $paramFormat - 'Y-m-d'
      * @return string - valid time
      */
-    public static function getValidISOTime($paramTime, $paramFormat = 'H:i:s')
+    public static function getValidISO_Time($paramTime, $paramFormat = 'H:i:s')
     {
         $validISOTime = "00:00:00";
         if(static::isTime($paramTime, $paramFormat))
@@ -342,7 +503,7 @@ final class StaticValidator
     public static function isAfterNoonTime($paramTimestamp, $paramNoonTime = "12:00:00")
     {
         $validTimestamp = $paramTimestamp > 0 ? intval($paramTimestamp) : 0;
-        $validNoonTime = static::getValidISOTime($paramNoonTime);
+        $validNoonTime = static::getValidISO_Time($paramNoonTime);
 
         $isAfterNoonTime = ($validTimestamp + get_option( 'gmt_offset' ) * 3600) > strtotime(date("Y-m-d")." ".$validNoonTime) ? TRUE : FALSE;
 
@@ -437,13 +598,22 @@ final class StaticValidator
         return date_i18n(get_option('time_format'), $paramTimestamp + get_option( 'gmt_offset' ) * 3600, TRUE);
     }
 
-    public static function getLocalCurrentISODate()
+    public static function getLocalISO_DateByTimestamp($paramTimestamp)
     {
-        $localCurrentISODate = date("Y-m-d", time() + get_option('gmt_offset') * 3600);
+        $localISO_Date = date("Y-m-d", $paramTimestamp + get_option('gmt_offset') * 3600);
         // DEBUG
-        //echo "<br />LOCAL TIMESTAMP: {$localCurrentISODate}";
+        //echo "<br />LOCAL ISO DATE: {$localISO_Date}";
 
-        return $localCurrentISODate;
+        return $localISO_Date;
+    }
+
+    public static function getLocalCurrentISO_Date()
+    {
+        $localCurrentISO_Date = date("Y-m-d", time() + get_option('gmt_offset') * 3600);
+        // DEBUG
+        //echo "<br />LOCAL CURRENT ISO DATE: {$localCurrentISO_Date}";
+
+        return $localCurrentISO_Date;
     }
 
     /**
@@ -464,11 +634,20 @@ final class StaticValidator
         return date($validFormat, $paramTimestamp + get_option( 'gmt_offset' ) * 3600);
     }
 
+    public static function getUTC_ISO_DateByTimestamp($paramTimestamp)
+    {
+        $utcISO_Date = date("Y-m-d", $paramTimestamp);
+        // DEBUG
+        //echo "<br />UTC ISO DATE: {$utcISO_Date}";
+
+        return $utcISO_Date;
+    }
+
     public static function getUTCTimestampFromLocalISODateTime($paramDate, $paramTime)
     {
         $UTCTimestamp = 0;
-        $validISODate = static::getValidISODate($paramDate, 'Y-m-d');
-        $validISOTime = static::getValidISOTime($paramTime, 'H:i:s');
+        $validISODate = static::getValidISO_Date($paramDate, 'Y-m-d');
+        $validISOTime = static::getValidISO_Time($paramTime, 'H:i:s');
         if($validISODate != "0000-00-00")
         {
             $timezoneOffsetInSeconds = get_option('gmt_offset') * 3600;
@@ -489,8 +668,8 @@ final class StaticValidator
     public static function getLocalTimestampFromUTC_ISODateTime($paramDate, $paramTime)
     {
         $localTimestamp = 0;
-        $validISODate = static::getValidISODate($paramDate, 'Y-m-d');
-        $validISOTime = static::getValidISOTime($paramTime, 'H:i:s');
+        $validISODate = static::getValidISO_Date($paramDate, 'Y-m-d');
+        $validISOTime = static::getValidISO_Time($paramTime, 'H:i:s');
         if($validISODate != "0000-00-00")
         {
             $timezoneOffsetInSeconds = get_option('gmt_offset') * 3600;
@@ -519,7 +698,7 @@ final class StaticValidator
 
     public static function getTodayNoonTimestamp($paramNoonTime = "12:00:00")
     {
-        $validNoonTime = static::getValidISOTime($paramNoonTime);
+        $validNoonTime = static::getValidISO_Time($paramNoonTime);
         $todayNoonTimestamp = strtotime(date("Y-m-d")." {$validNoonTime}");
         // DEBUG
         //echo "<br />TIMESTAMP: ".time().", TODAY&#39;S START: {$todayStartTimestamp}";
@@ -590,7 +769,7 @@ final class StaticValidator
         // Get valid timestamp
         $validTimestamp = static::getValidPositiveInteger($paramTimestamp, 0);
 
-        $validNoonTime = static::getValidISOTime($paramNoonTime);
+        $validNoonTime = static::getValidISO_Time($paramNoonTime);
         $dayNoonTimestamp = strtotime(date("Y-m-d")." {$validNoonTime}", $validTimestamp);
         // DEBUG
         //echo "<br />TIMESTAMP: ".time().", TODAY&#39;S START: {$todayStartTimestamp}";
@@ -686,8 +865,8 @@ final class StaticValidator
 
     public static function getTotalDifferentMonthsBetweenTwoISODates($paramISODateFrom, $paramISODateTill)
     {
-        $validDateFrom = static::getValidISODate($paramISODateFrom, 'Y-m-d');
-        $validDateTill = static::getValidISODate($paramISODateTill, 'Y-m-d');
+        $validDateFrom = static::getValidISO_Date($paramISODateFrom, 'Y-m-d');
+        $validDateTill = static::getValidISO_Date($paramISODateTill, 'Y-m-d');
 
         $totalDifferentMonths = 0;
         if($validDateFrom != "0000-00-00" && $validDateTill != "0000-00-00")
@@ -745,8 +924,8 @@ final class StaticValidator
 
     public static function getFloatTotalMonthsBetweenTwoISODates($paramISODateFrom, $paramISODateTill)
     {
-        $validDateFrom = static::getValidISODate($paramISODateFrom, 'Y-m-d');
-        $validDateTill = static::getValidISODate($paramISODateTill, 'Y-m-d');
+        $validDateFrom = static::getValidISO_Date($paramISODateFrom, 'Y-m-d');
+        $validDateTill = static::getValidISO_Date($paramISODateTill, 'Y-m-d');
 
         $monthsDifference = 0;
         if($validDateFrom != "0000-00-00" && $validDateTill != "0000-00-00")
@@ -815,8 +994,8 @@ final class StaticValidator
 
     public static function getTotalDifferentYearsBetweenTwoISODates($paramISODateFrom, $paramISODateTill)
     {
-        $validDateFrom = static::getValidISODate($paramISODateFrom, 'Y-m-d');
-        $validDateTill = static::getValidISODate($paramISODateTill, 'Y-m-d');
+        $validDateFrom = static::getValidISO_Date($paramISODateFrom, 'Y-m-d');
+        $validDateTill = static::getValidISO_Date($paramISODateTill, 'Y-m-d');
 
         $totalDifferentYears = 0;
         if($validDateFrom != "0000-00-00" && $validDateTill != "0000-00-00")
@@ -869,8 +1048,8 @@ final class StaticValidator
 
     public static function getFloatTotalYearsBetweenTwoISODates($paramISODateFrom, $paramISODateTill)
     {
-        $validDateFrom = static::getValidISODate($paramISODateFrom, 'Y-m-d');
-        $validDateTill = static::getValidISODate($paramISODateTill, 'Y-m-d');
+        $validDateFrom = static::getValidISO_Date($paramISODateFrom, 'Y-m-d');
+        $validDateTill = static::getValidISO_Date($paramISODateTill, 'Y-m-d');
 
         $yearsDifference = 0;
         if($validDateFrom != "0000-00-00" && $validDateTill != "0000-00-00")
@@ -989,7 +1168,6 @@ final class StaticValidator
 
         return $totalDates;
     }
-
 
     /**
      * NOTE: This method should be used only with monthly & yearly time periods
@@ -1506,16 +1684,16 @@ final class StaticValidator
                 $retValue = strtoupper(preg_replace('[^-_0-9a-zA-Z\. ]', '', $paramValue)); // No sanitization, uppercase needed
             } else if($paramValidation == 'Y-m-d')
             {
-                $retValue = static::isDate($paramValue, 'Y-m-d') ? static::getValidISODate($paramValue, 'Y-m-d') : static::getValidISODate($paramDefaultValue, 'Y-m-d');
+                $retValue = static::isDate($paramValue, 'Y-m-d') ? static::getValidISO_Date($paramValue, 'Y-m-d') : static::getValidISO_Date($paramDefaultValue, 'Y-m-d');
             } else if($paramValidation == "d/m/Y")
             {
-                $retValue = static::isDate($paramValue, 'd/m/Y') ? static::getValidISODate($paramValue, 'd/m/Y') : static::getValidISODate($paramDefaultValue, 'd/m/Y');
+                $retValue = static::isDate($paramValue, 'd/m/Y') ? static::getValidISO_Date($paramValue, 'd/m/Y') : static::getValidISO_Date($paramDefaultValue, 'd/m/Y');
             } else if($paramValidation == "m/d/Y")
             {
-                $retValue = static::isDate($paramValue, 'm/d/Y') ? static::getValidISODate($paramValue, 'm/d/Y') : static::getValidISODate($paramDefaultValue, 'm/d/Y');
+                $retValue = static::isDate($paramValue, 'm/d/Y') ? static::getValidISO_Date($paramValue, 'm/d/Y') : static::getValidISO_Date($paramDefaultValue, 'm/d/Y');
             } else if($paramValidation == "time_validation")
             {
-                $retValue = static::isTime($paramValue, 'H:i:s') ? static::getValidISOTime($paramValue, 'H:i:s') : static::getValidISOTime($paramDefaultValue, 'H:i:s');
+                $retValue = static::isTime($paramValue, 'H:i:s') ? static::getValidISO_Time($paramValue, 'H:i:s') : static::getValidISO_Time($paramDefaultValue, 'H:i:s');
             } else if($paramValidation == "email_validation")
             {
                 // We don't want to be strict, and allow that we can default email to blank if needed

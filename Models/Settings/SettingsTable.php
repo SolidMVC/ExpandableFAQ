@@ -36,7 +36,7 @@ class SettingsTable extends AbstractTable implements TableInterface
         $sqlQuery = "CREATE TABLE `{$validTablePrefix}{$validTableName}` (
           `conf_key` varchar(100) NOT NULL,
           `conf_value` varchar(255) NOT NULL,
-          `conf_translatable` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '0',
+          `conf_translatable` tinyint(1) UNSIGNED NOT NULL DEFAULT '0',
           `blog_id` int(11) unsigned NOT NULL DEFAULT '0',
           UNIQUE KEY `setting` (`conf_key`,`blog_id`)
         ) ENGINE=InnoDB {$this->conf->getInternalWPDB()->get_charset_collate()};";

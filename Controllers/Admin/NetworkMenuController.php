@@ -23,7 +23,7 @@ final class NetworkMenuController
     {
         // Set class settings
         $this->conf = $paramConf;
-        // Already sanitized before in it's constructor. Too much sanitation will kill the system speed
+        // Already sanitized before in it's constructor. Too much sanitization will kill the system speed
         $this->lang = $paramLang;
     }
 
@@ -71,7 +71,7 @@ final class NetworkMenuController
      */
     private function processError($paramName, $paramErrorMessage)
     {
-        if(StaticValidator::inWPDebug())
+        if(StaticValidator::inWP_Debug())
         {
             $sanitizedName = sanitize_text_field($paramName);
             $sanitizedErrorMessage = sanitize_text_field($paramErrorMessage);
@@ -82,7 +82,7 @@ final class NetworkMenuController
 
             // Works
             $sanitizedErrorMessage = '<div id="message" class="error"><p>'.$sanitizedErrorMessage.'</p></div>';
-            _doing_it_wrong($sanitizedName, $sanitizedErrorMessage, $this->conf->getPluginVersion());
+            _doing_it_wrong($sanitizedName, $sanitizedErrorMessage, $this->conf->getPluginSemver());
         }
     }
 }

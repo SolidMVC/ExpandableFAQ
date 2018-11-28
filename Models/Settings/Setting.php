@@ -156,7 +156,7 @@ final class Setting extends AbstractStack
     public function saveTime($paramValue)
     {
         $validKey = StaticValidator::getValidCode($this->confKey, '', FALSE, FALSE, FALSE);
-        $validValue = StaticValidator::getValidISOTime($paramValue, 'H:i:s');
+        $validValue = StaticValidator::getValidISO_Time($paramValue, 'H:i:s');
 
         $sqlQuery = "
             UPDATE {$this->conf->getPrefix()}settings

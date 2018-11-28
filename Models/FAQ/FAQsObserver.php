@@ -116,8 +116,8 @@ final class FAQsObserver implements ObserverInterface
         $faqIds = $this->getAllIds();
         foreach ($faqIds AS $faqId)
         {
-            $objFaq = new FAQ($this->conf, $this->lang, $this->settings, $faqId);
-            $faqDetails = $objFaq->getDetails();
+            $objFAQ = new FAQ($this->conf, $this->lang, $this->settings, $faqId);
+            $faqDetails = $objFAQ->getDetails();
 
             $printQuestion = $faqDetails['print_translated_faq_question'];
             if($this->lang->canTranslateSQL())

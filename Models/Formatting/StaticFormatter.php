@@ -9,7 +9,6 @@
  * @license MIT License. See Legal/License.txt for details.
  */
 namespace ExpandableFAQ\Models\Formatting;
-
 use ExpandableFAQ\Models\Validation\StaticValidator;
 
 final class StaticFormatter
@@ -93,102 +92,6 @@ final class StaticFormatter
     }
 
     /**
-     * This is a bit more complex/slow solution, but works with all locales.
-     * Because the any quicker solution work only with dots as decimal separator,
-     * and some locales, like spanish one, uses the comma as decimal separator.
-     * @tests:
-     *     ['1,10 USD', 1.10],
-     *     ['1 000 000.00', 1000000.0],
-     *     ['$1 000 000.21', 1000000.21],
-     *     ['£1.10', 1.10],
-     *     ['$123 456 789', 123456789.0],
-     *     ['$123,456,789.12', 123456789.12],
-     *     ['$123 456 789,12', 123456789.12],
-     *     ['1.10', 1.1],
-     *     [',,,,.10', .1],
-     *     ['1.000', 1000.0],
-     *     ['1,000', 1000.0]
-     * @param $paramPriceString
-     * @return float
-     */
-    public static function getUnformattedPrice($paramPriceString)
-    {
-        $cleanString = preg_replace('/([^0-9\.,])/i', '', $paramPriceString);
-        $onlyNumbersString = preg_replace('/([^0-9])/i', '', $paramPriceString);
-
-        $separatorsCountToBeErased = strlen($cleanString) - strlen($onlyNumbersString) - 1;
-
-        $stringWithCommaOrDot = preg_replace('/([,\.])/', '', $cleanString, $separatorsCountToBeErased);
-        $removedThousandSeparator = preg_replace('/(\.|,)(?=[0-9]{3,}$)/', '',  $stringWithCommaOrDot);
-
-        $unformattedPrice = (float) str_replace(',', '.', $removedThousandSeparator);
-
-        return $unformattedPrice;
-    }
-
-    /**
-     * We do not apply validators here because of flexible data and speed
-     * @param float $price
-     * @param string $formatType - tiny, tiny_without_fraction, regular, regular_without_fraction, long, long_without_fraction
-     * @param string $currencyCode
-     * @param string $currencySymbol
-     * @param int $currencySymbolDecisionMaker
-     * @return string
-     */
-    public static function getFormattedPrice($price, $formatType, $currencyCode, $currencySymbol, $currencySymbolDecisionMaker = 0)
-    {
-        switch($formatType)
-        {
-            case "tiny":
-                if($currencySymbolDecisionMaker)
-                {
-                    $formattedNumber = number_format_i18n($price, 2).$currencySymbol;
-                } else
-                {
-                    $formattedNumber = $currencySymbol.number_format_i18n($price, 2);
-                }
-                break;
-            case "tiny_without_fraction":
-                if($currencySymbolDecisionMaker)
-                {
-                    $formattedNumber = number_format_i18n($price, 0).$currencySymbol;
-                } else
-                {
-                    $formattedNumber = $currencySymbol.number_format_i18n($price, 0);
-                }
-                break;
-            case "regular":
-                if($currencySymbolDecisionMaker)
-                {
-                    $formattedNumber = number_format_i18n($price, 2).' '.$currencySymbol;
-                } else
-                {
-                    $formattedNumber = $currencySymbol.' '.number_format_i18n($price, 2);
-                }
-                break;
-            case "regular_without_fraction":
-                if($currencySymbolDecisionMaker)
-                {
-                    $formattedNumber = number_format_i18n($price, 0).' '.$currencySymbol;
-                } else
-                {
-                    $formattedNumber = $currencySymbol.' '.number_format_i18n($price, 0);
-                }
-                break;
-            case "long":
-                $formattedNumber = number_format_i18n($price, 2)." ".$currencyCode;
-                break;
-            case "long_without_fraction":
-                $formattedNumber = number_format_i18n($price, 0)." ".$currencyCode;
-                break;
-            default:
-                $formattedNumber = $price;
-        }
-
-        return $formattedNumber;
-    }
-
-    /**
      * We do not apply validators here because of flexible data and speed
      * @param $percentage
      * @param $formatType
@@ -215,29 +118,6 @@ final class StaticFormatter
         }
 
         return $formattedPercentage;
-    }
-
-    /**
-     * Proper amount formatting for print
-     * @param float $paramAmount
-     * @param string $paramCurrencySymbol
-     * @param bool $paramCurrencySymbolDecisionMaker
-     * @return string
-     */
-    public static function getPrintAmount($paramAmount, $paramCurrencySymbol, $paramCurrencySymbolDecisionMaker)
-    {
-        $validAmount = floatval($paramAmount);
-        $sanitizedCurrencySymbol = sanitize_text_field($paramCurrencySymbol);
-
-        if($paramCurrencySymbolDecisionMaker == 1)
-        {
-            $printAmount = $validAmount.' '.$sanitizedCurrencySymbol;
-        } else
-        {
-            $printAmount = $sanitizedCurrencySymbol.' '.$validAmount;
-        }
-
-        return $printAmount;
     }
 
     public static function getPrintMessage(array $paramMessages)
@@ -569,8 +449,8 @@ final class StaticFormatter
     }
 
     /**
-     * @param $paramFromTimestamp
-     * @param $paramTillTimestamp
+     * @param int $paramFromTimestamp
+     * @param int $paramTillTimestamp
      * @return array
      */
     public static function getHourRangeTimestampArray($paramFromTimestamp, $paramTillTimestamp)
@@ -845,9 +725,9 @@ final class StaticFormatter
         $retHTML = '';
 
         $paramSelectedTimeParts = explode(":", $paramSelectedTime);
-        $validSelectedHours = isset($paramSelectedTimeParts[0]) ? StaticValidator::getValidPositiveInteger($paramSelectedTimeParts[0]) : 0;
-        $validSelectedMinutes = isset($paramSelectedTimeParts[1]) ? StaticValidator::getValidPositiveInteger($paramSelectedTimeParts[1]) : 0;
-        $validSelectedSeconds = isset($paramSelectedTimeParts[2]) ? StaticValidator::getValidPositiveInteger($paramSelectedTimeParts[2]) : 0;
+        $validSelectedHours = isset($paramSelectedTimeParts[0]) ? intval($paramSelectedTimeParts[0]) : 0;
+        $validSelectedMinutes = isset($paramSelectedTimeParts[1]) ? intval($paramSelectedTimeParts[1]) : 0;
+        $validSelectedSeconds = isset($paramSelectedTimeParts[2]) ? intval($paramSelectedTimeParts[2]) : 0;
 
         if($validSelectedHours >= 24)
         {
@@ -968,17 +848,19 @@ final class StaticFormatter
     }
 
     /**
-     * Get drop-down options for any admin option
+     * Number drop-down options for any select
      * @param int $paramValueFrom
      * @param int $paramValueTill
      * @param int $paramSelectedValue
      * @param string $paramDefaultValue
      * @param string $paramDefaultLabel
+     * @param string $paramSuffix
      * @return string
      */
-    public static function getNumberDropdownOptions($paramValueFrom = 0, $paramValueTill = 100, $paramSelectedValue = 0, $paramDefaultValue = "", $paramDefaultLabel = "")
+    public static function getNumberDropdownOptions($paramValueFrom = 0, $paramValueTill = 100, $paramSelectedValue = 0, $paramDefaultValue = "", $paramDefaultLabel = "", $paramSuffix = "")
     {
         $retHTML = '';
+        $validSuffix = esc_html(sanitize_text_field($paramSuffix));
 
         if($paramDefaultValue != "" || $paramDefaultLabel != "")
         {
@@ -992,16 +874,41 @@ final class StaticFormatter
                 $retHTML .= '<option value="'.$printDefaultValue.'">'.$printDefaultLabel.'</option>';
             }
         }
-        for ($i = $paramValueFrom; $i <= $paramValueTill; $i++)
+        $i = intval($paramValueFrom);
+        while ($i <= $paramValueTill)
         {
+            if($i < 100)
+            {
+                // 1+
+                $i += 1;
+            } else if($i >= 100 && $i < 1000)
+            {
+                // 100+
+                $i += 10;
+            } else if($i >= 1000 && $i < 10000)
+            {
+                // 1k+
+                $i += 100;
+            } else if($i >= 10000 && $i < 100000)
+            {
+                // 10k+
+                $i += 1000;
+            } else if($i >= 100000 && $i < 1000000)
+            {
+                // 100k+
+                $i += 10000;
+            } else if($i >= 1000000)
+            {
+                // 1M+
+                $i += 100000;
+            }
             $value = $i;
-            $text = $i == 0 ? $paramDefaultLabel : $i;
             if($i == $paramSelectedValue)
             {
-                $retHTML .= '<option value="'.$value.'" selected="selected">'.$text.'</option>';
+                $retHTML .= '<option value="'.$value.'" selected="selected">'.$i.$validSuffix.'</option>';
             } else
             {
-                $retHTML .= '<option value="'.$value.'">'.$text.'</option>';
+                $retHTML .= '<option value="'.$value.'">'.$i.$validSuffix.'</option>';
             }
         }
 

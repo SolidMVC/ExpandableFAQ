@@ -514,10 +514,6 @@ final class UI_Routing implements RoutingInterface
             }
         }
 
-        $urls = array(
-
-        );
-
         return $urls;
     }
 }

@@ -14,6 +14,8 @@ use ExpandableFAQ\Models\Language\Language;
 use ExpandableFAQ\Models\Language\LanguageInterface;
 use ExpandableFAQ\Models\Cache\StaticSession;
 use ExpandableFAQ\Models\Status\NetworkStatus;
+use ExpandableFAQ\Models\Status\SingleStatus;
+use ExpandableFAQ\Models\Update\Database60Z;
 use ExpandableFAQ\Models\Validation\StaticValidator;
 use ExpandableFAQ\Views\PageView;
 
@@ -27,7 +29,7 @@ final class NetworkController
     {
         // Set class settings
         $this->conf = $paramConf;
-        // Already sanitized before in it's constructor. Too much sanitation will kill the system speed
+        // Already sanitized before in it's constructor. Too much sanitization will kill the system speed
         $this->lang = $paramLang;
     }
 
@@ -42,7 +44,7 @@ final class NetworkController
         $objNetworkStatus = new NetworkStatus($this->conf, $this->lang);
 
         // We only allow to populate the data if the newest plugin database struct exists
-        if ($objNetworkStatus->checkPluginDBStructExists($this->conf->getPluginVersion()))
+        if ($objNetworkStatus->checkPluginDB_StructExists($this->conf->getPluginSemver()))
         {
             // Save original locale
             $orgLang = $this->lang;
@@ -61,6 +63,7 @@ final class NetworkController
                 // Populate the data (without table creation)
                 // INFO: This plugin do not use custom roles
                 $objInstaller->setCustomCapabilities();
+                // INFO: This plugin do not use REST API
                 // INFO: This plugin do not use custom post types
                 $objInstaller->setContent();
                 $objInstaller->replaceResettableContent();
@@ -106,6 +109,64 @@ final class NetworkController
     }
 
     /**
+     * For updating across multisite the network-enabled plugin from 5.0.0 to V6.0.Z
+     * @note - Works only with WordPress 4.6+
+     * @return bool
+     * @throws \Exception
+     */
+    private function process60Z_Patches()
+    {
+        // Create mandatory instances
+        $allSitesSemverUpdated = TRUE;
+
+        // NOTE: Network site is one of the sites. So it will update network site id as well.
+        $sites = get_sites();
+        foreach ($sites AS $site)
+        {
+            $blogId = $site->blog_id;
+            switch_to_blog($blogId);
+
+            $lang = new Language(
+                $this->conf->getTextDomain(), $this->conf->getGlobalLangPath(), $this->conf->getLocalLangPath(), $this->conf->getBlogLocale($blogId), FALSE
+            );
+
+            // Update the database data
+            $objSingleDB_Patch = new Database60Z($this->conf, $lang, $blogId);
+            $objSingleStatus = new SingleStatus($this->conf, $lang, $blogId);
+            $pluginSemverInDB = $objSingleStatus->getPluginSemverInDatabase();
+
+            // Process ONLY if the current blog has populated extension data, network struct is already updated
+            // and current site database was not yet updated
+            if(
+                $objSingleStatus->checkPluginDataExists('6.0.0')
+                && version_compare($pluginSemverInDB, '6.0.0', '>=') && version_compare($pluginSemverInDB, '6.1.0', '<')
+            ) {
+                $dataPatched = $objSingleDB_Patch->patchData();
+                if($dataPatched === FALSE)
+                {
+                    $allSitesSemverUpdated = FALSE;
+                } else
+                {
+                    // Update the current site database version to 6.0.0
+                    $semverUpdated = $objSingleDB_Patch->updateDatabaseSemver();
+                    if($semverUpdated == FALSE)
+                    {
+                        $allSitesSemverUpdated = FALSE;
+                    }
+                }
+            }
+
+            StaticSession::cacheHTMLArray('admin_debug_message', $objSingleDB_Patch->getDebugMessages());
+            StaticSession::cacheValueArray('admin_okay_message', $objSingleDB_Patch->getOkayMessages());
+            StaticSession::cacheValueArray('admin_error_message', $objSingleDB_Patch->getErrorMessages());
+        }
+        // Switch back to current network blog id. Restore current blog won't work here, as it would just restore to previous blog of the long loop
+        switch_to_blog($this->conf->getBlogId());
+
+        return $allSitesSemverUpdated;
+    }
+
+    /**
      * @throws \Exception
      */
     private function processUpdate()
@@ -115,16 +176,27 @@ final class NetworkController
 
         // Allow only one update at-a-time per site refresh. We need that to save resources of server to not to get to timeout phase
         $allUpdatableSitesUpdated = FALSE;
-        $minPluginVersionInDatabase = $objStatus->getMinPluginVersionInDatabase();
+        $minPluginSemverInDatabase = $objStatus->getMinPluginSemverInDatabase();
+        $maxPluginSemverInDatabase = $objStatus->getMaxPluginSemverInDatabase();
+        $latestSemver = $this->conf->getPluginSemver();
 
-        // -----------------------------------------------------------
-        // A PLACE FOR UPDATE CODE
-        // -----------------------------------------------------------
+        // ----------------------------------------
+        // NOTE: A PLACE FOR UPDATE CODE
+        // ----------------------------------------
 
-        if($this->conf->isNetworkEnabled() && $minPluginVersionInDatabase == 6.0)
+        if($this->conf->isNetworkEnabled())
         {
-            // It's a last version
-            $allUpdatableSitesUpdated = TRUE;
+            if(version_compare($minPluginSemverInDatabase, $latestSemver, '=='))
+            {
+                // It's a last version
+                $allUpdatableSitesUpdated = TRUE;
+            }
+
+            // Run patches
+            if(version_compare($minPluginSemverInDatabase, '6.0.0', '>=') && version_compare($maxPluginSemverInDatabase, '6.1.0', '<'))
+            {
+                $allUpdatableSitesUpdated = $this->process60Z_Patches();
+            }
         }
 
         // Check if plugin is up-to-date
@@ -149,7 +221,7 @@ final class NetworkController
     public function printContent()
     {
         // Message handler - should always be at the begging of method (in the very first line)
-        $printDebugMessage = StaticValidator::inWPDebug() ? StaticSession::getHTMLOnce('admin_debug_message') : '';
+        $printDebugMessage = StaticValidator::inWP_Debug() ? StaticSession::getHTMLOnce('admin_debug_message') : '';
         $printErrorMessage = StaticSession::getValueOnce('admin_error_message');
         $printOkayMessage = StaticSession::getValueOnce('admin_okay_message');
 
@@ -181,13 +253,15 @@ final class NetworkController
         $objView->isNetworkEnabled = TRUE;
         $objView->networkEnabled = $this->lang->getPrint('LANG_YES_TEXT');
         $objView->goToNetworkAdmin = FALSE;
+        $objView->updateExists = $objStatus->checkPluginUpdateExistsForSomeBlog();
         $objView->updateAvailable = $objStatus->canUpdatePluginDataInSomeBlog();
         $objView->majorUpgradeAvailable = $objStatus->canMajorlyUpgradePluginDataInSomeBlog();
         $objView->canUpdate = $objStatus->canUpdatePluginDataInSomeBlog();
         $objView->canMajorlyUpgrade = $objStatus->canMajorlyUpgradePluginDataInSomeBlog();
-        $objView->databaseMatchesCodeVersion = $objStatus->isAllBlogsWithPluginDataUpToDate();
-        $objView->databaseVersion = number_format_i18n($objStatus->getMinPluginVersionInDatabase(), 1);
-        $objView->newestVersionAvailable = number_format_i18n($this->conf->getPluginVersion(), 1);
+        $objView->databaseMatchesCodeSemver = $objStatus->isAllBlogsWithPluginDataUpToDate();
+        $objView->databaseSemver = $objStatus->getPrintMinPluginSemverInDatabase();
+        $objView->newestExistingSemver = $this->conf->getPrintPluginSemver();
+        $objView->newestSemverAvailable = $this->conf->getPrintPluginSemver();
 
         // Print the template
         $templateRelPathAndFileName = 'Status'.DIRECTORY_SEPARATOR.'NetworkTabs.php';

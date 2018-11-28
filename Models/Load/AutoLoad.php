@@ -28,7 +28,7 @@ final class AutoLoad
         // DEBUG
         if($this->debugMode == 2)
         {
-            $output = "<br />[".$this->confWithoutRouting->getPluginNamespace().": AutoLoader] Class created for \'".$this->confWithoutRouting->getPluginNamespace()."\' namespace\n";
+            $output = "<br />[".ConfigurationInterface::PLUGIN_NAMESPACE.": AutoLoader] Class created for \'".ConfigurationInterface::PLUGIN_NAMESPACE."\' namespace\n";
             echo $output;
             if($this->debugLog === TRUE)
             {
@@ -48,7 +48,7 @@ final class AutoLoad
         // DEBUG
         if($this->debugMode == 2)
         {
-            $output = "<br />[".$this->confWithoutRouting->getPluginNamespace().": AutoLoader] Call for {$paramClassInterfaceOrTrait}\n";
+            $output = "<br />[".ConfigurationInterface::PLUGIN_NAMESPACE.": AutoLoader] Call for {$paramClassInterfaceOrTrait}\n";
             echo $output;
             if($this->debugLog === TRUE)
             {
@@ -56,7 +56,7 @@ final class AutoLoad
             }
         }
 
-        $backslashed = $this->confWithoutRouting->getPluginNamespace().'\\';
+        $backslashed = ConfigurationInterface::PLUGIN_NAMESPACE.'\\';
         if (substr($paramClassInterfaceOrTrait, 0, strlen($backslashed)) !== $backslashed)
         {
             /* If the class does not lie under the "<PLUGIN_NAMESPACE>" namespace,
@@ -77,9 +77,9 @@ final class AutoLoad
         if($this->debugMode == 1)
         {
             $output = "<br />\n";
-            $output .= "<br />[".$this->confWithoutRouting->getPluginNamespace().": Autoloader] '{$paramClassInterfaceOrTrait}' class/interface/trait is called.\n";
-            $output .= "<br />[".$this->confWithoutRouting->getPluginNamespace().": Autoloader] It's relative path and file name: '{$relativeFolderPathAndFileName}'\n";
-            $output .= "<br />[".$this->confWithoutRouting->getPluginNamespace().": Autoloader] Full path with file name: '{$wpPluginsPath}{$relativeFolderPathAndFileName}'\n";
+            $output .= "<br />[".ConfigurationInterface::PLUGIN_NAMESPACE.": Autoloader] '{$paramClassInterfaceOrTrait}' class/interface/trait is called.\n";
+            $output .= "<br />[".ConfigurationInterface::PLUGIN_NAMESPACE.": Autoloader] It's relative path and file name: '{$relativeFolderPathAndFileName}'\n";
+            $output .= "<br />[".ConfigurationInterface::PLUGIN_NAMESPACE.": Autoloader] Full path with file name: '{$wpPluginsPath}{$relativeFolderPathAndFileName}'\n";
             echo $output;
             if($this->debugLog === TRUE)
             {
@@ -137,7 +137,7 @@ final class AutoLoad
             // Remove the top-level plugin namespace, as it will come already from plugin folder
             // NOTE: Namespaces are always only backslashed
             $tmpPath = str_replace(
-                $this->confWithoutRouting->getPluginNamespace().'\\',
+                ConfigurationInterface::PLUGIN_NAMESPACE.'\\',
                 $this->confWithoutRouting->getPluginFolderName().'\\', $extractedNamespace
             );
 
@@ -154,13 +154,13 @@ final class AutoLoad
         if($this->debugMode == 2)
         {
             $output = "<br />\n";
-            $output .= "<br />[".$this->confWithoutRouting->getPluginNamespace().": Autoloader] Plugin namespace: '{$this->confWithoutRouting->getPluginNamespace()}'\n";
-            $output .= "<br />[".$this->confWithoutRouting->getPluginNamespace().": Autoloader] Plugin folder name: '{$this->confWithoutRouting->getPluginFolderName()}'\n";
-            $output .= "<br />[".$this->confWithoutRouting->getPluginNamespace().": Autoloader] Extracted namespace: '{$extractedNamespace}'\n";
-            $output .= "<br />[".$this->confWithoutRouting->getPluginNamespace().": Autoloader] Org. Class/Interface/Trait: '{$validClassInterfaceOrTrait}'\n";
-            $output .= "<br />[".$this->confWithoutRouting->getPluginNamespace().": Autoloader] Class/Interface/Trait name: '{$classInterfaceOrTraitName}'\n";
-            $output .= "<br />[".$this->confWithoutRouting->getPluginNamespace().": Autoloader] Local path: '{$localPath}'\n";
-            $output .= "<br />[".$this->confWithoutRouting->getPluginNamespace().": Autoloader] File name: '{$fileName}'\n";
+            $output .= "<br />[".ConfigurationInterface::PLUGIN_NAMESPACE.": Autoloader] Plugin namespace: '".ConfigurationInterface::PLUGIN_NAMESPACE."'\n";
+            $output .= "<br />[".ConfigurationInterface::PLUGIN_NAMESPACE.": Autoloader] Plugin folder name: '{$this->confWithoutRouting->getPluginFolderName()}'\n";
+            $output .= "<br />[".ConfigurationInterface::PLUGIN_NAMESPACE.": Autoloader] Extracted namespace: '{$extractedNamespace}'\n";
+            $output .= "<br />[".ConfigurationInterface::PLUGIN_NAMESPACE.": Autoloader] Org. Class/Interface/Trait: '{$validClassInterfaceOrTrait}'\n";
+            $output .= "<br />[".ConfigurationInterface::PLUGIN_NAMESPACE.": Autoloader] Class/Interface/Trait name: '{$classInterfaceOrTraitName}'\n";
+            $output .= "<br />[".ConfigurationInterface::PLUGIN_NAMESPACE.": Autoloader] Local path: '{$localPath}'\n";
+            $output .= "<br />[".ConfigurationInterface::PLUGIN_NAMESPACE.": Autoloader] File name: '{$fileName}'\n";
             echo $output;
             if($this->debugLog === TRUE)
             {

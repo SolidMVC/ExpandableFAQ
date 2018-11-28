@@ -13,6 +13,7 @@ use ExpandableFAQ\Models\Install\Install;
 use ExpandableFAQ\Models\Language\LanguageInterface;
 use ExpandableFAQ\Models\Cache\StaticSession;
 use ExpandableFAQ\Models\Status\SingleStatus;
+use ExpandableFAQ\Models\Update\Database60Z;
 use ExpandableFAQ\Models\Validation\StaticValidator;
 use ExpandableFAQ\Views\PageView;
 
@@ -26,7 +27,7 @@ final class SingleController
     {
         // Set class settings
         $this->conf = $paramConf;
-        // Already sanitized before in it's constructor. Too much sanitation will kill the system speed
+        // Already sanitized before in it's constructor. Too much sanitization will kill the system speed
         $this->lang = $paramLang;
     }
 
@@ -44,13 +45,14 @@ final class SingleController
             $objStatus = new SingleStatus($this->conf, $this->lang, $this->conf->getBlogId());
 
             // We only allow to populate the data if the newest plugin database struct exists
-            if ($objStatus->checkPluginDBStructExists($this->conf->getPluginVersion()))
+            if ($objStatus->checkPluginDB_StructExists($this->conf->getPluginSemver()))
             {
                 $objInstaller = new InstallController($this->conf, $this->lang, $this->conf->getBlogId());
 
                 // Populate the data (without table creation)
                 // INFO: This plugin do not use custom roles
                 $objInstaller->setCustomCapabilities();
+                // INFO: This plugin do not use REST API
                 // INFO: This plugin do not use custom post types
                 $objInstaller->setContent();
                 $objInstaller->replaceResettableContent();
@@ -95,16 +97,31 @@ final class SingleController
 
         // Allow only one update at-a-time per site refresh. We need that to save resources of server to not to get to timeout phase
         $updated = FALSE;
-        $pluginVersionInDatabase = $objStatus->getPluginVersionInDatabase();
+        $pluginSemverInDatabase = $objStatus->getPluginSemverInDatabase();
+        $latestSemver = $this->conf->getPluginSemver();
 
         // ----------------------------------------
         // NOTE: PLACE FOR UPDATE CODE
         // ----------------------------------------
 
-        if($this->conf->isNetworkEnabled() === FALSE && $pluginVersionInDatabase == 6.0)
+        if($this->conf->isNetworkEnabled() === FALSE)
         {
-            // It's a last version
-            $updated = TRUE;
+            if(version_compare($pluginSemverInDatabase, $latestSemver, '=='))
+            {
+                // It's a last version
+                $updated = TRUE;
+            }
+
+            // Run patches
+            if(version_compare($pluginSemverInDatabase, '6.0.0', '>=') && version_compare($pluginSemverInDatabase, '6.1.0', '<'))
+            {
+                $objDBUpdate = new Database60Z($this->conf, $this->lang, $this->conf->getBlogId());
+                $patched = $objDBUpdate->patchData();
+                if($patched)
+                {
+                    $updated = $objDBUpdate->updateDatabaseSemver();
+                }
+            }
         }
 
         // Check if plugin is up-to-date
@@ -129,7 +146,7 @@ final class SingleController
     public function printContent()
     {
         // Message handler - should always be at the begging of method (in the very first line)
-        $printDebugMessage = StaticValidator::inWPDebug() ? StaticSession::getHTMLOnce('admin_debug_message') : '';
+        $printDebugMessage = StaticValidator::inWP_Debug() ? StaticSession::getHTMLOnce('admin_debug_message') : '';
         $printErrorMessage = StaticSession::getValueOnce('admin_error_message');
         $printOkayMessage = StaticSession::getValueOnce('admin_okay_message');
 
@@ -160,13 +177,15 @@ final class SingleController
         $objView->isNetworkEnabled = $this->conf->isNetworkEnabled();
         $objView->networkEnabled = $this->conf->isNetworkEnabled() ? $this->lang->getPrint('LANG_YES_TEXT') : $this->lang->getPrint('LANG_NO_TEXT');
         $objView->goToNetworkAdmin = $this->conf->isNetworkEnabled() ? TRUE : FALSE;
+        $objView->updateExists = $objStatus->checkPluginUpdateExists();
         $objView->updateAvailable = $objStatus->canUpdatePluginDataInDatabase();
         $objView->majorUpgradeAvailable = $objStatus->canMajorlyUpgradePluginDataInDatabase();
         $objView->canUpdate = $objStatus->canUpdatePluginDataInDatabase();
         $objView->canMajorlyUpgrade = $objStatus->canMajorlyUpgradePluginDataInDatabase();
-        $objView->databaseMatchesCodeVersion = $objStatus->isPluginDataUpToDateInDatabase();
-        $objView->databaseVersion = number_format_i18n($objStatus->getPluginVersionInDatabase(), 1);
-        $objView->newestVersionAvailable = number_format_i18n($this->conf->getPluginVersion(), 1);
+        $objView->databaseMatchesCodeSemver = $objStatus->isPluginDataUpToDateInDatabase();
+        $objView->databaseSemver = $objStatus->getPrintPluginSemverInDatabase();
+        $objView->newestExistingSemver = $this->conf->getPrintPluginSemver();
+        $objView->newestSemverAvailable = $this->conf->getPrintPluginSemver();
 
         // Print the template
         $templateRelPathAndFileName = 'Status'.DIRECTORY_SEPARATOR.'SingleTabs.php';

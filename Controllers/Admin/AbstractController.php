@@ -24,14 +24,14 @@ abstract class AbstractController
     {
         // Set class settings
         $this->conf = $paramConf;
-        // Already sanitized before in it's constructor. Too much sanitation will kill the system speed
+        // Already sanitized before in it's constructor. Too much sanitization will kill the system speed
         $this->lang = $paramLang;
         // Set database settings
         $this->dbSets = new SettingsObserver($this->conf, $this->lang);
         $this->dbSets->setAll();
 
         // Message handler - should always be at the begging of method
-        $printDebugMessage = StaticValidator::inWPDebug() ? StaticSession::getHTMLOnce('admin_debug_message') : '';
+        $printDebugMessage = StaticValidator::inWP_Debug() ? StaticSession::getHTMLOnce('admin_debug_message') : '';
         $printErrorMessage = StaticSession::getValueOnce('admin_error_message');
         $printOkayMessage = StaticSession::getValueOnce('admin_okay_message');
 

@@ -8,11 +8,7 @@
  */
 namespace ExpandableFAQ\Models\Settings;
 use ExpandableFAQ\Models\Configuration\ConfigurationInterface;
-use ExpandableFAQ\Models\Country\CountriesObserver;
 use ExpandableFAQ\Models\PrimitiveObserverInterface;
-use ExpandableFAQ\Models\DecisionMakerType\DecisionMakerType;
-use ExpandableFAQ\Models\DecisionMakerType\DecisionMakerTypesObserver;
-use ExpandableFAQ\Models\Validation\StaticValidator;
 use ExpandableFAQ\Models\Language\LanguageInterface;
 
 final class SettingsObserver implements PrimitiveObserverInterface
@@ -21,6 +17,9 @@ final class SettingsObserver implements PrimitiveObserverInterface
     private $lang 		                = NULL;
     private $debugMode 	                = 0;
     private $settings                   = array();
+    private static $cachedSettings      = array();
+    private static $lastPrefix          = ""; // SQL Optimization
+    private static $lastBlogId          = ""; // SQL Optimization
 
     public function __construct(ConfigurationInterface &$paramConf, LanguageInterface &$paramLang)
     {
@@ -40,27 +39,41 @@ final class SettingsObserver implements PrimitiveObserverInterface
      */
     public function setAll()
     {
-        $rows = $this->conf->getInternalWPDB()->get_results("
-			SELECT conf_key, conf_value, conf_translatable
-			FROM {$this->conf->getPrefix()}settings
-			WHERE blog_id='{$this->conf->getBlogId()}'
-		", ARRAY_A);
-
-        foreach ($rows AS $row)
+        // SQL OPTIMIZATION: If the same query already ran
+        if($this->conf->getPrefix() == static::$lastPrefix && $this->conf->getBlogId() == static::$lastBlogId)
         {
-            if($row['conf_key'])
-            {
-                // make edit ready
-                $key = sanitize_key($row['conf_key']);
-                $value = stripslashes(trim($row['conf_value']));
-                $translatedValue = $row['conf_translatable'] == 1 ? $this->lang->getTranslated($row['conf_key'], $row['conf_value']) : $row['conf_value'];
+            // SQL OPTIMIZATION: Pull settings from cache
+            $this->settings = static::$cachedSettings;
+        } else
+        {
+            // Process regular query
+            $rows = $this->conf->getInternalWPDB()->get_results("
+                SELECT conf_key, conf_value, conf_translatable
+                FROM {$this->conf->getPrefix()}settings
+                WHERE blog_id='{$this->conf->getBlogId()}'
+            ", ARRAY_A);
 
-                $this->settings[$key] = $value;
-                $this->settings[$key.'_translatable'] = $row['conf_translatable'];
-                $this->settings['print_'.$key] = esc_html($value);
-                $this->settings['print_translated_'.$key] = esc_html($translatedValue);
-                $this->settings['edit_'.$key] = esc_attr($value);
+            foreach ($rows AS $row)
+            {
+                if($row['conf_key'])
+                {
+                    // make edit ready
+                    $key = sanitize_key($row['conf_key']);
+                    $value = stripslashes(trim($row['conf_value']));
+                    $translatedValue = $row['conf_translatable'] == 1 ? $this->lang->getTranslated($row['conf_key'], $row['conf_value']) : $row['conf_value'];
+
+                    $this->settings[$key] = $value;
+                    $this->settings[$key.'_translatable'] = $row['conf_translatable'];
+                    $this->settings['print_'.$key] = esc_html($value);
+                    $this->settings['print_translated_'.$key] = esc_html($translatedValue);
+                    $this->settings['edit_'.$key] = esc_attr($value);
+                }
             }
+
+            // Update cache details
+            static::$lastPrefix = $this->conf->getPrefix();
+            static::$lastBlogId = $this->conf->getBlogId();
+            static::$cachedSettings = $this->settings;
         }
     }
 

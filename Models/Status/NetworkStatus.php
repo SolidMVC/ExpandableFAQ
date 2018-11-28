@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin
+ * Network status
 
  * @note - It does not have settings param in constructor on purpose!
  * @package ExpandableFAQ
@@ -13,6 +13,8 @@ use ExpandableFAQ\Models\AbstractStack;
 use ExpandableFAQ\Models\Configuration\ConfigurationInterface;
 use ExpandableFAQ\Models\StackInterface;
 use ExpandableFAQ\Models\Language\LanguageInterface;
+use ExpandableFAQ\Models\Semver\Semver;
+use ExpandableFAQ\Models\Validation\StaticValidator;
 
 final class NetworkStatus extends AbstractStack implements StackInterface, NetworkStatusInterface
 {
@@ -44,7 +46,7 @@ final class NetworkStatus extends AbstractStack implements StackInterface, Netwo
         if($this->isAllBlogsWithPluginDataUpToDate())
         {
             // Additional links to show if the plugin is up-to-date
-            if($this->checkPluginDataExistsInSomeBlog($this->conf->getPluginVersion()))
+            if($this->checkPluginDataExistsInSomeBlog($this->conf->getPluginSemver()))
             {
                 // Show additional locally-enabled plugin links only if the plugin is up-to-date, and has existing extension data for Blog ID=X
                 $networkDropDataPageUrl = admin_url('admin.php?page='.$this->conf->getPluginURL_Prefix().'network-status&drop_data=1&noheader=true');
@@ -85,10 +87,10 @@ final class NetworkStatus extends AbstractStack implements StackInterface, Netwo
     }
 
     /**
-     * @note - This function is not compatible with NS versions before 6.0
+     * @note - This function is not compatible with SMVC versions before 6.0.0
      * @return bool
      */
-    private function checkV60SettingsTableExists()
+    private function checkV600SettingsTableExists()
     {
         // NOTE: We use getPrefix() here that supports multiple extensions
         $tableToCheck = $this->conf->getPrefix().'settings';
@@ -100,10 +102,10 @@ final class NetworkStatus extends AbstractStack implements StackInterface, Netwo
     }
 
     /**
-     * @note - This function is not compatible with NS versions before 6.0
+     * @note - This function is not compatible with SMVC versions before 6.0.0
      * @return bool
      */
-    private function checkV60BlogIdColumnExists()
+    private function checkV600BlogIdColumnExists()
     {
         // NOTE: We use getPrefix() here that supports multiple extensions
         $sqlQuery = "SHOW COLUMNS FROM `{$this->conf->getPrefix()}settings` LIKE 'blog_id'";
@@ -114,24 +116,25 @@ final class NetworkStatus extends AbstractStack implements StackInterface, Netwo
     }
 
     /**
-     * @note1 - This function maintains backwards compatibility to NS V4.3 and newer
+     * @note1 - This function maintains backwards compatibility to SMVC 6.0.0 and newer
      * @note2 - This function says if there are plugin struct
-     * @param float $paramRequiredPluginVersion
+     * @param string $paramRequiredPluginSemver
      * @return bool
      */
-    public function checkPluginDBStructExists($paramRequiredPluginVersion)
+    public function checkPluginDB_StructExists($paramRequiredPluginSemver)
     {
         $tableExists = FALSE;
         $columnExists = FALSE;
+        $validRequiredPluginSemver = StaticValidator::getValidSemver($paramRequiredPluginSemver, FALSE);
 
-        if($paramRequiredPluginVersion >= 6.0)
+        if(version_compare($validRequiredPluginSemver, '6.0.0', '>='))
         {
-            // We are looking for NS V6.0 or later database table
-            $tableExists = $this->checkV60SettingsTableExists();
+            // We are looking for SMVC 6.0.0 or later database table
+            $tableExists = $this->checkV600SettingsTableExists();
             if($tableExists)
             {
-                // We are looking for NS V6.0 or later database table column
-                $columnExists = $this->checkV60BlogIdColumnExists();
+                // We are looking for SMVC 6.0.0 or later database table column
+                $columnExists = $this->checkV600BlogIdColumnExists();
             }
         }
         $structExist = $tableExists && $columnExists;
@@ -142,7 +145,7 @@ final class NetworkStatus extends AbstractStack implements StackInterface, Netwo
             $structText = $structExist ? "Yes" : "No";
             $tableText = $tableExists ? "Yes" : "No";
             $columnText = $columnExists ? "Yes" : "No";
-            $debugMessage = "Debug: checkPluginDBStructExists(): {$structText} (Table - {$tableText}, Column - {$columnText})<br />";
+            $debugMessage = "Debug: checkPluginDB_StructExists(): {$structText} (Table - {$tableText}, Column - {$columnText})<br />";
             $this->debugMessages[] = $debugMessage;
             // Do not echo here, as this class is used for ajax
             // echo "<br />".$debugMessage;
@@ -152,20 +155,21 @@ final class NetworkStatus extends AbstractStack implements StackInterface, Netwo
     }
 
     /**
-     * @note1 - This function maintains backwards compatibility to NS V6.0 and newer
+     * @note1 - This function maintains backwards compatibility to SMVC 6.0.0 and newer
      * @note2 - This function says if there data exists for at least one extension
-     * @param float $paramRequiredPluginVersion
+     * @param string $paramRequiredPluginSemver
      * @return bool
      */
-    public function checkPluginDataExistsInSomeBlog($paramRequiredPluginVersion)
+    public function checkPluginDataExistsInSomeBlog($paramRequiredPluginSemver)
     {
         $retExists = FALSE;
         $sqlQuery = "";
+        $validRequiredPluginSemver = StaticValidator::getValidSemver($paramRequiredPluginSemver, FALSE);
 
-        if($paramRequiredPluginVersion >= 6.0 && $this->checkV60SettingsTableExists() && $this->checkV60BlogIdColumnExists())
+        if(version_compare($validRequiredPluginSemver, '6.0.0', '>=') && $this->checkV600SettingsTableExists() && $this->checkV600BlogIdColumnExists())
         {
-            // We are testing NS V6.0 or later database version
-            // Note: SELECT 1 is not supported by WordPress, Php, or get_var, so it has to be an exact field name
+            // We are testing SMVC V6.0.0 or later database version
+            // Note: SELECT 1 is not supported by WordPress, PHP, or get_var, so it has to be an exact field name
             $sqlQuery = "SELECT conf_key FROM {$this->conf->getPrefix()}settings WHERE 1";
             $hasSettings = $this->conf->getInternalWPDB()->get_var($sqlQuery, 0, 0);
             // NS plugin is installed or not for this blog_id
@@ -185,73 +189,162 @@ final class NetworkStatus extends AbstractStack implements StackInterface, Netwo
     }
 
     /**
-     * @note - This function maintains backwards compatibility to NS V4.3 and newer
+     * @note - This function maintains backwards compatibility to SMVC 6.0.0 and newer
      * @return array
      */
-    public function getAllPluginVersionsInDatabase()
+    public function getAllPluginSemversInDatabase()
     {
-        // 0.0 is the version that can be either older than oldest compatible version, or when the version is not detected
-        // I.e. in oldest versions the chosen row of plugin version did not existed at all
-        $arrDatabaseVersions = array();
+        // '0.0.0' is the semver that can be either older than oldest compatible semver, or when the semver is not detected
+        // I.e. in oldest semvers the chosen row of plugin semver did not existed at all
+        $arrDatabaseSemvers = array();
 
-        if($this->checkV60SettingsTableExists())
+        if($this->checkV600SettingsTableExists())
         {
             // NOTE: The section bellow were moved to internal statement to save SQL queries for scenario when table exists but not column
-            if($this->checkV60BlogIdColumnExists())
+            if($this->checkV600BlogIdColumnExists())
             {
-                // We are testing NS 6.0 or later database version
+                // We are testing SMVC 6.0.0 or later database version
+                // NOTE: This query is compatible with SMVC 6.0.0
                 $sql = "
-                    SELECT conf_value AS plugin_version
+                    SELECT conf_value AS plugin_semver
                     FROM {$this->conf->getPrefix()}settings
-                    WHERE conf_key='conf_plugin_version'
+                    WHERE conf_key IN ('conf_plugin_semver', 'conf_plugin_version')
                 ";
-                $arrTmpDatabaseVersions = $this->conf->getInternalWPDB()->get_col($sql);
-                foreach($arrTmpDatabaseVersions AS $databaseVersion)
+                $arrTmpDatabaseSemvers = $this->conf->getInternalWPDB()->get_col($sql);
+                foreach($arrTmpDatabaseSemvers AS $databaseSemver)
                 {
-                    $arrDatabaseVersions[] = floatval($databaseVersion);
+                    $arrDatabaseSemvers[] = StaticValidator::getValidSemver($databaseSemver, FALSE);
                 }
             }
         }
 
-        // If no database versions were found
-        if(sizeof($arrDatabaseVersions) == 0)
+        // If no database semvers were found
+        if(sizeof($arrDatabaseSemvers) == 0)
         {
-            // Then add 0.0 version
-            $arrDatabaseVersions[] = 0.0;
+            // Then add '0.0.0' semver
+            $arrDatabaseSemvers[] = '0.0.0';
         }
 
-        return $arrDatabaseVersions;
+        return $arrDatabaseSemvers;
     }
 
     /**
-     * @note - This function maintains backwards compatibility to NS V6.0 and newer
-     * @return float
+     * @note - This function maintains backwards compatibility to SMVC 6.0.0 and newer
+     * @return string
      */
-    public function getMinPluginVersionInDatabase()
+    public function getMinPluginSemverInDatabase()
     {
-        $arrVersions = $this->getAllPluginVersionsInDatabase();
+        $semvers = $this->getAllPluginSemversInDatabase();
 
-        // Select minimum database version, or, if no versions found, return the 0.0 version
-        $minVersion = sizeof($arrVersions) > 0 ? min($arrVersions) : 0.0;
+        // Select minimum database semver, or, if no semvers found, return the '0.0.0' semver
+        $minSemver = '0.0.0';
+        foreach($semvers AS $semver)
+        {
+            if($semver != "0.0.0" && version_compare($semver, $minSemver, '<'))
+            {
+                $minSemver = $semver;
+            }
+        }
 
-        return $minVersion;
+        return $minSemver;
     }
 
     /**
-     * Is the NS database version is newer or same as code version. If no - we should be read for update
+     * @note - This function maintains backwards compatibility to SMVC 6.0.0 and newer
+     * @return string
+     */
+    public function getEditMinPluginSemverInDatabase()
+    {
+        return esc_attr($this->getMinPluginSemverInDatabase());
+    }
+
+    /**
+     * @note - This function maintains backwards compatibility to SMVC 6.0.0 and newer
+     * @return string
+     */
+    public function getPrintMinPluginSemverInDatabase()
+    {
+        return esc_html($this->getMinPluginSemverInDatabase());
+    }
+
+    /**
+     * @note - This function maintains backwards compatibility to SMVC 6.0.0 and newer
+     * @return string
+     */
+    public function getMaxPluginSemverInDatabase()
+    {
+        $semvers = $this->getAllPluginSemversInDatabase();
+
+        // Select maximum database semver, or, if no semvers found, return the '0.0.0' semver
+        $maxSemver = '0.0.0';
+        foreach($semvers AS $semver)
+        {
+            if(version_compare($semver, $maxSemver, '>'))
+            {
+                $maxSemver = $semver;
+            }
+        }
+
+        return $maxSemver;
+    }
+
+    /**
+     * @note - This function maintains backwards compatibility to SMVC 6.0.0 and newer
+     * @return string
+     */
+    public function getEditMaxPluginSemverInDatabase()
+    {
+        return esc_attr($this->getMaxPluginSemverInDatabase());
+    }
+
+    /**
+     * @note - This function maintains backwards compatibility to SMVC 6.0.0 and newer
+     * @return string
+     */
+    public function getPrintMaxPluginSemverInDatabase()
+    {
+        return esc_html($this->getMaxPluginSemverInDatabase());
+    }
+
+    /**
+     * Is the NS database semver is newer or same as code semver. If no - we should be read for update
      * @note make sure the blog id here is ok for network
      * @return bool
      */
     public function isAllBlogsWithPluginDataUpToDate()
     {
-        $minPluginVersionInDatabase = $this->getMinPluginVersionInDatabase();
-        $codeVersion = $this->conf->getPluginVersion();
+        $minPluginSemverInDatabase = $this->getMinPluginSemverInDatabase();
+        $codeSemver = $this->conf->getPluginSemver();
+        $isUpToDate = version_compare($minPluginSemverInDatabase, $codeSemver, '==') ? TRUE : FALSE;
 
         // DEBUG
-        //echo "MIN. DB VERSION: {$minPluginVersionInDatabase}<br />";
-        //echo "CODE VERSION: {$codeVersion}<br />";
+        //echo "MIN. DB SEMVER: {$minPluginSemverInDatabase}<br />";
+        //echo "CODE SEMVER: {$codeSemver}<br />";
+        //echo "ALL BLOGS IS UP TO DATE: {$isUpToDate}<br />";
 
-        return $minPluginVersionInDatabase >= $codeVersion ? TRUE : FALSE;
+        return $isUpToDate;
+    }
+
+    /**
+     * NOTE: Update may exist, but the system might be not compatible for update
+     * @return bool
+     */
+    public function checkPluginUpdateExistsForSomeBlog()
+    {
+        $canUpdate = FALSE;
+        $minPluginSemverInDatabase = $this->getMinPluginSemverInDatabase();
+        $codeSemver = $this->conf->getPluginSemver();
+        if(version_compare($minPluginSemverInDatabase, $codeSemver, '<'))
+        {
+            $canUpdate = TRUE;
+        }
+
+        // DEBUG
+        //echo "MIN DB SEMVER: {$minPluginSemverInDatabase}<br />";
+        //echo "CODE SEMVER: {$codeSemver}<br />";
+        //echo "UPDATE EXISTS: ".var_export($canUpdate, TRUE)."<br />";
+
+        return $canUpdate;
     }
 
     /**
@@ -260,27 +353,35 @@ final class NetworkStatus extends AbstractStack implements StackInterface, Netwo
     public function canUpdatePluginDataInSomeBlog()
     {
         $canUpdate = FALSE;
-        $minPluginVersionInDatabase = $this->getMinPluginVersionInDatabase();
-        $codeVersion = $this->conf->getPluginVersion();
-        $oldestCompatibleVersion = $this->conf->getOldestCompatiblePluginVersion();
-        if($minPluginVersionInDatabase >= $oldestCompatibleVersion && floatval($minPluginVersionInDatabase) < floatval($codeVersion))
+        $minPluginSemverInDatabase = $this->getMinPluginSemverInDatabase();
+        $codeSemver = $this->conf->getPluginSemver();
+        $oldestCompatibleSemver = $this->conf->getOldestCompatiblePluginSemver();
+        if(version_compare($minPluginSemverInDatabase, $oldestCompatibleSemver, '>=') && version_compare($minPluginSemverInDatabase, $codeSemver, '<'))
         {
             $canUpdate = TRUE;
         }
         return $canUpdate;
+
+        // DEBUG
+        //echo "MIN DB SEMVER: {$minPluginSemverInDatabase}<br />";
+        //echo "OLDEST-COMPAT SEMVER: {$oldestCompatibleSemver}<br />";
+        //echo "CODE SEMVER: {$codeSemver}<br />";
+        //echo "UPDATE EXISTS: ".var_export($canUpdate, TRUE)."<br />";
     }
 
     /**
-     * Can we do a major upgrade in some blog, i.e. from V1 to V2 etc., not V1 to V1.1
+     * Can we do a major upgrade in some blog, i.e. from V1.*.* to V2.*.* etc., not V1.0.* to V1.1.*
      * @return bool
      */
     public function canMajorlyUpgradePluginDataInSomeBlog()
     {
         $majorUpgrade = FALSE;
-        $minPluginVersionInDatabase = $this->getMinPluginVersionInDatabase();
-        $codeVersion = $this->conf->getPluginVersion();
-        $oldestCompatibleVersion = $this->conf->getOldestCompatiblePluginVersion();
-        if($minPluginVersionInDatabase >= $oldestCompatibleVersion && intval($minPluginVersionInDatabase) < intval($codeVersion))
+        $minPluginSemverInDatabase = $this->getMinPluginSemverInDatabase();
+        $codeSemver = $this->conf->getPluginSemver();
+        $oldestCompatibleSemver = $this->conf->getOldestCompatiblePluginSemver();
+        $dbMinSemverMajor = (new Semver($minPluginSemverInDatabase, FALSE))->getMajor();
+        $codeSemverMajor = (new Semver($codeSemver, FALSE))->getMajor();
+        if(version_compare($minPluginSemverInDatabase, $oldestCompatibleSemver, '>=') && $dbMinSemverMajor < $codeSemverMajor)
         {
             $majorUpgrade = TRUE;
         }
