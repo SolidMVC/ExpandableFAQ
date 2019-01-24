@@ -2,7 +2,7 @@
 Contributors: KestutisIT
 Donate link: https://profiles.wordpress.org/KestutisIT
 Website link: https://wordpress.org/plugins/expandable-faq/
-Tags: faq, faqs, Frequently Answered Questions, expand, collapse
+Tags: collapsible, expandable, faqs, expand, collapse
 Requires at least: 4.6
 Tested up to: 5.0
 Requires PHP: 5.4
