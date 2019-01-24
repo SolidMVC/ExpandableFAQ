@@ -79,6 +79,7 @@ return array(
     'LANG_ERROR_IN_METHOD_TEXT' => 'Error in \'%s\' method: %s!',
 
     // OK / Error Messages - (Database) Update
+    'LANG_DATABASE_UPDATE_PATCH_CLASS_S_DOES_NOT_EXIST_ERROR_TEXT' => 'Error: Patch class \'%s\' - does not exist!',
     'LANG_DATABASE_UPDATE_EARLY_STRUCTURE_ALTER_ERROR_TEXT' => 'Error on blog #%s: MySQL alter error for plugin early structure!',
     'LANG_DATABASE_UPDATE_EARLY_STRUCTURE_ALTERED_TEXT' => 'Completed on blog #%s: Plugin early structure has been altered successfully!',
     'LANG_DATABASE_UPDATE_LATE_STRUCTURE_ALTER_ERROR_TEXT' => 'Error on blog #%s: MySQL alter error for plugin late structure!',
@@ -90,6 +91,10 @@ return array(
     'LANG_DATABASE_UPDATE_ROLES_UPDATED_TEXT' => 'Completed on blog #%s: Plugin roles has been updated successfully!',
     'LANG_DATABASE_UPDATE_CAPABILITIES_UPDATE_ERROR_TEXT' => 'Error on blog #%s: MySQL update error for plugin capabilities!',
     'LANG_DATABASE_UPDATE_CAPABILITIES_UPDATED_TEXT' => 'Completed on blog #%s: Plugin capabilities has been updated successfully!',
+    'LANG_DATABASE_UPDATE_EARLY_STRUCTURE_PATCH_ERROR_TEXT' => 'Error on blog #%s: MySQL patch error for plugin early structure!',
+    'LANG_DATABASE_UPDATE_EARLY_STRUCTURE_PATCHED_TEXT' => 'Completed on blog #%s: Plugin early structure has been patched successfully!',
+    'LANG_DATABASE_UPDATE_LATE_STRUCTURE_PATCH_ERROR_TEXT' => 'Error on blog #%s: MySQL patch error for plugin late structure!',
+    'LANG_DATABASE_UPDATE_LATE_STRUCTURE_PATCHED_TEXT' => 'Completed on blog #%s: Plugin late structure has been patched successfully!',
     'LANG_DATABASE_UPDATE_DATA_PATCH_ERROR_TEXT' => 'Error on blog #%s: MySQL update error for plugin data patch!',
     'LANG_DATABASE_UPDATE_DATA_PATCHED_TEXT' => 'Completed on blog #%s: Plugin data has been patched successfully!',
     'LANG_DATABASE_UPDATE_SEMANTIC_VERSION_UPDATE_ERROR_TEXT' => 'Error on blog #%s: MySQL update error for plugin database semantic version!',

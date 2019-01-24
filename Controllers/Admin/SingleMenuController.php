@@ -51,11 +51,11 @@ final class SingleMenuController
         // For those, who have 'update_plugins' rights - update_plugins are official WordPress role for updates
         add_menu_page(
             $this->lang->getPrint('LANG_MENU_ACCORDION_FAQ_TEXT'), $this->lang->getPrint('LANG_MENU_ACCORDION_FAQ_TEXT'),
-            "update_plugins", "{$URLPrefix}single-menu", array(&$this, "printSingleStatus"), $iconURL, $validMenuPosition
+            "update_plugins", "{$URLPrefix}single-menu", array($this, "printSingleStatus"), $iconURL, $validMenuPosition
         );
         add_submenu_page(
             "{$URLPrefix}single-menu", $this->lang->getPrint('LANG_STATUS_TEXT'), $this->lang->getPrint('LANG_STATUS_TEXT'),
-            "update_plugins", "{$URLPrefix}single-status", array(&$this, "printSingleStatus")
+            "update_plugins", "{$URLPrefix}single-status", array($this, "printSingleStatus")
         );
         remove_submenu_page("{$URLPrefix}single-menu", "{$URLPrefix}single-menu");
     }
@@ -73,48 +73,48 @@ final class SingleMenuController
         // For those, who have 'view_{$pluginPrefix}partner_earnings' rights
         add_menu_page(
             $this->lang->getPrint('LANG_MENU_ACCORDION_FAQ_TEXT'), $this->lang->getPrint('LANG_MENU_ACCORDION_FAQ_TEXT'),
-            "view_{$pluginPrefix}all_faqs", "{$URLPrefix}single-menu", array(&$this, "printFAQManager"), $iconURL, $validMenuPosition
+            "view_{$pluginPrefix}all_faqs", "{$URLPrefix}single-menu", array($this, "printFAQManager"), $iconURL, $validMenuPosition
         );
             // For those, who have 'view_{$pluginPrefix}all_faqs' or 'manage_{$pluginPrefix}all_faqs' rights
             add_submenu_page(
                 "{$URLPrefix}single-menu", $this->lang->getPrint('LANG_FAQ_MANAGER_TEXT'), $this->lang->getPrint('LANG_FAQ_MANAGER_TEXT'),
-                "view_{$pluginPrefix}all_faqs", "{$URLPrefix}faq-manager", array(&$this, "printFAQManager")
+                "view_{$pluginPrefix}all_faqs", "{$URLPrefix}faq-manager", array($this, "printFAQManager")
             );
                 add_submenu_page(
                     "{$URLPrefix}faq-manager", $this->lang->getPrint('LANG_FAQ_ADD_EDIT_TEXT'), $this->lang->getPrint('LANG_FAQ_ADD_EDIT_TEXT'),
-                    "manage_{$pluginPrefix}all_faqs", "{$URLPrefix}add-edit-faq", array(&$this, "printFAQAddEdit")
+                    "manage_{$pluginPrefix}all_faqs", "{$URLPrefix}add-edit-faq", array($this, "printFAQAddEdit")
                 );
 
             // For those, who have 'manage_{$pluginPrefix}all_settings' rights
             add_submenu_page(
                 "{$URLPrefix}single-menu", $this->lang->getPrint('LANG_DEMOS_TEXT'), $this->lang->getPrint('LANG_DEMOS_TEXT'),
-                "manage_{$pluginPrefix}all_settings","{$URLPrefix}demos", array(&$this, "printDemos")
+                "manage_{$pluginPrefix}all_settings","{$URLPrefix}demos", array($this, "printDemos")
             );
                 add_submenu_page(
                     "{$URLPrefix}demo", $this->lang->getPrint('LANG_DEMO_IMPORT_TEXT'), $this->lang->getPrint('LANG_DEMO_IMPORT_TEXT'),
-                    "manage_{$pluginPrefix}all_settings","{$URLPrefix}import-demo", array(&$this, "printImportDemo")
+                    "manage_{$pluginPrefix}all_settings","{$URLPrefix}import-demo", array($this, "printImportDemo")
                 );
 
             // For those, who have 'edit_pages' rights
             // We allow to see shortcodes for those who have rights to edit pages (including item description pages)
             add_submenu_page(
                 "{$URLPrefix}single-menu", $this->lang->getPrint('LANG_MANUAL_TEXT'), $this->lang->getPrint('LANG_MANUAL_TEXT'),
-                "edit_pages","{$URLPrefix}manual", array(&$this, "printManual")
+                "edit_pages","{$URLPrefix}manual", array($this, "printManual")
             );
 
             // For those, who have 'view_{$pluginPrefix}all_settings' or 'manage_{$pluginPrefix}all_settings' rights
             add_submenu_page(
                 "{$URLPrefix}single-menu", $this->lang->getPrint('LANG_SETTINGS_TEXT'), $this->lang->getPrint('LANG_SETTINGS_TEXT'),
-                "view_{$pluginPrefix}all_settings","{$URLPrefix}settings", array(&$this, "printSettings")
+                "view_{$pluginPrefix}all_settings","{$URLPrefix}settings", array($this, "printSettings")
             );
                 add_submenu_page(
                     "{$URLPrefix}settings", $this->lang->getPrint('LANG_SETTINGS_CHANGE_GLOBAL_SETTINGS_TEXT'), $this->lang->getPrint('LANG_SETTINGS_CHANGE_GLOBAL_SETTINGS_TEXT'),
-                    "manage_{$pluginPrefix}all_settings","{$URLPrefix}change-global-settings", array(&$this, "printChangeGlobalSettings")
+                    "manage_{$pluginPrefix}all_settings","{$URLPrefix}change-global-settings", array($this, "printChangeGlobalSettings")
                 );
 
             add_submenu_page(
                 "{$URLPrefix}single-menu", $this->lang->getPrint('LANG_STATUS_TEXT'), $this->lang->getPrint('LANG_STATUS_TEXT'),
-                "update_plugins", "{$URLPrefix}single-status", array(&$this, "printSingleStatus")
+                "update_plugins", "{$URLPrefix}single-status", array($this, "printSingleStatus")
             );
             remove_submenu_page("{$URLPrefix}single-menu", "{$URLPrefix}single-menu");
     }

@@ -108,6 +108,9 @@ to your website's FAQ page and make automatically expand specific FAQ with a pag
 
 # Changelog
 
+= 6.0.2 =
+* Updating and patching are now separated. FA now loaded by default after install. Populate/drop data url behaviour changed. Some minor improvements.
+
 = 6.0.1 =
 * Expandable FAQ is now fully based on Semantic Versioning. Plus some small issues fixed, and small improvements done.
 
@@ -116,6 +119,9 @@ to your website's FAQ page and make automatically expand specific FAQ with a pag
 
 
 # Upgrade Notice
+
+= 6.0.2 =
+* Just drag and drop new plugin folder or click 'update' in WordPress plugin manager.
 
 = 6.0.1 =
 * Just drag and drop new plugin folder or click 'update' in WordPress plugin manager.

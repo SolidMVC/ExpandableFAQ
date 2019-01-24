@@ -41,7 +41,7 @@ final class InstallController
         $objSingleSiteStatus = new SingleStatus($this->conf, $this->lang, $this->blogId);
 
         // @Note - even if this is multisite or 2nd or later extension install, tables will be created only once for the main site only (with blog_id = '0' or '1')
-        if ($objSingleSiteStatus->checkPluginDB_StructExists($this->conf->getOldestCompatiblePluginSemver()) === FALSE)
+        if ($objSingleSiteStatus->checkPluginDB_StructExistsOf($this->conf->getOldestCompatiblePluginSemver()) === FALSE)
         {
             // First - drop all tables if exists any to have a clean install as expected
             foreach(Install::getTableClasses() AS $tableClass)
@@ -85,7 +85,7 @@ final class InstallController
         $objAdministratorRole = new AdministratorRole($this->conf, $this->lang);
 
         // Note - the section below is extension-independent, which means that it runs only once per install of first extension, despite how many extensions there are
-        if($objSingleSiteStatus->checkPluginDataExists($this->conf->getOldestCompatiblePluginSemver()) === FALSE)
+        if($objSingleSiteStatus->checkPluginDataExistsOf($this->conf->getOldestCompatiblePluginSemver()) === FALSE)
         {
             // First - remove, if exists
             $objAdministratorRole->removeCapabilities();
@@ -104,7 +104,7 @@ final class InstallController
         $objSingleSiteStatus = new SingleStatus($this->conf, $this->lang, $this->blogId);
         $objSingleSiteInstall = new Install($this->conf, $this->lang, $this->blogId);
 
-        if($objSingleSiteStatus->checkPluginDataExists($this->conf->getOldestCompatiblePluginSemver()) === FALSE)
+        if($objSingleSiteStatus->checkPluginDataExistsOf($this->conf->getOldestCompatiblePluginSemver()) === FALSE)
         {
             // Delete any old table content if exists
             foreach(Install::getTableClasses() AS $tableClass)

@@ -36,11 +36,21 @@ interface SingleStatusInterface
 
     /**
      * @note1 - This function maintains backwards compatibility to SMVC 6.0.0 and newer
-     * @note2 - This function says if there are plugin struct
+     * @note2 - This function says if there are plugin struct of required semver
      * @param string $paramRequiredPluginSemver
      * @return bool
      */
-    public function checkPluginDB_StructExists($paramRequiredPluginSemver);
+    public function checkPluginDB_StructExistsOf($paramRequiredPluginSemver);
+
+    /**
+     * Differently to "Exists of semver" class method, this class method is based
+     * on existence of compatible data
+     *
+     * @note1 - This function maintains backwards compatibility to SMVC 6.0.0 and newer
+     * @note2 - This function says if the data exists for of required semver
+     * @return bool
+     */
+    public function checkPluginCompatibleDataExists();
 
     /**
      * @note1 - This function maintains backwards compatibility to SMVC 6.0.0 and newer
@@ -48,7 +58,7 @@ interface SingleStatusInterface
      * @param string $paramRequiredPluginSemver
      * @return bool
      */
-    public function checkPluginDataExists($paramRequiredPluginSemver);
+    public function checkPluginDataExistsOf($paramRequiredPluginSemver);
 
     /**
      * @note - This function maintains backwards compatibility to SMVC 6.0.0 and newer

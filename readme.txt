@@ -55,7 +55,7 @@ Finally - the code is poetry - __the better is the web, the happier is the world
 [Expandable FAQ (Live Demo)](http://nativerental.com/cars/faq/ "Expandable FAQ (Live Demo)")
 
 == GitHub Repository (for those, who want to contribute via "Pull Requests") ==
-https://github.com/SolidMVC/ExpandableFAQ
+[https://github.com/SolidMVC/ExpandableFAQ](https://github.com/SolidMVC/ExpandableFAQ "ExpandableFAQ @GitHub")
 
 == Installation ==
 
@@ -100,6 +100,9 @@ to your website's FAQ page and make automatically expand specific FAQ with a pag
 
 == Changelog ==
 
+= 6.0.2 =
+* Updating and patching are now separated. FA now loaded by default after install. Populate/drop data url behaviour changed. Some minor improvements.
+
 = 6.0.1 =
 * Expandable FAQ is now fully based on Semantic Versioning. Plus some small issues fixed, and small improvements done.
 
@@ -108,6 +111,9 @@ to your website's FAQ page and make automatically expand specific FAQ with a pag
 
 
 == Upgrade Notice ==
+
+= 6.0.2 =
+* Just drag and drop new plugin folder or click 'update' in WordPress plugin manager.
 
 = 6.0.1 =
 * Just drag and drop new plugin folder or click 'update' in WordPress plugin manager.

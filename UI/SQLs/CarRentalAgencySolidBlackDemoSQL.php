@@ -21,7 +21,7 @@ include('Shared/CarRentalAgencySQLPartial.php');
 // Then - list tables that are different for each demo version
 
 $arrPluginReplaceSQL['settings'] = "(`conf_key`, `conf_value`, `conf_translatable`, `blog_id`) VALUES
-('conf_load_font_awesome_from_plugin', '0', '0', [BLOG_ID]),
+('conf_load_font_awesome_from_plugin', '1', '0', [BLOG_ID]),
 ('conf_system_style', 'Solid Black', '0', [BLOG_ID]),
 ('conf_updated', '0', '0', [BLOG_ID]),
 ('conf_use_sessions', '1', '0', [BLOG_ID])";

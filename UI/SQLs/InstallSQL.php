@@ -13,7 +13,7 @@ $arrInsertSQL = array();
 $arrPluginInsertSQL = array();
 
 $arrPluginInsertSQL['settings'] = "(`conf_key`, `conf_value`, `conf_translatable`, `blog_id`) VALUES
-('conf_load_font_awesome_from_plugin', '0', '0', [BLOG_ID]),
+('conf_load_font_awesome_from_plugin', '1', '0', [BLOG_ID]),
 ('conf_plugin_semver', '[PLUGIN_SEMVER]', '0', [BLOG_ID]),
 ('conf_system_style', 'Crimson Red', '0', [BLOG_ID]),
 ('conf_updated', '0', '0', [BLOG_ID]),

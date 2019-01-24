@@ -14,7 +14,7 @@ use ExpandableFAQ\Models\Configuration\ConfigurationInterface;
 use ExpandableFAQ\Models\Language\LanguageInterface;
 use ExpandableFAQ\Models\Validation\StaticValidator;
 
-abstract class AbstractUpdate extends AbstractStack
+abstract class AbstractDatabase extends AbstractStack
 {
     protected $conf 	                = NULL;
     protected $lang 		            = NULL;

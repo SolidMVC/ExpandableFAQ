@@ -69,7 +69,7 @@ final class MainController
         if(is_null($this->confWithoutRouting))
         {
             // $confWithoutRouting is not NULL
-            add_action('admin_notices', array(&$this, 'displayConfWithoutRoutingIsNullNotice'));
+            add_action('admin_notices', array($this, 'displayConfWithoutRoutingIsNullNotice'));
             if(StaticValidator::wpDebugLog())
             {
                 $this->logConfWithoutRoutingIsNullNotice(__CLASS__ ."::". __FUNCTION__);
@@ -79,7 +79,7 @@ final class MainController
         if(!is_null($this->confWithoutRouting) && version_compare($this->confWithoutRouting->getCurrentPHP_Version(), $this->confWithoutRouting->getRequiredPHP_Version(), '>=') === FALSE)
         {
             // PHP version does not meet plugin requirements
-            add_action('admin_notices', array(&$this, 'displayPHP_VersionRequirementNotice'));
+            add_action('admin_notices', array($this, 'displayPHP_VersionRequirementNotice'));
             if(StaticValidator::wpDebugLog())
             {
                 $this->logPHP_VersionRequirementNotice(__CLASS__ ."::". __FUNCTION__);
@@ -89,7 +89,7 @@ final class MainController
         if(!is_null($this->confWithoutRouting) && version_compare($this->confWithoutRouting->getCurrentWP_Version(), $this->confWithoutRouting->getRequiredWP_Version(), '>=') === FALSE)
         {
             // WordPress version does not meet plugin requirements
-            add_action('admin_notices', array(&$this, 'displayWPVersionRequirementNotice'));
+            add_action('admin_notices', array($this, 'displayWPVersionRequirementNotice'));
             if(StaticValidator::wpDebugLog())
             {
                 $this->logWPVersionRequirementNotice(__CLASS__ ."::". __FUNCTION__);
@@ -105,12 +105,12 @@ final class MainController
         {
             // Load dependencies
             $objAutoload = new AutoLoad($this->confWithoutRouting);
-            spl_autoload_register(array(&$objAutoload, 'includeClassFile'));
+            spl_autoload_register(array($objAutoload, 'includeClassFile'));
             static::$dependenciesLoaded = TRUE;
         } else
         {
             // Dependencies are not loaded!
-            add_action('admin_notices', array(&$this, 'displayDependenciesAreNotLoadedNotice'));
+            add_action('admin_notices', array($this, 'displayDependenciesAreNotLoadedNotice'));
             if(StaticValidator::wpDebugLog())
             {
                 $this->logDependenciesAreNotLoadedNotice(__CLASS__ ."::". __FUNCTION__);
@@ -125,12 +125,12 @@ final class MainController
         // NOTE #2: Only check here for routing definition, nothing else, or install will crash
         if(!is_null($this->confWithoutRouting))
         {
-            register_activation_hook($this->confWithoutRouting->getPluginPathWithFilename(), array(&$this, 'networkOrSingleActivate'));
-            register_deactivation_hook($this->confWithoutRouting->getPluginPathWithFilename(), array(&$this, 'networkDeactivate'));
-            add_filter('network_admin_plugin_action_links_'.$this->confWithoutRouting->getPluginBasename(), array(&$this, 'modifyNetworkActionLinks'));
-            add_filter('plugin_action_links_'.$this->confWithoutRouting->getPluginBasename(), array(&$this, 'modifyActionLinks'));
+            register_activation_hook($this->confWithoutRouting->getPluginPathWithFilename(), array($this, 'networkOrSingleActivate'));
+            register_deactivation_hook($this->confWithoutRouting->getPluginPathWithFilename(), array($this, 'networkDeactivate'));
+            add_filter('network_admin_plugin_action_links_'.$this->confWithoutRouting->getPluginBasename(), array($this, 'modifyNetworkActionLinks'));
+            add_filter('plugin_action_links_'.$this->confWithoutRouting->getPluginBasename(), array($this, 'modifyActionLinks'));
             // Add links bellow plugin description
-            add_filter('plugin_row_meta', array(&$this, 'modifyInfoLinks'), 10, 2);
+            add_filter('plugin_row_meta', array($this, 'modifyInfoLinks'), 10, 2);
         }
     }
 
@@ -150,32 +150,32 @@ final class MainController
             if(is_admin() || is_network_admin())
             {
                 // Add network admin menu items
-                add_action('network_admin_menu', array(&$this, 'loadNetworkAdmin'));
+                add_action('network_admin_menu', array($this, 'loadNetworkAdmin'));
                 // Remove admin footer text
-                add_filter('admin_footer_text', array(&$this, 'removeAdminFooterText'));
+                add_filter('admin_footer_text', array($this, 'removeAdminFooterText'));
                 // Remove network admin footer text
-                add_filter('network_admin_menu', array(&$this, 'removeAdminFooterVersion'));
+                add_filter('network_admin_menu', array($this, 'removeAdminFooterVersion'));
             }
             if(is_admin())
             {
                 // Note! Initialize the two lines bellow for every extension!
                 // ATTENTION: This is *only* done during plugin activation hook!
-                // register_activation_hook($this->coreConf->getPluginPathWithFilename(), array(&$this, 'validate'));
-                // register_deactivation_hook($this->coreConf->getPluginPathWithFilename(), array(&$this, 'deactivate'));
+                // register_activation_hook($this->coreConf->getPluginPathWithFilename(), array($this, 'validate'));
+                // register_deactivation_hook($this->coreConf->getPluginPathWithFilename(), array($this, 'deactivate'));
 
                 // Add network / regular admin menu items
-                add_action('admin_menu', array(&$this, 'loadAdmin'));
+                add_action('admin_menu', array($this, 'loadAdmin'));
                 // Remove admin footer text
-                add_filter('admin_footer_text', array(&$this, 'removeAdminFooterText'));
+                add_filter('admin_footer_text', array($this, 'removeAdminFooterText'));
                 // Remove admin footer text
-                add_filter('admin_menu', array(&$this, 'removeAdminFooterVersion'));
+                add_filter('admin_menu', array($this, 'removeAdminFooterVersion'));
             }
 
             //
             // 5. New blog creation hook
             // 'wpmu_new_blog' is an action triggered whenever a new blog is created within a multisite network
             //
-            add_action( 'wpmu_new_blog', array(&$this, 'newBlogAdded'), 10, 6);
+            add_action( 'wpmu_new_blog', array($this, 'newBlogAdded'), 10, 6);
 
             //
             // 6. Blog deletion hook (fired every time when new blog is deleted in multisite)
@@ -187,12 +187,12 @@ final class MainController
             // https://developer.wordpress.org/reference/hooks/delete_blog/
             // Fires before a site is deleted.
             //
-            add_action('delete_blog', array(&$this, 'newBlogDeleted'), 10, 6);
+            add_action('delete_blog', array($this, 'newBlogDeleted'), 10, 6);
 
             //
             // 7. Run on init - internationalization, custom post type and visitor session registration
             //
-            add_action('init', array(&$this, 'runOnInit'), 0);
+            add_action('init', array($this, 'runOnInit'), 0);
         }
     }
 
@@ -702,7 +702,7 @@ final class MainController
                 $objMenuController = new \ExpandableFAQ\Controllers\Admin\NetworkMenuController($conf, $lang);
 
                 // Enqueue global main JS
-                add_action( 'admin_head', array(&$objAssetController, 'enqueueMandatoryPlainJS'));
+                add_action('admin_head', array($objAssetController, 'enqueueMandatoryPlainJS'));
                 // First - register network admin scripts
                 $objAssetController->registerScripts();
                 // Second - register network admin styles
@@ -713,7 +713,7 @@ final class MainController
                 // Print a warning if sessions are not supported in the server, and suggest to use _COOKIES instead
                 if(session_status() == PHP_SESSION_DISABLED)
                 {
-                    add_action('admin_notices', array(&$this, 'displaySessionsAreDisabledInServerNotice'));
+                    add_action('admin_notices', array($this, 'displaySessionsAreDisabledInServerNotice'));
                     if(StaticValidator::wpDebugLog())
                     {
                         $this->logSessionsAreDisabledInServerNotice(__CLASS__ ."::". __FUNCTION__);
@@ -763,7 +763,7 @@ final class MainController
                 $objMenuController = new \ExpandableFAQ\Controllers\Admin\SingleMenuController($conf, $lang);
 
                 // Enqueue global main JS
-                add_action( 'admin_head', array(&$objAssetController, 'enqueueMandatoryPlainJS'));
+                add_action('admin_head', array($objAssetController, 'enqueueMandatoryPlainJS'));
                 // First - register single-site admin scripts
                 $objAssetController->registerScripts();
                 // Second - register single-site admin styles
@@ -782,7 +782,7 @@ final class MainController
                 // Print a warning if sessions are not supported in the server, and suggest to use _COOKIE
                 if(session_status() == PHP_SESSION_DISABLED)
                 {
-                    add_action('admin_notices', array(&$this, 'displaySessionsAreDisabledInServerNotice'));
+                    add_action('admin_notices', array($this, 'displaySessionsAreDisabledInServerNotice'));
                     if(StaticValidator::wpDebugLog())
                     {
                         $this->logSessionsAreDisabledInServerNotice(__CLASS__ ."::". __FUNCTION__);
@@ -849,14 +849,14 @@ final class MainController
                 $objAssetController = new \ExpandableFAQ\Controllers\Front\AssetController($conf, $lang);
 
                 // Process only if the plugin is installed, is updated to the latest version and there is data for this extension on this blog
-                if ($objStatus->checkPluginDataExists($conf->getPluginSemver()))
+                if ($objStatus->checkPluginDataExistsOf($conf->getPluginSemver()))
                 {
                     // Register post types
                     // Note: it hooks to 'init' so that the post type registration would not be necessarily executed.
                     // INFO: NOTHING for this plugin - it does not use any custom post types
 
                     // Enqueue global main JS
-                    add_action( 'wp_head', array(&$objAssetController, 'enqueueMandatoryPlainJS'));
+                    add_action( 'wp_head', array($objAssetController, 'enqueueMandatoryPlainJS'));
                     // Enqueue global mandatory scripts
                     $objAssetController->enqueueMandatoryScripts();
                     // Enqueue global mandatory styles
@@ -873,7 +873,7 @@ final class MainController
                     //         to postpone the adding of our shortcode until WordPress has been initialized.
                     //         So it is recommended to add it inside a hook for init action.
                     // @see -  https://developer.wordpress.org/plugins/shortcodes/basic-shortcodes/#in-a-plugin
-                    add_shortcode($conf->getShortcode(), array(&$this, 'parseShortcode'));
+                    add_shortcode($conf->getShortcode(), array($this, 'parseShortcode'));
                 }
             } catch (\Exception $e)
             {
@@ -914,7 +914,7 @@ final class MainController
                 $objShortcodeController = new \ExpandableFAQ\Controllers\Front\ShortcodeController($conf, $lang);
 
                 // Process only if the plugin is installed and there is data for this blog
-                if ($objStatus->checkPluginDataExists($conf->getPluginSemver()))
+                if ($objStatus->checkPluginDataExistsOf($conf->getPluginSemver()))
                 {
                     // Finally - parse the shortcode
                     $retContent = $objShortcodeController->parse($attributes);
@@ -1030,7 +1030,7 @@ final class MainController
      */
     public function __clone()
     {
-        add_action('admin_notices', array(&$this, 'displayCloningIsForbiddenNotice'));
+        add_action('admin_notices', array($this, 'displayCloningIsForbiddenNotice'));
         if(StaticValidator::wpDebugLog())
         {
             $this->logCloningIsForbiddenNotice(__CLASS__ ."::". __FUNCTION__);
@@ -1047,7 +1047,7 @@ final class MainController
      */
     public function __wakeup()
     {
-        add_action('admin_notices', array(&$this, 'displayUnserializingIsForbiddenNotice'));
+        add_action('admin_notices', array($this, 'displayUnserializingIsForbiddenNotice'));
         if(StaticValidator::wpDebugLog())
         {
             $this->logUnserializingIsForbiddenNotice(__CLASS__ ."::". __FUNCTION__);
@@ -1374,8 +1374,8 @@ final class MainController
             $validMethodName = esc_html($paramMethodName);
             $validErrorMessage = esc_html($paramErrorMessage);
 
-            // 'add_action('admin_notices', ...)' doesn't always work (maybe due to fact, that 'admin_notices' has to be registered not later than X point in code)
-
+            // NOTE: add_action('admin_notices', ...); doesn't always work - maybe due to fact, that 'admin_notices'
+            //       has to be registered not later than X point in code. So we use '_doing_it_wrong' instead
             // Works
             if(!is_null($this->confWithoutRouting))
             {

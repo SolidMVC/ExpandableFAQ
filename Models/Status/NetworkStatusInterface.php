@@ -33,19 +33,29 @@ interface NetworkStatusInterface
 
     /**
      * @note1 - This function maintains backwards compatibility to SMVC 6.0.0 and newer
-     * @note2 - This function says if there are plugin struct
+     * @note2 - This function says if there are plugin struct of required semver
      * @param string $paramRequiredPluginSemver
      * @return bool
      */
-    public function checkPluginDB_StructExists($paramRequiredPluginSemver);
+    public function checkPluginDB_StructExistsOf($paramRequiredPluginSemver);
+
+    /**
+     * Differently to "Exists of semver" class method, this class method is based
+     * on existence of compatible data in some blog
+     *
+     * @note1 - This function maintains backwards compatibility to SMVC 6.0.0 and newer
+     * @note2 - This function says if the data exists for at least one extension of required semver
+     * @return bool
+     */
+    public function checkPluginCompatibleDataExistsInSomeBlog();
 
     /**
      * @note1 - This function maintains backwards compatibility to SMVC 6.0.0 and newer
-     * @note2 - This function says if there data exists for at least one extension
+     * @note2 - This function says if the data exists for at least one extension of required semver
      * @param string $paramRequiredPluginSemver
      * @return bool
      */
-    public function checkPluginDataExistsInSomeBlog($paramRequiredPluginSemver);
+    public function checkPluginDataExistsInSomeBlogOf($paramRequiredPluginSemver);
 
     /**
      * @note - This function maintains backwards compatibility to SMVC 6.0.0 and newer

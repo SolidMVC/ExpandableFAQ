@@ -49,7 +49,7 @@ final class StaticFile
 
     /**
      * @param $uploadedImageFile
-     * @param $paramUploadsPathWithoutEndSlash
+     * @param string $paramUploadsPathWithoutEndSlash
      * @param string $paramFilePrefix
      * @return string
      */

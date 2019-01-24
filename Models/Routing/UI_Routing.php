@@ -112,22 +112,22 @@ final class UI_Routing implements RoutingInterface
             // NOTE #1: If the folder is not in the plugin folder, then the folder name has a 'Rental' prefix
             // NOTE #2: Common URL check should always go after extension URL check,
             //          because otherwise we would not be able to create a common template in a child theme, that would override the rest designs
-            $uiURLInCurrentTheme = get_stylesheet_directory_uri().'/'.$this->themeUI_FolderName.'/';
-            $uiURLInParentTheme = get_template_directory_uri().'/'.$this->themeUI_FolderName.'/';
-            $uiURLInPluginFolder = $this->pluginURL.'UI/';
+            $uiURL_InCurrentTheme = get_stylesheet_directory_uri().'/'.$this->themeUI_FolderName.'/';
+            $uiURL_InParentTheme = get_template_directory_uri().'/'.$this->themeUI_FolderName.'/';
+            $uiURL_InPluginFolder = $this->pluginURL.'UI/';
 
             if(is_readable($uiPathInCurrentTheme.$validRelativePathAndFile))
             {
                 // First - check for <THEME_UI_FOLDER_NAME>/<folder in current theme's folder
-                $ret = $uiURLInCurrentTheme; // URL
+                $ret = $uiURL_InCurrentTheme; // URL
             } else if($uiPathInCurrentTheme != $uiPathInParentTheme && is_readable($uiPathInParentTheme.$validRelativePathAndFile))
             {
                 // Third - check for <THEME_UI_FOLDER_NAME>/ folder in parent theme's folder
-                $ret = $uiURLInParentTheme; // URL
+                $ret = $uiURL_InParentTheme; // URL
             } else if(is_readable($uiPathInPluginFolder.$validRelativePathAndFile))
             {
                 // Fifth - check for UI/ folder in local plugin folder
-                $ret = $uiURLInPluginFolder; // URL
+                $ret = $uiURL_InPluginFolder; // URL
             }
 
             // Save URL to cache for future use
@@ -136,9 +136,9 @@ final class UI_Routing implements RoutingInterface
             if($this->debugMode == 1)
             {
                 echo "<br /><br /><strong>[Routing] Checking getExtURL(&#39;".$validRelativeURL_AndFile."&#39;) dirs:</strong>";
-                echo "<br />[Routing] Target UI URL in current theme: ".$uiURLInCurrentTheme.$validRelativeURL_AndFile;
-                echo "<br />[Routing] Target UI URL in parent theme: ".$uiURLInParentTheme.$validRelativeURL_AndFile;
-                echo "<br />[Routing] Target UI URL in plugin folder: ".$uiURLInPluginFolder.$validRelativeURL_AndFile;
+                echo "<br />[Routing] Target UI URL in current theme: ".$uiURL_InCurrentTheme.$validRelativeURL_AndFile;
+                echo "<br />[Routing] Target UI URL in parent theme: ".$uiURL_InParentTheme.$validRelativeURL_AndFile;
+                echo "<br />[Routing] Target UI URL in plugin folder: ".$uiURL_InPluginFolder.$validRelativeURL_AndFile;
                 echo "<br />[Routing] Returned URL: ".$ret;
             }
         } else

@@ -44,10 +44,10 @@ final class AssetController
             $dataTablesLangFilename = 'English.json';
         }
 
-        $extVars = array(
+        $pluginVars = array(
             'DATATABLES_LANG_URL' => $this->conf->getRouting()->get3rdPartyAssetsURL($dataTablesRelURL.$dataTablesLangFilename, TRUE),
         );
-        $extLang = array(
+        $pluginLang = array(
             'LANG_FAQ_DELETING_DIALOG_TEXT' => $this->lang->getPrint('LANG_FAQ_DELETING_DIALOG_TEXT'),
         );
 
@@ -60,8 +60,8 @@ final class AssetController
             <?php
         }
         ?>
-        <script type="text/javascript"><?=$this->conf->getPluginJS_ClassPrefix();?>Vars = <?=json_encode($extVars, JSON_FORCE_OBJECT);?>;</script>
-        <script type="text/javascript"><?=$this->conf->getPluginJS_ClassPrefix();?>Lang = <?=json_encode($extLang, JSON_FORCE_OBJECT);?>;</script>
+        <script type="text/javascript"><?=$this->conf->getPluginJS_ClassPrefix();?>Vars = <?=json_encode($pluginVars, JSON_FORCE_OBJECT);?>;</script>
+        <script type="text/javascript"><?=$this->conf->getPluginJS_ClassPrefix();?>Lang = <?=json_encode($pluginLang, JSON_FORCE_OBJECT);?>;</script>
         <?php
     }
 

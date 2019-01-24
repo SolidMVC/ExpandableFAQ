@@ -22,6 +22,13 @@ final class NetworkStatus extends AbstractStack implements StackInterface, Netwo
     private $lang 		    = NULL;
     private $debugMode 	    = 0;
 
+    /**
+     * CAUTION! Be careful when using echo debug, as this class is used in ajax requests,
+     *          so only if it is links display call, or 'die()' is called afterwards, the echoing will work as expected.
+     * @var int
+     */
+    private $echoDebug 	    = 0;
+
     public function __construct(ConfigurationInterface &$paramConf, LanguageInterface &$paramLang)
     {
         // Set class settings
@@ -37,31 +44,41 @@ final class NetworkStatus extends AbstractStack implements StackInterface, Netwo
 
     /**
      * Additional links to show in network plugins manager
+     * NOTE: As this is non-extensions based plugin, there is no data network-populate / network-drop data links
+     *       if the plugin is network-enabled
      * @return array
      */
     public function getAdditionalActionLinks()
     {
         $retLinks = array();
 
-        if($this->isAllBlogsWithPluginDataUpToDate())
+        // RULE #1: The "Populate data" link is shown if plugin struct exists of latest semver, but the data - don't,
+        //          and there is no compatible data at all for this extension in some blog.
+        // RULE #2: The "Drop data" link is shown only if the extension data exists and is up to date in database for all blogs
+        $allBlogsWithPluginDataUpToDate = $this->isAllBlogsWithPluginDataUpToDate();
+        if(($this->checkPluginDB_StructExistsOf($this->conf->getPluginSemver()) && $this->checkPluginCompatibleDataExistsInSomeBlog() === FALSE) || $allBlogsWithPluginDataUpToDate)
         {
-            // Additional links to show if the plugin is up-to-date
-            if($this->checkPluginDataExistsInSomeBlog($this->conf->getPluginSemver()))
+            // Additional links to show if the plugin has up to date database structure and no compatible plugin data in some blog,
+            // or if the plugin is up-to-date
+            if($allBlogsWithPluginDataUpToDate && $this->checkPluginDataExistsInSomeBlogOf($this->conf->getPluginSemver()))
             {
                 // Show additional locally-enabled plugin links only if the plugin is up-to-date, and has existing extension data for Blog ID=X
-                $networkDropDataPageUrl = admin_url('admin.php?page='.$this->conf->getPluginURL_Prefix().'network-status&drop_data=1&noheader=true');
-                $retLinks[] = '<a href="'.$networkDropDataPageUrl.'">'.$this->lang->getPrint('LANG_SETTINGS_DROP_DATA_TEXT').'</a>';
+                $networkDropDataPageURL = admin_url('admin.php?page='.$this->conf->getPluginURL_Prefix().'network-status&drop_data=1&noheader=true');
+                $retLinks[] = '<a href="'.$networkDropDataPageURL.'">'.$this->lang->getPrint('LANG_SETTINGS_DROP_DATA_TEXT').'</a>';
             } else
             {
                 // Show additional locally-enabled plugin links only if the plugin is up-to-date, and doesn't have existing extension data for Blog ID=X
-                $networkPopulateDataPageUrl = admin_url('admin.php?page='.$this->conf->getPluginURL_Prefix().'network-status&populate_data=1&noheader=true');
-                $retLinks[] = '<a href="'.$networkPopulateDataPageUrl.'">'.$this->lang->getPrint('LANG_SETTINGS_POPULATE_DATA_TEXT').'</a>';
+                $networkPopulateDataPageURL = admin_url('admin.php?page='.$this->conf->getPluginURL_Prefix().'network-status&populate_data=1&noheader=true');
+                $retLinks[] = '<a href="'.$networkPopulateDataPageURL.'">'.$this->lang->getPrint('LANG_SETTINGS_POPULATE_DATA_TEXT').'</a>';
             }
-        } else if($this->canUpdatePluginDataInSomeBlog())
+        }
+
+        // NOTE: This link has to be in separate if statement
+        if($allBlogsWithPluginDataUpToDate === FALSE && $this->canUpdatePluginDataInSomeBlog())
         {
             // Show the network-update link, but only if it is allowed to update from current version
-            $networkUpdatePageUrl = admin_url('admin.php?page='.$this->conf->getPluginURL_Prefix().'network-status&update=1');
-            $retLinks[] = '<a href="'.$networkUpdatePageUrl.'">'.$this->lang->getPrint('LANG_UPDATE_TEXT').'</a>';
+            $networkUpdatePageURL = admin_url('admin.php?page='.$this->conf->getPluginURL_Prefix().'network-status&update=1');
+            $retLinks[] = '<a href="'.$networkUpdatePageURL.'">'.$this->lang->getPrint('LANG_UPDATE_TEXT').'</a>';
         }
 
         return $retLinks;
@@ -79,8 +96,8 @@ final class NetworkStatus extends AbstractStack implements StackInterface, Netwo
         if($this->isAllBlogsWithPluginDataUpToDate())
         {
             // Show additional info links only if the plugin is up-to-date
-            $statusUrl = admin_url('admin.php?page='.$this->conf->getPluginURL_Prefix().'network-status');
-            $retLinks[] = '<a href="'.$statusUrl.'">'.$this->lang->getPrint('LANG_STATUS_TEXT').'</a>';
+            $statusURL = admin_url('admin.php?page='.$this->conf->getPluginURL_Prefix().'network-status');
+            $retLinks[] = '<a href="'.$statusURL.'">'.$this->lang->getPrint('LANG_STATUS_TEXT').'</a>';
         }
 
         return $retLinks;
@@ -117,11 +134,11 @@ final class NetworkStatus extends AbstractStack implements StackInterface, Netwo
 
     /**
      * @note1 - This function maintains backwards compatibility to SMVC 6.0.0 and newer
-     * @note2 - This function says if there are plugin struct
+     * @note2 - This function says if there are plugin struct of required semver
      * @param string $paramRequiredPluginSemver
      * @return bool
      */
-    public function checkPluginDB_StructExists($paramRequiredPluginSemver)
+    public function checkPluginDB_StructExistsOf($paramRequiredPluginSemver)
     {
         $tableExists = FALSE;
         $columnExists = FALSE;
@@ -145,22 +162,60 @@ final class NetworkStatus extends AbstractStack implements StackInterface, Netwo
             $structText = $structExist ? "Yes" : "No";
             $tableText = $tableExists ? "Yes" : "No";
             $columnText = $columnExists ? "Yes" : "No";
-            $debugMessage = "Debug: checkPluginDB_StructExists(): {$structText} (Table - {$tableText}, Column - {$columnText})<br />";
+            $debugMessage = "Debug: checkPluginDB_StructExistsOf(): {$structText} (Table - {$tableText}, Column - {$columnText})<br />";
             $this->debugMessages[] = $debugMessage;
-            // Do not echo here, as this class is used for ajax
-            // echo "<br />".$debugMessage;
+            if($this->echoDebug)
+            {
+                echo "<br />".$debugMessage;
+            }
         }
 
         return $structExist;
     }
+    /**
+     * Differently to "Exists of semver" class method, this class method is based
+     * on existence of compatible data in some blog
+     *
+     * @note1 - This function maintains backwards compatibility to SMVC 6.0.0 and newer
+     * @note2 - This function says if the data exists of required semver
+     * @return bool
+     */
+    public function checkPluginCompatibleDataExistsInSomeBlog()
+    {
+        $retExists = FALSE;
+        $sqlQuery = "";
+
+        if($this->checkV600SettingsTableExists() && $this->checkV600BlogIdColumnExists())
+        {
+            // We are testing SMVC V6.0.0 or later database version
+            // Note: SELECT 1 is not supported by WordPress, PHP, or get_var, so it has to be an exact field name
+            $sqlQuery = "SELECT conf_key FROM {$this->conf->getPrefix()}settings WHERE 1";
+            $hasSettings = $this->conf->getInternalWPDB()->get_var($sqlQuery, 0, 0);
+            // NS plugin is installed or not for this blog_id
+            $retExists = !is_null($hasSettings) ? TRUE : FALSE;
+        }
+
+        // DEBUG
+        if($this->debugMode)
+        {
+            $debugMessage = "Debug: checkPluginDataExistsInSomeBlogOf(): ".($retExists ? "Yes" : "No")."<br />SQL: {$sqlQuery}<br />";
+            $this->debugMessages[] = $debugMessage;
+            if($this->echoDebug)
+            {
+                echo "<br />".$debugMessage;
+            }
+        }
+
+        return $retExists;
+    }
 
     /**
      * @note1 - This function maintains backwards compatibility to SMVC 6.0.0 and newer
-     * @note2 - This function says if there data exists for at least one extension
+     * @note2 - This function says if the data exists in some blog of required semver
      * @param string $paramRequiredPluginSemver
      * @return bool
      */
-    public function checkPluginDataExistsInSomeBlog($paramRequiredPluginSemver)
+    public function checkPluginDataExistsInSomeBlogOf($paramRequiredPluginSemver)
     {
         $retExists = FALSE;
         $sqlQuery = "";
@@ -179,10 +234,12 @@ final class NetworkStatus extends AbstractStack implements StackInterface, Netwo
         // DEBUG
         if($this->debugMode)
         {
-            $debugMessage = "Debug: checkPluginDataExistsInSomeBlog(): ".($retExists ? "Yes" : "No")."<br />SQL: {$sqlQuery}<br />";
+            $debugMessage = "Debug: checkPluginDataExistsInSomeBlogOf(): ".($retExists ? "Yes" : "No")."<br />SQL: {$sqlQuery}<br />";
             $this->debugMessages[] = $debugMessage;
-            // Do not echo here, as this class is used for ajax
-            // echo "<br />".$debugMessage;
+            if($this->echoDebug)
+            {
+                echo "<br />".$debugMessage;
+            }
         }
 
         return $retExists;
@@ -318,9 +375,12 @@ final class NetworkStatus extends AbstractStack implements StackInterface, Netwo
         $isUpToDate = version_compare($minPluginSemverInDatabase, $codeSemver, '==') ? TRUE : FALSE;
 
         // DEBUG
-        //echo "MIN. DB SEMVER: {$minPluginSemverInDatabase}<br />";
-        //echo "CODE SEMVER: {$codeSemver}<br />";
-        //echo "ALL BLOGS IS UP TO DATE: {$isUpToDate}<br />";
+        if($this->debugMode >= 2 && $this->echoDebug)
+        {
+            echo "[isAllBlogsWithPluginDataUpToDate()] MIN. DB SEMVER: {$minPluginSemverInDatabase}<br />";
+            echo "[isAllBlogsWithPluginDataUpToDate()] CODE SEMVER: {$codeSemver}<br />";
+            echo "[isAllBlogsWithPluginDataUpToDate()] ALL BLOGS IS UP TO DATE: {$isUpToDate}<br />";
+        }
 
         return $isUpToDate;
     }
@@ -340,9 +400,12 @@ final class NetworkStatus extends AbstractStack implements StackInterface, Netwo
         }
 
         // DEBUG
-        //echo "MIN DB SEMVER: {$minPluginSemverInDatabase}<br />";
-        //echo "CODE SEMVER: {$codeSemver}<br />";
-        //echo "UPDATE EXISTS: ".var_export($canUpdate, TRUE)."<br />";
+        if($this->debugMode >= 2 && $this->echoDebug)
+        {
+            echo "[checkPluginUpdateExistsForSomeBlog()] MIN DB SEMVER: {$minPluginSemverInDatabase}<br />";
+            echo "[checkPluginUpdateExistsForSomeBlog()] CODE SEMVER: {$codeSemver}<br />";
+            echo "[checkPluginUpdateExistsForSomeBlog()] UPDATE EXISTS: ".var_export($canUpdate, TRUE)."<br />";
+        }
 
         return $canUpdate;
     }
@@ -360,13 +423,17 @@ final class NetworkStatus extends AbstractStack implements StackInterface, Netwo
         {
             $canUpdate = TRUE;
         }
-        return $canUpdate;
 
         // DEBUG
-        //echo "MIN DB SEMVER: {$minPluginSemverInDatabase}<br />";
-        //echo "OLDEST-COMPAT SEMVER: {$oldestCompatibleSemver}<br />";
-        //echo "CODE SEMVER: {$codeSemver}<br />";
-        //echo "UPDATE EXISTS: ".var_export($canUpdate, TRUE)."<br />";
+        if($this->debugMode >= 2 && $this->echoDebug)
+        {
+            echo "[checkPluginUpdateExistsForSomeBlog()] MIN DB SEMVER: {$minPluginSemverInDatabase}<br />";
+            echo "[checkPluginUpdateExistsForSomeBlog()] OLDEST-COMPAT SEMVER: {$oldestCompatibleSemver}<br />";
+            echo "[checkPluginUpdateExistsForSomeBlog()] CODE SEMVER: {$codeSemver}<br />";
+            echo "[checkPluginUpdateExistsForSomeBlog()] UPDATE EXISTS: ".var_export($canUpdate, TRUE)."<br />";
+        }
+
+        return $canUpdate;
     }
 
     /**

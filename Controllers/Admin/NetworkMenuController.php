@@ -39,11 +39,11 @@ final class NetworkMenuController
         // For admins only - update_plugins are official WordPress role for updates
         add_menu_page(
             $this->lang->getPrint('LANG_MENU_ACCORDION_FAQ_TEXT'), $this->lang->getPrint('LANG_MENU_ACCORDION_FAQ_TEXT'),
-            "update_plugins", "{$URLPrefix}network-menu", array(&$this, "printNetworkStatus"), $iconURL, $validMenuPosition
+            "update_plugins", "{$URLPrefix}network-menu", array($this, "printNetworkStatus"), $iconURL, $validMenuPosition
         );
             add_submenu_page(
                 "{$URLPrefix}network-menu", $this->lang->getPrint('LANG_STATUS_NETWORK_TEXT'), $this->lang->getPrint('LANG_STATUS_NETWORK_TEXT'),
-                "update_plugins", "{$URLPrefix}network-status", array(&$this, "printNetworkStatus")
+                "update_plugins", "{$URLPrefix}network-status", array($this, "printNetworkStatus")
             );
         remove_submenu_page("{$URLPrefix}network-menu", "{$URLPrefix}network-menu");
     }

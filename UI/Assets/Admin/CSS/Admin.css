@@ -346,8 +346,8 @@ div.car-expandable-faq-settings-admin input[type="submit"],
 div.car-expandable-faq-settings-admin input[type="button"],
 div.car-expandable-faq-status-admin input[type="submit"],
 div.car-expandable-faq-status-admin input[type="button"],
-div.car-expandable-faq-demo-admin input[type="submit"],
-div.car-expandable-faq-demo-admin input[type="button"] {
+div.car-expandable-faq-demos-admin input[type="submit"],
+div.car-expandable-faq-demos-admin input[type="button"] {
     cursor: pointer;
     text-align: center;
     font-weight: bold;
@@ -366,8 +366,8 @@ div.car-expandable-faq-settings-admin input[type="submit"]:hover,
 div.car-expandable-faq-settings-admin input[type="button"]:hover,
 div.car-expandable-faq-status-admin input[type="submit"]:hover,
 div.car-expandable-faq-status-admin input[type="button"]:hover,
-div.car-expandable-faq-demo-admin input[type="submit"]:hover,
-div.car-expandable-faq-demo-admin input[type="button"]:hover {
+div.car-expandable-faq-demos-admin input[type="submit"]:hover,
+div.car-expandable-faq-demos-admin input[type="button"]:hover {
     color: white;
     background-color: #2DA5DA;
 }
@@ -566,12 +566,12 @@ div.car-expandable-faq-status-admin select {
     line-height: 38px;
 }
 /************************ DEMOS ************************/
-.car-expandable-faq-demo-admin div.typography ul
+.car-expandable-faq-demos-admin div.typography ul
 {
     margin-top: 10px;
     margin-bottom: 20px;
 }
-.car-expandable-faq-demo-admin div.typography pre
+.car-expandable-faq-demos-admin div.typography pre
 {
     margin-top: 5px;
     padding-top: 5px;

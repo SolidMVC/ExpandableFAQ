@@ -16,4 +16,4 @@ $arrReplaceSQL = array();
 $arrPluginReplaceSQL = array();
 
 $arrPluginReplaceSQL['settings'] = "(`conf_key`, `conf_value`, `conf_translatable`, `blog_id`) VALUES
-('conf_load_font_awesome_from_plugin', '0', '0', [BLOG_ID])";
+('conf_load_font_awesome_from_plugin', '1', '0', [BLOG_ID])";

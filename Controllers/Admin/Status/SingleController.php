@@ -1,5 +1,6 @@
 <?php
 /**
+ * NOTE: As this is non-extension based plugin, we only allow to populate / drop data of single plugin's instance if it is network-enabled
  * @package ExpandableFAQ
  * @author KestutisIT
  * @copyright KestutisIT
@@ -13,7 +14,8 @@ use ExpandableFAQ\Models\Install\Install;
 use ExpandableFAQ\Models\Language\LanguageInterface;
 use ExpandableFAQ\Models\Cache\StaticSession;
 use ExpandableFAQ\Models\Status\SingleStatus;
-use ExpandableFAQ\Models\Update\Database60Z;
+use ExpandableFAQ\Models\Update\SinglePatchesObserver;
+use ExpandableFAQ\Models\Update\SingleUpdatesObserver;
 use ExpandableFAQ\Models\Validation\StaticValidator;
 use ExpandableFAQ\Views\PageView;
 
@@ -38,14 +40,18 @@ final class SingleController
      */
     public function processPopulateData()
     {
-        // INFO: As this is non-extensions based plugin, we only allow to populate data of single plugin's instance if it is network-enabled
+
+        // Set defaults
+        $completed = TRUE;
+
+        // NOTE: As this is non-extensions based plugin, we only allow to populate data of single plugin's instance if it is network-enabled
         if($this->conf->isNetworkEnabled())
         {
             // Create mandatory instances
             $objStatus = new SingleStatus($this->conf, $this->lang, $this->conf->getBlogId());
 
             // We only allow to populate the data if the newest plugin database struct exists
-            if ($objStatus->checkPluginDB_StructExists($this->conf->getPluginSemver()))
+            if ($objStatus->checkPluginDB_StructExistsOf($this->conf->getPluginSemver()))
             {
                 $objInstaller = new InstallController($this->conf, $this->lang, $this->conf->getBlogId());
 
@@ -57,8 +63,25 @@ final class SingleController
                 $objInstaller->setContent();
                 $objInstaller->replaceResettableContent();
                 $objInstaller->registerAllForTranslation();
+            } else
+            {
+                $completed = FALSE;
             }
+        } else
+        {
+            $completed = FALSE;
         }
+
+        if($completed === FALSE)
+        {
+            // Failed
+            wp_safe_redirect(admin_url('plugins.php'));
+        } else
+        {
+            // Completed
+            wp_safe_redirect(admin_url('plugins.php?completed=1'));
+        }
+        exit;
     }
 
     /**
@@ -66,7 +89,10 @@ final class SingleController
      */
     public function processDropData()
     {
-        // INFO: As this is non-extensions based plugin, we only allow to drop data of single plugin's instance if it is network-enabled
+        // Set defaults
+        $completed = TRUE;
+
+        // NOTE: As this is non-extensions based plugin, we only allow to drop data of single plugin's instance if it is network-enabled
         if($this->conf->isNetworkEnabled())
         {
             // Delete any old table content if exists
@@ -81,22 +107,48 @@ final class SingleController
                         StaticSession::cacheHTMLArray('admin_debug_message', $objTable->getDebugMessages());
                         // We don't process okay messages here
                         StaticSession::cacheValueArray('admin_error_message', $objTable->getErrorMessages());
+                    } else
+                    {
+                        $completed = FALSE;
                     }
+                } else
+                {
+                    $completed = FALSE;
                 }
             }
-            // Delete any old WP posts if exists
-            // INFO: NOTHING for plugin - it does not use any custom post types
-            // NOTE: To void a errors on WordPress page deletion error, we skip exception raising for them
+        } else
+        {
+            $completed = FALSE;
         }
+
+        // Delete any old WP posts if exists
+        // INFO: NOTHING for plugin - it does not use any custom post types
+        // NOTE: To void a errors on WordPress page deletion error, we skip exception raising for them
+
+        if($completed === FALSE)
+        {
+            // Failed
+            wp_safe_redirect(admin_url('plugins.php'));
+        } else
+        {
+            // Completed
+            wp_safe_redirect(admin_url('plugins.php?completed=1'));
+        }
+        exit;
     }
 
+    /**
+     * @throws \Exception
+     */
     private function processUpdate()
     {
         // Create mandatory instances
         $objStatus = new SingleStatus($this->conf, $this->lang, $this->conf->getBlogId());
+        $objUpdatesObserver = new SingleUpdatesObserver($this->conf, $this->lang);
+        $objPatchesObserver = new SinglePatchesObserver($this->conf, $this->lang);
 
         // Allow only one update at-a-time per site refresh. We need that to save resources of server to not to get to timeout phase
-        $updated = FALSE;
+        $semverUpdated = FALSE;
         $pluginSemverInDatabase = $objStatus->getPluginSemverInDatabase();
         $latestSemver = $this->conf->getPluginSemver();
 
@@ -109,25 +161,30 @@ final class SingleController
             if(version_compare($pluginSemverInDatabase, $latestSemver, '=='))
             {
                 // It's a last version
-                $updated = TRUE;
+                $semverUpdated = TRUE;
             }
 
-            // Run patches
+            // Run 6.0.Z patches
             if(version_compare($pluginSemverInDatabase, '6.0.0', '>=') && version_compare($pluginSemverInDatabase, '6.1.0', '<'))
             {
-                $objDBUpdate = new Database60Z($this->conf, $this->lang, $this->conf->getBlogId());
-                $patched = $objDBUpdate->patchData();
-                if($patched)
-                {
-                    $updated = $objDBUpdate->updateDatabaseSemver();
-                }
+                $semverUpdated = $objPatchesObserver->doPatch(6, 0);
             }
+
+            // Cache update messages
+            StaticSession::cacheHTMLArray('admin_debug_message', $objUpdatesObserver->getSavedDebugMessages());
+            StaticSession::cacheValueArray('admin_okay_message', $objUpdatesObserver->getSavedOkayMessages());
+            StaticSession::cacheValueArray('admin_error_message', $objUpdatesObserver->getSavedErrorMessages());
+
+            // Cache patch messages
+            StaticSession::cacheHTMLArray('admin_debug_message', $objPatchesObserver->getSavedDebugMessages());
+            StaticSession::cacheValueArray('admin_okay_message', $objPatchesObserver->getSavedOkayMessages());
+            StaticSession::cacheValueArray('admin_error_message', $objPatchesObserver->getSavedErrorMessages());
         }
 
         // Check if plugin is up-to-date
         $pluginUpToDate = $objStatus->isPluginDataUpToDateInDatabase();
 
-        if($updated === FALSE || $pluginUpToDate === FALSE)
+        if($semverUpdated === FALSE || $pluginUpToDate === FALSE)
         {
             // Failed or if there is more updates to go
             wp_safe_redirect('admin.php?page='.$this->conf->getPluginURL_Prefix().'single-status&tab=status');

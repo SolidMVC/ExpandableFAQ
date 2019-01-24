@@ -115,10 +115,18 @@ final class AssetController
         if(defined('SCRIPT_DEBUG') && SCRIPT_DEBUG)
         {
             // Debug style
+
+            // 1. Font-Awesome styles
+            // NOTE: In front-end, Font-Awesome should be always loaded by default from the plugin after install / demo import,
+            //       as if we load it from the theme, after theme's update it will fail to keep up with FA version.
             wp_register_style('font-awesome', $this->conf->getRouting()->get3rdPartyAssetsURL('font-awesome/css/font-awesome.css'));
         } else
         {
             // Regular style
+
+            // 1. Font-Awesome styles
+            // NOTE: In front-end, Font-Awesome should be always loaded by default from the plugin after install / demo import,
+            //       as if we load it from the theme, after theme's update it will fail to keep up with FA version.
             wp_register_style('font-awesome', $this->conf->getRouting()->get3rdPartyAssetsURL('font-awesome/css/font-awesome.min.css'));
         }
 

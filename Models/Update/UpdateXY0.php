@@ -1,12 +1,12 @@
 <?php
 /**
  * Update class
- * NOTE: This is a boilerplate class, so please replace DatabaseXYZ with exact major ("X") and minor ("Y"), i.e. "Database70"
+ * NOTE: This is a boilerplate class, so please replace UpdateXY0 with exact major ("X") and minor ("Y"), i.e. "Update700"
  *
- * @package InventoryManagementSystem
- * @author Kestutis Matuliauskas
- * @copyright Kestutis Matuliauskas
- * @license See Legal/License.txt for details.
+ * @package ExpandableFAQ
+ * @author KestutisIT
+ * @copyright KestutisIT
+ * @license MIT License. See Legal/License.txt for details.
  */
 namespace ExpandableFAQ\Models\Update;
 use ExpandableFAQ\Models\Configuration\ConfigurationInterface;
@@ -14,15 +14,20 @@ use ExpandableFAQ\Models\StackInterface;
 use ExpandableFAQ\Models\Language\LanguageInterface;
 use ExpandableFAQ\Models\Validation\StaticValidator;
 
-final class DatabaseXYZ extends AbstractUpdate implements StackInterface, UpdateInterface
+final class UpdateXY0 extends AbstractDatabase implements StackInterface, UpdateInterface
 {
     const NEW_MAJOR = 7; // Positive integer [X]
     const NEW_MINOR = 0; // Positive integer [Y]
-    const LATEST_PATCH = 0; // Positive integer [Z]
+    // NOTE: No patch here for updates. For updates the patch is always '0'
     const LATEST_RELEASE = ''; // String
     const LATEST_BUILD_METADATA = ''; // String
     const PLUGIN_PREFIX = "expandable_faq_";
 
+    /**
+     * @param ConfigurationInterface $paramConf
+     * @param LanguageInterface $paramLang
+     * @param int $paramBlogId
+     */
     public function __construct(ConfigurationInterface &$paramConf, LanguageInterface &$paramLang, $paramBlogId)
     {
         parent::__construct($paramConf, $paramLang, $paramBlogId);
@@ -129,27 +134,6 @@ final class DatabaseXYZ extends AbstractUpdate implements StackInterface, Update
     }
 
     /**
-     * @return bool
-     */
-    public function patchData()
-    {
-        // NOTHING HERE
-        $patched = TRUE;
-
-        // $arrSQL = array();
-        //$patched = $this->executeQueries($arrSQL);
-        //if($patched === FALSE)
-        //{
-        //    $this->errorMessages[] = sprintf($this->lang->getPrint('LANG_DATABASE_UPDATE_DATA_PATCH_ERROR_TEXT'), $this->blogId);
-        //} else
-        //{
-        //    $this->okayMessages[] = sprintf($this->lang->getPrint('LANG_DATABASE_UPDATE_DATA_PATCHED_TEXT'), $this->blogId);
-        //}
-
-        return $patched;
-    }
-
-    /**
      * NOTE: This method has to be in update class of specific update, because settings table itself,
      *       and it's columns can change over a time as well
      * @return bool
@@ -159,7 +143,8 @@ final class DatabaseXYZ extends AbstractUpdate implements StackInterface, Update
         $updated = FALSE;
         $validBlogId = StaticValidator::getValidPositiveInteger($this->blogId, 0);
 
-        $newSemver = static::NEW_MAJOR.'.'.static::NEW_MINOR.'.'.static::LATEST_PATCH;
+        // NOTE: For updates the patch is always 0
+        $newSemver = static::NEW_MAJOR.'.'.static::NEW_MINOR.'.0';
         $newSemver .= static::LATEST_RELEASE != "" ? "-".static::LATEST_RELEASE : "";
         $newSemver .= static::LATEST_BUILD_METADATA != "" ? "+".static::LATEST_BUILD_METADATA : "";
 
