@@ -139,7 +139,12 @@
 .modern-tabs > .modern-tab-content-7:checked ~ ul > .modern-tab-content-7,
 .modern-tabs > .modern-tab-content-8:checked ~ ul > .modern-tab-content-8,
 .modern-tabs > .modern-tab-content-9:checked ~ ul > .modern-tab-content-9,
-.modern-tabs > .modern-tab-content-10:checked ~ ul > .modern-tab-content-10 {
+.modern-tabs > .modern-tab-content-10:checked ~ ul > .modern-tab-content-10,
+.modern-tabs > .modern-tab-content-11:checked ~ ul > .modern-tab-content-11,
+.modern-tabs > .modern-tab-content-12:checked ~ ul > .modern-tab-content-12,
+.modern-tabs > .modern-tab-content-13:checked ~ ul > .modern-tab-content-13,
+.modern-tabs > .modern-tab-content-14:checked ~ ul > .modern-tab-content-14,
+.modern-tabs > .modern-tab-content-15:checked ~ ul > .modern-tab-content-15 {
 	position: relative;
 	z-index: 1;
 	opacity: 1;
@@ -291,7 +296,12 @@
 .modern-tabs > .modern-tab-content-7:checked ~ ul > .modern-tab-content-7,
 .modern-tabs > .modern-tab-content-8:checked ~ ul > .modern-tab-content-8,
 .modern-tabs > .modern-tab-content-9:checked ~ ul > .modern-tab-content-9,
-.modern-tabs > .modern-tab-content-10:checked ~ ul > .modern-tab-content-10 {
+.modern-tabs > .modern-tab-content-10:checked ~ ul > .modern-tab-content-10,
+.modern-tabs > .modern-tab-content-11:checked ~ ul > .modern-tab-content-11,
+.modern-tabs > .modern-tab-content-12:checked ~ ul > .modern-tab-content-12,
+.modern-tabs > .modern-tab-content-13:checked ~ ul > .modern-tab-content-13,
+.modern-tabs > .modern-tab-content-14:checked ~ ul > .modern-tab-content-14,
+.modern-tabs > .modern-tab-content-15:checked ~ ul > .modern-tab-content-15 {
 	-o-transform: translate(0,0);
 	-ms-transform: translate(0,0);
 	-moz-transform: translate(0,0);
@@ -313,7 +323,12 @@
 .modern-tabs-anim-scale > .modern-tab-content-7:checked ~ ul > .modern-tab-content-7,
 .modern-tabs-anim-scale > .modern-tab-content-8:checked ~ ul > .modern-tab-content-8,
 .modern-tabs-anim-scale > .modern-tab-content-9:checked ~ ul > .modern-tab-content-9,
-.modern-tabs-anim-scale > .modern-tab-content-10:checked ~ ul > .modern-tab-content-10 {
+.modern-tabs-anim-scale > .modern-tab-content-10:checked ~ ul > .modern-tab-content-10,
+.modern-tabs-anim-scale > .modern-tab-content-11:checked ~ ul > .modern-tab-content-11,
+.modern-tabs-anim-scale > .modern-tab-content-12:checked ~ ul > .modern-tab-content-12,
+.modern-tabs-anim-scale > .modern-tab-content-13:checked ~ ul > .modern-tab-content-13,
+.modern-tabs-anim-scale > .modern-tab-content-14:checked ~ ul > .modern-tab-content-14,
+.modern-tabs-anim-scale > .modern-tab-content-15:checked ~ ul > .modern-tab-content-15 {
 	-o-transform: scale(1,1);
 	-ms-transform: scale(1,1);
 	-moz-transform: scale(1,1);
@@ -342,7 +357,12 @@
 .modern-tabs-anim-rotate > .modern-tab-content-7:checked ~ ul > .modern-tab-content-7,
 .modern-tabs-anim-rotate > .modern-tab-content-8:checked ~ ul > .modern-tab-content-8,
 .modern-tabs-anim-rotate > .modern-tab-content-9:checked ~ ul > .modern-tab-content-9,
-.modern-tabs-anim-rotate > .modern-tab-content-10:checked ~ ul > .modern-tab-content-10 {
+.modern-tabs-anim-rotate > .modern-tab-content-10:checked ~ ul > .modern-tab-content-10,
+.modern-tabs-anim-rotate > .modern-tab-content-11:checked ~ ul > .modern-tab-content-11,
+.modern-tabs-anim-rotate > .modern-tab-content-12:checked ~ ul > .modern-tab-content-12,
+.modern-tabs-anim-rotate > .modern-tab-content-13:checked ~ ul > .modern-tab-content-13,
+.modern-tabs-anim-rotate > .modern-tab-content-14:checked ~ ul > .modern-tab-content-14,
+.modern-tabs-anim-rotate > .modern-tab-content-15:checked ~ ul > .modern-tab-content-15 {
 	-o-transform: rotate(0deg);
 	-ms-transform: rotate(0deg);
 	-moz-transform: rotate(0deg);
@@ -388,7 +408,12 @@
 .modern-tabs-anim-flip > .modern-tab-content-7:checked ~ ul > .modern-tab-content-7,
 .modern-tabs-anim-flip > .modern-tab-content-8:checked ~ ul > .modern-tab-content-8,
 .modern-tabs-anim-flip > .modern-tab-content-9:checked ~ ul > .modern-tab-content-9,
-.modern-tabs-anim-flip > .modern-tab-content-10:checked ~ ul > .modern-tab-content-10 {
+.modern-tabs-anim-flip > .modern-tab-content-10:checked ~ ul > .modern-tab-content-10,
+.modern-tabs-anim-flip > .modern-tab-content-11:checked ~ ul > .modern-tab-content-11,
+.modern-tabs-anim-flip > .modern-tab-content-12:checked ~ ul > .modern-tab-content-12,
+.modern-tabs-anim-flip > .modern-tab-content-13:checked ~ ul > .modern-tab-content-13,
+.modern-tabs-anim-flip > .modern-tab-content-14:checked ~ ul > .modern-tab-content-14,
+.modern-tabs-anim-flip > .modern-tab-content-15:checked ~ ul > .modern-tab-content-15 {
 	-o-transform: rotateX(0deg);
 	-ms-transform: rotateX(0deg);
 	-moz-transform: rotateX(0deg);
