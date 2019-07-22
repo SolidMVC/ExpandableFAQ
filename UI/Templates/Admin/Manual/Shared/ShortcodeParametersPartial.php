@@ -45,7 +45,7 @@ defined( 'ABSPATH' ) or die( 'No script kiddies, please!' );
         <em>(none)</em>
     </li>
     <li>
-        style=&quot;2&quot; - supports any positive integer number from 0 to maximum supported integer (\'PHP_INT_MAX'\)
+        style=&quot;2&quot; - supports any positive integer number from 0 to maximum supported integer (&#39;PHP_INT_MAX&#39;)
     </li>
 </ul>
 
