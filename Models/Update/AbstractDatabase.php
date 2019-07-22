@@ -100,7 +100,7 @@ abstract class AbstractDatabase extends AbstractStack
             $debugMessage = "DB SEMVER: {$databaseSemver}";
             $this->debugMessages[] = $debugMessage;
             // Do not echo here, as this class is used in redirect
-            //echo "<br />".$debugMessage;
+            //echo "<br />".esc_html($debugMessage);
         }
 
         return $databaseSemver;
@@ -142,7 +142,7 @@ abstract class AbstractDatabase extends AbstractStack
             }
             $this->debugMessages[] = $debugMessage;
             // Do not echo here, as this class is used in redirect
-            //echo "<br />".$debugMessage;
+            //echo "<br />".esc_html($debugMessage);
         }
 
         return $updated;

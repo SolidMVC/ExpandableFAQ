@@ -134,10 +134,10 @@ final class FAQsObserver implements ObserverInterface
             }
 
             $retHTML .= '<tr>';
-            $retHTML .= '<td>'.$faqId.'</td>';
+            $retHTML .= '<td>'.esc_html($faqId).'</td>';
             $retHTML .= '<td>'.$questionHMTL.'</td>';
             $retHTML .= '<td>'.$answerHTML.'</td>';
-            $retHTML .= '<td style="text-align: center">'.$faqDetails['faq_order'].'</td>';
+            $retHTML .= '<td style="text-align: center">'.esc_html($faqDetails['faq_order']).'</td>';
             $retHTML .= '<td align="right">';
             if(current_user_can('manage_'.$this->conf->getPluginPrefix().'all_faqs'))
             {

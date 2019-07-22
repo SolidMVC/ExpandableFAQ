@@ -60,13 +60,12 @@ final class AdministratorsObserver implements ObserverInterface
         foreach($arrOjbWPUsers AS $objWPUser)
         {
             $validWPUserId = StaticValidator::getValidPositiveInteger($objWPUser->ID, 0);
-            $printWPUserDisplayName = esc_html($objWPUser->display_name);
             if($validWPUserId == $paramSelectedWPUserId)
             {
-                $retHTML .= '<option value="'.esc_attr($validWPUserId).'" selected="selected">'.$printWPUserDisplayName.'</option>';
+                $retHTML .= '<option value="'.esc_attr($validWPUserId).'" selected="selected">'.esc_html($objWPUser->display_name).'</option>';
             } else
             {
-                $retHTML .= '<option value="'.esc_attr($validWPUserId).'">'.$printWPUserDisplayName.'</option>';
+                $retHTML .= '<option value="'.esc_attr($validWPUserId).'">'.esc_html($objWPUser->display_name).'</option>';
             }
         }
         return $retHTML;

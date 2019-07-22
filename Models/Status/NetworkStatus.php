@@ -196,7 +196,7 @@ final class NetworkStatus extends AbstractStack implements StackInterface, Netwo
         // DEBUG
         if($this->debugMode)
         {
-            $debugMessage = "Debug: checkPluginDataExistsInSomeBlogOf(): ".($retExists ? "Yes" : "No")."<br />SQL: {$sqlQuery}<br />";
+            $debugMessage = "Debug: checkPluginDataExistsInSomeBlogOf(): ".($retExists ? "Yes" : "No")."<br />SQL: ".esc_br_html($sqlQuery)."<br />";
             $this->debugMessages[] = $debugMessage;
             if($this->echoDebug)
             {
@@ -232,7 +232,7 @@ final class NetworkStatus extends AbstractStack implements StackInterface, Netwo
         // DEBUG
         if($this->debugMode)
         {
-            $debugMessage = "Debug: checkPluginDataExistsInSomeBlogOf(): ".($retExists ? "Yes" : "No")."<br />SQL: {$sqlQuery}<br />";
+            $debugMessage = "Debug: checkPluginDataExistsInSomeBlogOf(): ".($retExists ? "Yes" : "No")."<br />SQL: SQL: ".esc_br_html($sqlQuery)."<br />";
             $this->debugMessages[] = $debugMessage;
             if($this->echoDebug)
             {

@@ -26,17 +26,17 @@ final class MainController
     // Because loading of language text is not allowed in the very early time, we use constants to simulate language text behavior, just the text is English
     const LANG_ERROR_CLONING_IS_FORBIDDEN_TEXT = 'Error in __clone() method: Cloning instances of the class in the Rental System is forbidden.';
     const LANG_ERROR_UNSERIALIZING_IS_FORBIDDEN_TEXT = 'Error in __wakeup() method: Unserializing instances of the class in the Rental System is forbidden.';
-    const LANG_ERROR_SESSIONS_ARE_DISABLED_IN_SERVER_TEXT = 'Warning: Sessions are disabled in your server configuration. Please enabled sessions. As a slower &amp; less secure workaround you can use virtual session via cookies, but that is not recommended.';
+    const LANG_ERROR_SESSIONS_ARE_DISABLED_IN_SERVER_TEXT = 'Warning: Sessions are disabled in your server configuration. Please enabled sessions. As a slower & less secure workaround you can use virtual session via cookies, but that is not recommended.';
     const LANG_ERROR_PLEASE_UPGRADE_PHP_TEXT = 'Sorry, %s requires PHP %s or higher. Your current PHP version is %s. Please upgrade your server PHP version.';
     const LANG_ERROR_PLEASE_UPGRADE_WP_TEXT = 'Sorry, %s requires WordPress %s or higher. Your current WordPress version is %s. Please upgrade your WordPress setup.';
-    const LANG_ERROR_EXTENSION_NOT_EXIST_PLUGIN_CHILD_THEME_TEXT = 'Sorry, but %s extension does not exist neither in %s plugin directory, nor in %s child theme folder, nor in it&#39;s parent %s theme&#39;s folder.';
+    const LANG_ERROR_EXTENSION_NOT_EXIST_PLUGIN_CHILD_THEME_TEXT = 'Sorry, but %s extension does not exist neither in %s plugin directory, nor in %s child theme folder, nor in it\'s parent %s theme\'s folder.';
     const LANG_ERROR_EXTENSION_NOT_EXIST_PLUGIN_THEME_TEXT = 'Sorry, but %s extension does not exist neither in %s plugin directory, nor in %s theme folder.';
     const LANG_ERROR_UNKNOWN_NAME_TEXT = 'Unknown name';
     const LANG_ERROR_DEPENDENCIES_ARE_NOT_LOADED_TEXT = 'Dependencies are not loaded';
     const LANG_ERROR_CONF_WITHOUT_ROUTING_IS_NULL_TEXT = '$confWithoutRouting is NULL';
     const LANG_ERROR_CONF_IS_NULL_TEXT = '$conf is NULL';
     const LANG_ERROR_LANG_IS_NULL_TEXT = '$lang is NULL';
-    const LANG_ERROR_IN_METHOD_TEXT = 'Error in &#39;%s&#39; method: %s!';
+    const LANG_ERROR_IN_METHOD_TEXT = 'Error in \'%s\' method: %s!';
 
     // Configuration object reference
     private $confWithoutRouting         = NULL;
@@ -1380,22 +1380,24 @@ final class MainController
     {
         if(StaticValidator::inWP_Debug())
         {
-            // Load errors only in local or global debug mode
-            $validMethodName = esc_html($paramMethodName);
-            $validErrorMessage = esc_html($paramErrorMessage);
-
             // NOTE: add_action('admin_notices', ...); doesn't always work - maybe due to fact, that 'admin_notices'
             //       has to be registered not later than X point in code. So we use '_doing_it_wrong' instead
             // Works
             if(!is_null($this->confWithoutRouting))
             {
-                $validErrorMessage = '<div class="'.$this->confWithoutRouting->getPluginCSS_Prefix().'error"><div id="message" class="error"><p>'.$validErrorMessage.'</p></div></div>';
-                _doing_it_wrong($validMethodName, $validErrorMessage, $this->confWithoutRouting->getPluginSemver());
+                $validErrorMessage = '<div class="'.$this->confWithoutRouting->getPluginCSS_Prefix().'error"><div id="message" class="error"><p>'.esc_html($paramMethodName).'</p></div></div>';
+
+                // Based on WP Coding Standards ticket #341, the WordPress '_doing_it_wrong' method does not escapes the HTML by default,
+                // so this has to be done by us. Read more: https://github.com/WordPress/WordPress-Coding-Standards/pull/341
+                _doing_it_wrong(esc_html($paramMethodName), esc_br_html($validErrorMessage), $this->confWithoutRouting->getPluginSemver());
             } else
             {
                 // $confWithoutRouting is NULL
-                $validErrorMessage = '<div id="message" class="error"><p>'.$validErrorMessage.'</p></div>';
-                _doing_it_wrong($validMethodName, $validErrorMessage, 0.0);
+                $validErrorMessage = '<div id="message" class="error"><p>'.esc_br_html($paramErrorMessage).'</p></div>';
+
+                // Based on WP Coding Standards ticket #341, the WordPress '_doing_it_wrong' method does not escapes the HTML by default,
+                // so this has to be done by us. Read more: https://github.com/WordPress/WordPress-Coding-Standards/pull/341
+                _doing_it_wrong(esc_html($paramMethodName), esc_br_html($validErrorMessage), 0.0);
             }
         }
     }

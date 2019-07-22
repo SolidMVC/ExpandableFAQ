@@ -226,7 +226,7 @@ final class SingleStatus extends AbstractStack implements StackInterface, Single
         // DEBUG
         if($this->debugMode)
         {
-            $debugMessage = "Debug: checkPluginDataExistsOf(): ".($retExists ? "Yes" : "No")."<br />SQL: {$sqlQuery}<br />";
+            $debugMessage = "Debug: checkPluginDataExistsOf(): ".($retExists ? "Yes" : "No")."<br />SQL: ".esc_br_html($sqlQuery)."<br />";
             $this->debugMessages[] = $debugMessage;
             if($this->echoDebug)
             {
@@ -263,7 +263,7 @@ final class SingleStatus extends AbstractStack implements StackInterface, Single
         // DEBUG
         if($this->debugMode)
         {
-            $debugMessage = "Debug: checkPluginDataExistsOf(): ".($retExists ? "Yes" : "No")."<br />SQL: {$sqlQuery}<br />";
+            $debugMessage = "Debug: checkPluginDataExistsOf(): ".($retExists ? "Yes" : "No")."<br />SQL: ".esc_br_html($sqlQuery)."<br />";
             $this->debugMessages[] = $debugMessage;
             if($this->echoDebug)
             {

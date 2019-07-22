@@ -81,7 +81,7 @@ final class PageView
             }
             if($this->debugMode >= 2)
             {
-                echo '<br />Template content:<br />'.$retContent;
+                echo '<br />Template content:<br />'.esc_br_html($retContent);
             }
 
             return $retContent;
