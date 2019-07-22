@@ -1380,24 +1380,26 @@ final class MainController
     {
         if(StaticValidator::inWP_Debug())
         {
+            // Load errors only in local or global debug mode
+
             // NOTE: add_action('admin_notices', ...); doesn't always work - maybe due to fact, that 'admin_notices'
             //       has to be registered not later than X point in code. So we use '_doing_it_wrong' instead
             // Works
             if(!is_null($this->confWithoutRouting))
             {
-                $validErrorMessage = '<div class="'.$this->confWithoutRouting->getPluginCSS_Prefix().'error"><div id="message" class="error"><p>'.esc_html($paramMethodName).'</p></div></div>';
+                $errorMessageHTML = '<div class="'.$this->confWithoutRouting->getPluginCSS_Prefix().'error"><div id="message" class="error"><p>'.esc_html($paramMethodName).'</p></div></div>';
 
-                // Based on WP Coding Standards ticket #341, the WordPress '_doing_it_wrong' method does not escapes the HTML by default,
-                // so this has to be done by us. Read more: https://github.com/WordPress/WordPress-Coding-Standards/pull/341
-                _doing_it_wrong(esc_html($paramMethodName), esc_br_html($validErrorMessage), $this->confWithoutRouting->getPluginSemver());
+                // Based on WP Coding Standards ticket #340, the WordPress '_doing_it_wrong' method does not escapes the HTML by default,
+                // so this has to be done by us. Read more: https://github.com/WordPress/WordPress-Coding-Standards/pull/340
+                _doing_it_wrong(esc_html($paramMethodName), $errorMessageHTML, $this->confWithoutRouting->getPluginSemver());
             } else
             {
                 // $confWithoutRouting is NULL
-                $validErrorMessage = '<div id="message" class="error"><p>'.esc_br_html($paramErrorMessage).'</p></div>';
+                $errorMessageHTML = '<div id="message" class="error"><p>'.esc_br_html($paramErrorMessage).'</p></div>';
 
-                // Based on WP Coding Standards ticket #341, the WordPress '_doing_it_wrong' method does not escapes the HTML by default,
-                // so this has to be done by us. Read more: https://github.com/WordPress/WordPress-Coding-Standards/pull/341
-                _doing_it_wrong(esc_html($paramMethodName), esc_br_html($validErrorMessage), 0.0);
+                // Based on WP Coding Standards ticket #340, the WordPress '_doing_it_wrong' method does not escapes the HTML by default,
+                // so this has to be done by us. Read more: https://github.com/WordPress/WordPress-Coding-Standards/pull/340
+                _doing_it_wrong(esc_html($paramMethodName), $errorMessageHTML, 0.0);
             }
         }
     }

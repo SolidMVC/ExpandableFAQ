@@ -81,11 +81,11 @@ final class NetworkMenuController
             // 'add_action('admin_notices', ...)' doesn't work here (maybe due to fact, that 'admin_notices' has to be registered not later than X point in code)
 
             // Works
-            $sanitizedErrorMessage = '<div id="message" class="error"><p>'.esc_br_html($sanitizedErrorMessage).'</p></div>';
+            $errorMessageHTML = '<div id="message" class="error"><p>'.esc_br_html($sanitizedErrorMessage).'</p></div>';
 
-            // Based on WP Coding Standards ticket #341, the WordPress '_doing_it_wrong' method does not escapes the HTML by default,
-            // so this has to be done by us. Read more: https://github.com/WordPress/WordPress-Coding-Standards/pull/341
-            _doing_it_wrong(esc_html($sanitizedName), esc_br_html($sanitizedErrorMessage), $this->conf->getPluginSemver());
+            // Based on WP Coding Standards ticket #340, the WordPress '_doing_it_wrong' method does not escapes the HTML by default,
+            // so this has to be done by us. Read more: https://github.com/WordPress/WordPress-Coding-Standards/pull/340
+            _doing_it_wrong(esc_html($sanitizedName), $errorMessageHTML, $this->conf->getPluginSemver());
         }
     }
 }
