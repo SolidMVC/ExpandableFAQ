@@ -1387,7 +1387,7 @@ final class MainController
             // Works
             if(!is_null($this->confWithoutRouting))
             {
-                $errorMessageHTML = '<div class="'.$this->confWithoutRouting->getPluginCSS_Prefix().'error"><div id="message" class="error"><p>'.esc_html($paramMethodName).'</p></div></div>';
+                $errorMessageHTML = '<div class="'.$this->confWithoutRouting->getPluginCSS_Prefix().'error"><div id="message" class="error"><p>'.esc_br_html($paramErrorMessage).'</p></div></div>';
 
                 // Based on WP Coding Standards ticket #340, the WordPress '_doing_it_wrong' method does not escapes the HTML by default,
                 // so this has to be done by us. Read more: https://github.com/WordPress/WordPress-Coding-Standards/pull/340
