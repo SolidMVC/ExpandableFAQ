@@ -43,9 +43,7 @@ final class AssetController
 	public function registerScripts()
 	{
         // Register scripts for further use - in file_exists we must use PATH, and in register_script we must use URL
-
-        $filename = $this->conf->getPluginJS_ClassPrefix().'Main.js';
-        wp_register_script($this->conf->getPluginHandlePrefix().'main', $this->conf->getRouting()->getFrontJS_URL($filename), array('jquery'), '1.0', TRUE);
+        wp_register_script($this->conf->getPluginHandlePrefix().'main', $this->conf->getRouting()->getFrontJS_URL('ExpandableFAQ_Main.js'), array('jquery'), '1.0', TRUE);
 	}
 
     public function enqueueMandatoryStyles()

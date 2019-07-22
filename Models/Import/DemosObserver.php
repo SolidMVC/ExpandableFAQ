@@ -108,7 +108,7 @@ final class DemosObserver implements PrimitiveObserverInterface
         return $retDemos;
     }
 
-    public function getDropdownOptions($paramSelectedDemoId = 0, $paramDefaultValue = 0, $paramDefaultLabel = "")
+    public function getTrustedDropdownOptionsHTML($paramSelectedDemoId = 0, $paramDefaultValue = 0, $paramDefaultLabel = "")
     {
         $validDefaultValue = StaticValidator::getValidPositiveInteger($paramDefaultValue, 0);
         $sanitizedDefaultLabel = sanitize_text_field($paramDefaultLabel);
@@ -116,10 +116,10 @@ final class DemosObserver implements PrimitiveObserverInterface
         $retHTML = '';
         if($paramSelectedDemoId == $validDefaultValue)
         {
-            $retHTML .= '<option value="'.$validDefaultValue.'" selected="selected">'.$sanitizedDefaultLabel.'</option>';
+            $retHTML .= '<option value="'.esc_attr($validDefaultValue).'" selected="selected">'.esc_html($sanitizedDefaultLabel).'</option>';
         } else
         {
-            $retHTML .= '<option value="'.$validDefaultValue.'">'.$sanitizedDefaultLabel.'</option>';
+            $retHTML .= '<option value="'.esc_attr($validDefaultValue).'">'.esc_html($sanitizedDefaultLabel).'</option>';
         }
         $allDemos = $this->getAll();
         foreach ($allDemos AS $demo)
@@ -128,10 +128,10 @@ final class DemosObserver implements PrimitiveObserverInterface
             {
                 if($demo['demo_id'] == $paramSelectedDemoId)
                 {
-                    $retHTML .= '<option value="'.$demo['demo_id'].'" selected="selected">'.$demo['demo_name'].'</option>';
+                    $retHTML .= '<option value="'.esc_attr($demo['demo_id']).'" selected="selected">'.$demo['demo_name'].'</option>';
                 } else
                 {
-                    $retHTML .= '<option value="'.$demo['demo_id'].'">'.$demo['demo_name'].'</option>';
+                    $retHTML .= '<option value="'.esc_attr($demo['demo_id']).'">'.$demo['demo_name'].'</option>';
                 }
             }
         }

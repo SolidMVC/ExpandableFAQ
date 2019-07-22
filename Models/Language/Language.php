@@ -138,35 +138,86 @@ final class Language implements LanguageInterface
         {
             // Get print value, with line-breaks support
             $sanitizedValueArray = array_map('sanitize_text_field', explode("\n", $paramValue));
-            $escapedValueArray = array_map('esc_html', $sanitizedValueArray);
-            $printValue = implode("\n", $escapedValueArray);
+            $sanitizedMultilineValue = implode("\n", $sanitizedValueArray);
 
             // Assign the language internally
-            $this->lang[$sanitizedKey] = $printValue;
+            $this->lang[$sanitizedKey] = $sanitizedMultilineValue;
         }
     }
 
     /**
+     * NOTE #1: Supports multiline text
+     * NOTE #2: Unescaped
      * @param string $paramKey
      * @return string
      */
-    public function getPrint($paramKey)
+    public function getText($paramKey)
     {
         // Get valid key
         $validKey = strtoupper(sanitize_key($paramKey));
-        $retPrint = "";
+        $retText = "";
         if(strlen($validKey) > 0)
         {
             if(isset($this->lang[$validKey]))
             {
-                $retPrint = $this->lang[$validKey];
+                $retText = $this->lang[$validKey];
             } else
             {
-                $retPrint = sprintf(static::LANG_ERROR_LANGUAGE_KEY_S_DO_NOT_EXIST_TEXT, $validKey);
+                $retText = sprintf(static::LANG_ERROR_LANGUAGE_KEY_S_DO_NOT_EXIST_TEXT, $validKey);
             }
         }
 
-        return $retPrint;
+        return $retText;
+    }
+
+    /**
+     * NOTE: Just an abbreviation method
+     * @param $paramKey
+     * @return string
+     */
+    public function escSQL($paramKey)
+    {
+        return esc_sql($this->getText($paramKey));
+    }
+
+    /**
+     * NOTE: Just an abbreviation method
+     * @param $paramKey
+     * @return string
+     */
+    public function escAttr($paramKey)
+    {
+        return esc_attr($this->getText($paramKey));
+    }
+
+    /**
+     * NOTE: Just an abbreviation method
+     * @param $paramKey
+     * @return string
+     */
+    public function escHTML($paramKey)
+    {
+        return esc_html($this->getText($paramKey));
+    }
+
+    /**
+     * NOTE: Just an abbreviation method
+     * @param $paramKey
+     * @return string
+     */
+    public function escJS($paramKey)
+    {
+        return esc_js($this->getText($paramKey));
+    }
+
+    /**
+     * NOTE: Just an abbreviation method
+     * @param $paramKey
+     * @return string
+     */
+    public function escTextarea($paramKey)
+    {
+        return esc_textarea($this->getText($paramKey));
     }
 
     /**
@@ -305,6 +356,7 @@ final class Language implements LanguageInterface
             $sanitizedValue = sanitize_text_field($paramValue);
 
             // WPML - Register string for translation with WMPL
+            // TODO: Check for multiline WPML support
             do_action('wpml_register_single_string', $this->textDomain, $sanitizedKey, $sanitizedValue);
         }
     }

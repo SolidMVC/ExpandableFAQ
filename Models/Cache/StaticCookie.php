@@ -15,28 +15,28 @@ final class StaticCookie implements StaticCacheInterface
      * @param string $paramKey
      * @param array $paramHTMLs
      */
-    public static function cacheHTMLArray($paramKey, array $paramHTMLs)
+    public static function cacheHTML_Array($paramKey, array $paramHTMLs)
     {
         $sanitizedKey = sanitize_key($paramKey);
-        $arrKsesedHTMLs = array();
+        $ksesedHTMLs = array();
         foreach($paramHTMLs AS $paramHTML)
         {
             // HTML is allowed here
-            $arrKsesedHTMLs[] = wp_kses_post($paramHTML);
+            $ksesedHTMLs[] = wp_kses_post($paramHTML);
         }
 
-        if(sizeof($arrKsesedHTMLs) > 0)
+        if(sizeof($ksesedHTMLs) > 0)
         {
             if(isset($_COOKIE[$sanitizedKey]))
             {
                 // Cache in cookie for 24 hours for entire domain
-                $cookieValue = $_COOKIE[$sanitizedKey].'<br />'.implode('<br />', $arrKsesedHTMLs);
-                setcookie("TestCookie", $cookieValue, time()+3600*24, '/');
+                $cookieValue = $_COOKIE[$sanitizedKey].'<br />'.implode('<br />', $ksesedHTMLs);
+                setcookie("CacheCookie", $cookieValue, time()+3600*24, '/');
             } else
             {
                 // Cache in cookie for 24 hours for entire domain
-                $cookieValue = implode('<br />', $arrKsesedHTMLs);
-                setcookie("TestCookie", $cookieValue, time()+3600*24, '/');
+                $cookieValue = implode('<br />', $ksesedHTMLs);
+                setcookie("CacheCookie", $cookieValue, time()+3600*24, '/');
             }
         }
     }
@@ -61,13 +61,15 @@ final class StaticCookie implements StaticCacheInterface
             if(isset($_COOKIE[$sanitizedKey]))
             {
                 // Cache in cookie for 24 hours for entire domain
-                $cookieValue = $_COOKIE[$sanitizedKey].'<br />'.implode('<br />', $arrSanitizedValues);
-                setcookie("TestCookie", $cookieValue, time()+3600*24, '/');
+                // NOTE: '\n' char is used here, to support esc_br_html later
+                $cookieValue = $_COOKIE[$sanitizedKey]."\n".implode("\n", $arrSanitizedValues);
+                setcookie("CacheCookie", $cookieValue, time()+3600*24, '/');
             } else
             {
                 // Cache in cookie for 24 hours for entire domain
-                $cookieValue = implode('<br />', $arrSanitizedValues);
-                setcookie("TestCookie", $cookieValue, time()+3600*24, '/');
+                // NOTE: '\n' char is used here, to support esc_br_html later
+                $cookieValue = implode("\n", $arrSanitizedValues);
+                setcookie("CacheCookie", $cookieValue, time()+3600*24, '/');
             }
         }
     }
@@ -87,12 +89,12 @@ final class StaticCookie implements StaticCacheInterface
             {
                 // Cache in cookie for 24 hours for entire domain
                 $cookieValue = $_COOKIE[$sanitizedKey].'<br />'.$ksesedHTML;
-                setcookie("TestCookie", $cookieValue, time()+3600*24, '/');
+                setcookie("CacheCookie", $cookieValue, time()+3600*24, '/');
             } else
             {
                 // Cache in cookie for 24 hours for entire domain
                 $cookieValue = $ksesedHTML;
-                setcookie("TestCookie", $cookieValue, time()+3600*24, '/');
+                setcookie("CacheCookie", $cookieValue, time()+3600*24, '/');
             }
         }
     }
@@ -110,7 +112,8 @@ final class StaticCookie implements StaticCacheInterface
         {
             if(isset($_COOKIE[$sanitizedKey]))
             {
-                $_COOKIE[$sanitizedKey] .= '<br />'.$sanitizedValue;
+                // NOTE: '\n' char is used here, to support esc_br_html later
+                $_COOKIE[$sanitizedKey] .= "\n".$sanitizedValue;
             } else
             {
                 $_COOKIE[$sanitizedKey] = $sanitizedValue;
@@ -118,13 +121,14 @@ final class StaticCookie implements StaticCacheInterface
             if(isset($_COOKIE[$sanitizedKey]))
             {
                 // Cache in cookie for 24 hours for entire domain
-                $cookieValue = $_COOKIE[$sanitizedKey].'<br />'.$sanitizedValue;
-                setcookie("TestCookie", $cookieValue, time()+3600*24, '/');
+                // NOTE: '\n' char is used here, to support esc_br_html later
+                $cookieValue = $_COOKIE[$sanitizedKey]."\n".$sanitizedValue;
+                setcookie("CacheCookie", $cookieValue, time()+3600*24, '/');
             } else
             {
                 // Cache in cookie for 24 hours for entire domain
                 $cookieValue = $sanitizedValue;
-                setcookie("TestCookie", $cookieValue, time()+3600*24, '/');
+                setcookie("CacheCookie", $cookieValue, time()+3600*24, '/');
             }
         }
     }
@@ -133,20 +137,14 @@ final class StaticCookie implements StaticCacheInterface
      * @param string $paramKey
      * @return string
      */
-    public static function getHTMLOnce($paramKey)
+    public static function getKsesedHTML_Once($paramKey)
     {
         $retHTML = "";
         $sanitizedKey = sanitize_key($paramKey);
         if(isset($_COOKIE[$sanitizedKey]))
         {
-            $arrRAW_HTMLs = explode("<br />", $_COOKIE[$sanitizedKey]);
-            $arrHTMLs = array();
-            foreach($arrRAW_HTMLs AS $rawHTML)
-            {
-                // HTML is allowed here
-                $arrHTMLs[] = wp_kses_post($rawHTML);
-            }
-            $retHTML = implode("<br />", $arrHTMLs);
+            // No exploding needed here
+            $retHTML = wp_kses_post($_SESSION[$sanitizedKey]);
 
             // All done with cookie - now unset it
             unset($_COOKIE[$sanitizedKey]);
@@ -157,6 +155,7 @@ final class StaticCookie implements StaticCacheInterface
     }
 
     /**
+     * NOTE: Unescaped
      * @param string $paramKey
      * @return string
      */
@@ -166,14 +165,9 @@ final class StaticCookie implements StaticCacheInterface
         $sanitizedKey = sanitize_key($paramKey);
         if(isset($_COOKIE[$sanitizedKey]))
         {
-            $arrRAW_Values = explode("<br />", $_COOKIE[$sanitizedKey]);
-            $arrValues = array();
-            foreach($arrRAW_Values AS $rawValue)
-            {
-                // Only text is allowed
-                $arrValues[] = esc_html(sanitize_text_field($rawValue));
-            }
-            $retValue = implode("<br />", $arrValues);
+            // Only text is allowed for each value
+            // NOTE: '\n' char is used here, to support esc_br_html later
+            $retValue = implode("\n", array_map('sanitize_text_field', explode("\n", $_SESSION[$sanitizedKey])));
 
             // All done with cookie - now unset it
             unset($_COOKIE[$sanitizedKey]);
@@ -186,6 +180,7 @@ final class StaticCookie implements StaticCacheInterface
     /**
      * Array cache method - optimized for faster array use
      * @param string $paramKey
+     * @return void
      */
     public static function unsetKey($paramKey)
     {

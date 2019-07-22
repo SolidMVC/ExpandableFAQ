@@ -38,30 +38,32 @@ final class AssetController
     {
         $dataTablesRelPath = 'DataTables'.DIRECTORY_SEPARATOR.'Plugins'.DIRECTORY_SEPARATOR.'i18n'.DIRECTORY_SEPARATOR;
         $dataTablesRelURL = 'DataTables/Plugins/i18n/';
-        $dataTablesLangFilename = $this->lang->getPrint('DATATABLES_LANG').'.json';
+        $dataTablesLangFilename = $this->lang->getText('DATATABLES_LANG').'.json';
         if(is_readable($this->conf->getRouting()->get3rdPartyAssetsPath($dataTablesRelPath.$dataTablesLangFilename)) === FALSE)
         {
             $dataTablesLangFilename = 'English.json';
         }
 
         $pluginVars = array(
-            'DATATABLES_LANG_URL' => $this->conf->getRouting()->get3rdPartyAssetsURL($dataTablesRelURL.$dataTablesLangFilename, TRUE),
+            // NOTE: As this is a JS context, we should use 'esc_js' instead of 'esc_url' even for URL JS var,
+            //       See for more information: https://wordpress.stackexchange.com/a/13580/45227
+            'DATATABLES_LANG_URL' => esc_js($this->conf->getRouting()->get3rdPartyAssetsURL($dataTablesRelURL.$dataTablesLangFilename, TRUE)),
         );
         $pluginLang = array(
-            'LANG_FAQ_DELETING_DIALOG_TEXT' => $this->lang->getPrint('LANG_FAQ_DELETING_DIALOG_TEXT'),
+            'LANG_FAQ_DELETING_DIALOG_TEXT' => $this->lang->escJS('LANG_FAQ_DELETING_DIALOG_TEXT'),
         );
 
         if(static::$mandatoryPlainJSInitialized === FALSE)
         {
             static::$mandatoryPlainJSInitialized = TRUE;
             ?>
-            <script type="text/javascript">var <?=$this->conf->getPluginJS_ClassPrefix();?>Vars;</script>
-            <script type="text/javascript">var <?=$this->conf->getPluginJS_ClassPrefix();?>Lang;</script>
+            <script type="text/javascript">var ExpandableFAQ_Vars;</script>
+            <script type="text/javascript">var ExpandableFAQ_Lang;</script>
             <?php
         }
         ?>
-        <script type="text/javascript"><?=$this->conf->getPluginJS_ClassPrefix();?>Vars = <?=json_encode($pluginVars, JSON_FORCE_OBJECT);?>;</script>
-        <script type="text/javascript"><?=$this->conf->getPluginJS_ClassPrefix();?>Lang = <?=json_encode($pluginLang, JSON_FORCE_OBJECT);?>;</script>
+        <script type="text/javascript">ExpandableFAQ_Vars = <?=json_encode($pluginVars, JSON_FORCE_OBJECT);?>;</script>
+        <script type="text/javascript">ExpandableFAQ_Lang = <?=json_encode($pluginLang, JSON_FORCE_OBJECT);?>;</script>
         <?php
     }
 
@@ -91,8 +93,7 @@ final class AssetController
         wp_register_script('jquery-validate', $this->conf->getRouting()->get3rdPartyAssetsURL('jquery-validation/jquery.validate.js'));
 
         // 3. NS Admin script
-        $filename = $this->conf->getPluginJS_ClassPrefix().'Admin.js';
-        wp_register_script($this->conf->getPluginHandlePrefix().'admin', $this->conf->getRouting()->getAdminJS_URL($filename), array(), '1.0', TRUE);
+        wp_register_script($this->conf->getPluginHandlePrefix().'admin', $this->conf->getRouting()->getAdminJS_URL('ExpandableFAQ_Admin.js'), array(), '1.0', TRUE);
     }
 
     public function registerStyles()

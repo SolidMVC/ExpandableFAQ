@@ -62,14 +62,12 @@ final class NetworkStatus extends AbstractStack implements StackInterface, Netwo
             // or if the plugin is up-to-date
             if($allBlogsWithPluginDataUpToDate && $this->checkPluginDataExistsInSomeBlogOf($this->conf->getPluginSemver()))
             {
-                // Show additional locally-enabled plugin links only if the plugin is up-to-date, and has existing extension data for Blog ID=X
-                $networkDropDataPageURL = admin_url('admin.php?page='.$this->conf->getPluginURL_Prefix().'network-status&drop_data=1&noheader=true');
-                $retLinks[] = '<a href="'.$networkDropDataPageURL.'">'.$this->lang->getPrint('LANG_SETTINGS_DROP_DATA_TEXT').'</a>';
+                // Show additional network-enabled plugin links only if the plugin is up-to-date, and has existing data in some blog
+                // NOTE: For this plugin no additional links are shown here, all data has to be dropped by going to individual blogs
             } else
             {
-                // Show additional locally-enabled plugin links only if the plugin is up-to-date, and doesn't have existing extension data for Blog ID=X
-                $networkPopulateDataPageURL = admin_url('admin.php?page='.$this->conf->getPluginURL_Prefix().'network-status&populate_data=1&noheader=true');
-                $retLinks[] = '<a href="'.$networkPopulateDataPageURL.'">'.$this->lang->getPrint('LANG_SETTINGS_POPULATE_DATA_TEXT').'</a>';
+                // Show additional network-enabled plugin links only if the plugin is up-to-date, and doesn't have existing data in some blog
+                // NOTE: For this plugin no additional links are shown here, all data has to be populated by going to individual blogs
             }
         }
 
@@ -77,8 +75,8 @@ final class NetworkStatus extends AbstractStack implements StackInterface, Netwo
         if($allBlogsWithPluginDataUpToDate === FALSE && $this->canUpdatePluginDataInSomeBlog())
         {
             // Show the network-update link, but only if it is allowed to update from current version
-            $networkUpdatePageURL = admin_url('admin.php?page='.$this->conf->getPluginURL_Prefix().'network-status&update=1');
-            $retLinks[] = '<a href="'.$networkUpdatePageURL.'">'.$this->lang->getPrint('LANG_UPDATE_TEXT').'</a>';
+            $networkUpdatePageURL = network_admin_url('admin.php?page='.$this->conf->getPluginURL_Prefix().'network-status&update=1');
+            $retLinks[] = '<a href="'.esc_url($networkUpdatePageURL).'">'.$this->lang->escHTML('LANG_UPDATE_TEXT').'</a>';
         }
 
         return $retLinks;
@@ -92,12 +90,12 @@ final class NetworkStatus extends AbstractStack implements StackInterface, Netwo
     {
         $retLinks = array();
 
-        // Additional local links to show, but only if the plugin is network-enabled
+        // Additional links to show in network admin and only if the plugin is network-enabled
         if($this->isAllBlogsWithPluginDataUpToDate())
         {
             // Show additional info links only if the plugin is up-to-date
-            $statusURL = admin_url('admin.php?page='.$this->conf->getPluginURL_Prefix().'network-status');
-            $retLinks[] = '<a href="'.$statusURL.'">'.$this->lang->getPrint('LANG_STATUS_TEXT').'</a>';
+            $networkStatusURL = network_admin_url('admin.php?page='.$this->conf->getPluginURL_Prefix().'network-status');
+            $retLinks[] = '<a href="'.esc_url($networkStatusURL).'">'.$this->lang->escHTML('LANG_STATUS_TEXT').'</a>';
         }
 
         return $retLinks;
@@ -282,6 +280,14 @@ final class NetworkStatus extends AbstractStack implements StackInterface, Netwo
             $arrDatabaseSemvers[] = '0.0.0';
         }
 
+        // DEBUG
+        if($this->debugMode >= 2 && $this->echoDebug)
+        {
+            echo "[getAllPluginSemversInDatabaseDB()] PLUGIN SEMVERS IN DATABASE: ";
+            print_r($arrDatabaseSemvers);
+            echo "<br />";
+        }
+
         return $arrDatabaseSemvers;
     }
 
@@ -294,7 +300,7 @@ final class NetworkStatus extends AbstractStack implements StackInterface, Netwo
         $semvers = $this->getAllPluginSemversInDatabase();
 
         // Select minimum database semver, or, if no semvers found, return the '0.0.0' semver
-        $minSemver = '0.0.0';
+        $minSemver = sizeof($semvers) > 0 ? $semvers[0] : '0.0.0';
         foreach($semvers AS $semver)
         {
             if($semver != "0.0.0" && version_compare($semver, $minSemver, '<'))
@@ -304,24 +310,6 @@ final class NetworkStatus extends AbstractStack implements StackInterface, Netwo
         }
 
         return $minSemver;
-    }
-
-    /**
-     * @note - This function maintains backwards compatibility to SMVC 6.0.0 and newer
-     * @return string
-     */
-    public function getEditMinPluginSemverInDatabase()
-    {
-        return esc_attr($this->getMinPluginSemverInDatabase());
-    }
-
-    /**
-     * @note - This function maintains backwards compatibility to SMVC 6.0.0 and newer
-     * @return string
-     */
-    public function getPrintMinPluginSemverInDatabase()
-    {
-        return esc_html($this->getMinPluginSemverInDatabase());
     }
 
     /**
@@ -343,24 +331,6 @@ final class NetworkStatus extends AbstractStack implements StackInterface, Netwo
         }
 
         return $maxSemver;
-    }
-
-    /**
-     * @note - This function maintains backwards compatibility to SMVC 6.0.0 and newer
-     * @return string
-     */
-    public function getEditMaxPluginSemverInDatabase()
-    {
-        return esc_attr($this->getMaxPluginSemverInDatabase());
-    }
-
-    /**
-     * @note - This function maintains backwards compatibility to SMVC 6.0.0 and newer
-     * @return string
-     */
-    public function getPrintMaxPluginSemverInDatabase()
-    {
-        return esc_html($this->getMaxPluginSemverInDatabase());
     }
 
     /**

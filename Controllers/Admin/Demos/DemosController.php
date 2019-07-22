@@ -28,15 +28,12 @@ final class DemosController extends AbstractController
         // Tab - import demo
         $objDemosObserver = new DemosObserver($this->conf, $this->lang);
         $this->view->importDemoTabFormAction = admin_url('admin.php?page='.$this->conf->getPluginURL_Prefix().'import-demo&noheader=true');
-        $this->view->demosDropdownOptions = $objDemosObserver->getDropdownOptions(0, 0, $this->lang->getPrint('LANG_DEMO_SELECT_TEXT'));
+        $this->view->trustedDemosDropdownOptionsHTML = $objDemosObserver->getTrustedDropdownOptionsHTML(0, 0, $this->lang->getText('LANG_DEMO_SELECT_TEXT'));
 
-        // Get the tab values
-        $tabs = StaticFormatter::getTabParams(array(
+        // 1. Set the view variables - Tabs
+        $this->view->tabs = StaticFormatter::getTabParams(array(
             'demos'
         ), 'demos', isset($_GET['tab']) ? $_GET['tab'] : '');
-
-        // 1. Set the view variables - Tab settings
-        $this->view->demosTabChecked = !empty($tabs['demos']) ? ' checked="checked"' : '';
 
         // Print the template
         $templateRelPathAndFileName = 'Demos'.DIRECTORY_SEPARATOR.'Tabs.php';

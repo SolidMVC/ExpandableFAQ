@@ -64,9 +64,7 @@ final class SettingsObserver implements PrimitiveObserverInterface
 
                     $this->settings[$key] = $value;
                     $this->settings[$key.'_translatable'] = $row['conf_translatable'];
-                    $this->settings['print_'.$key] = esc_html($value);
-                    $this->settings['print_translated_'.$key] = esc_html($translatedValue);
-                    $this->settings['edit_'.$key] = esc_attr($value);
+                    $this->settings['translated_'.$key] = $translatedValue;
                 }
             }
 
@@ -109,67 +107,49 @@ final class SettingsObserver implements PrimitiveObserverInterface
         return $ret;
     }
 
-    public function getPrint($key, $paramDefaultValue = '', $paramTranslated = FALSE)
-    {
-        $ret = sanitize_text_field($paramDefaultValue);
-        $sanitizedKey = sanitize_key($key);
-        if($sanitizedKey != "")
-        {
-            if($paramTranslated == TRUE)
-            {
-                $ret = isset($this->settings['print_translated_'.$sanitizedKey]) ? esc_html($this->settings['print_translated_'.$sanitizedKey]) : esc_html(sanitize_text_field($paramDefaultValue));
-            } else
-            {
-                $ret = isset($this->settings['print_'.$sanitizedKey]) ? esc_html($this->settings['print_'.$sanitizedKey]) : esc_html(sanitize_text_field($paramDefaultValue));
-            }
-        }
-
-        return $ret;
-    }
-
 
     /*****************************************************************************/
     /***************************** SETTINGS SECTION ******************************/
     /*****************************************************************************/
 
     /**
-     * @param int $val
-     * @param string $type - "YES/NO" (DEFAULT), "SHOW/HIDE", "ENABLED/DISABLED"
+     * @param string $paramType - "YES/NO" (DEFAULT), "SHOW/HIDE", "ENABLED/DISABLED"
+     * @param int $paramSelectedValue
      * @return string
      */
-    public function generateOption($val = 0, $type = "YES/NO")
+    public function generateDropdownOptionsHTML($paramType = "YES/NO", $paramSelectedValue = 0)
     {
-        $htmlOption = '';
-        if($type == "SHOW/HIDE")
+        $retHTML = '';
+        if($paramType == "SHOW/HIDE")
         {
-            $arr = array(
-                1 => $this->lang->getPrint('LANG_VISIBLE_TEXT'),
-                0 => $this->lang->getPrint('LANG_HIDDEN_TEXT'),
+            $options = array(
+                1 => $this->lang->getText('LANG_VISIBLE_TEXT'),
+                0 => $this->lang->getText('LANG_HIDDEN_TEXT'),
             );
-        } else if($type == "ENABLED/DISABLED")
+        } else if($paramType == "ENABLED/DISABLED")
         {
-            $arr = array(
-                1 => $this->lang->getPrint('LANG_ENABLED_TEXT'),
-                0 => $this->lang->getPrint('LANG_DISABLED_TEXT'),
+            $options = array(
+                1 => $this->lang->getText('LANG_ENABLED_TEXT'),
+                0 => $this->lang->getText('LANG_DISABLED_TEXT'),
             );
         } else
         {
-            $arr = array(
-                1 => $this->lang->getPrint('LANG_YES_TEXT'),
-                0 => $this->lang->getPrint('LANG_NO_TEXT'),
+            $options = array(
+                1 => $this->lang->getText('LANG_YES_TEXT'),
+                0 => $this->lang->getText('LANG_NO_TEXT'),
             );
         }
 
-        foreach($arr as $key => $value)
+        foreach($options as $key => $value)
         {
-            if($val == $key)
+            if($paramSelectedValue == $key)
             {
-                $htmlOption .= '<option value="'.$key.'" selected="selected">'.$value.'</option>';
+                $retHTML .= '<option value="'.esc_attr($key).'" selected="selected">'.esc_html($value).'</option>';
             } else
             {
-                $htmlOption .= '<option value="'.$key.'">'.$value.'</option>';
+                $retHTML .= '<option value="'.esc_attr($key).'">'.esc_html($value).'</option>';
             }
         }
-        return $htmlOption;
+        return $retHTML;
     }
 }

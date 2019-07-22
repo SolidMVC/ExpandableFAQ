@@ -63,4 +63,52 @@ final class SingleUpdatesObserver implements PrimitiveObserverInterface
         }
     }
 
+    /**
+     * For updating single site plugin from 5.0.0 to V6.0.0
+     */
+    public function do602_UpdateTo610()
+    {
+        $updated = FALSE;
+
+        // Create mandatory instances
+        $objDB_Update = new Update610($this->conf, $this->lang, $this->conf->getBlogId());
+
+        // Alter the database early structure
+        $earlyStructAltered = $objDB_Update->alterDatabaseEarlyStructure();
+        $dataUpdated = FALSE;
+        $lateStructAltered = FALSE;
+
+        // Process ONLY if the struct was updated - because what if it crashed in the middle of the process
+        if($earlyStructAltered)
+        {
+            // Update the database data
+            $dataUpdated = $objDB_Update->updateDatabaseData();
+        }
+
+        // Process ONLY if the data was updated - because what if it crashed in the middle of the process
+        if($dataUpdated)
+        {
+            // Alter the database late structure
+            $lateStructAltered = $objDB_Update->alterDatabaseLateStructure();
+        }
+
+        if($lateStructAltered)
+        {
+            // Update the database version to 6.1.0
+            $updated = $objDB_Update->updateDatabaseSemver();
+
+            // Update roles
+            $objDB_Update->updateCustomRoles();
+            // Update capabilities
+            $objDB_Update->updateCustomCapabilities();
+        }
+
+        $this->saveAllMessages(array(
+            'debug' => $objDB_Update->getDebugMessages(),
+            'okay' => $objDB_Update->getOkayMessages(),
+            'error' => $objDB_Update->getErrorMessages(),
+        ));
+
+        return $updated;
+    }
 }

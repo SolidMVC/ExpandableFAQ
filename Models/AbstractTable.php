@@ -144,7 +144,7 @@ abstract class AbstractTable
         if($ok === FALSE)
         {
             $executed = FALSE;
-            $this->errorMessages[] = sprintf($this->lang->getPrint('LANG_TABLE_QUERY_FAILED_FOR_TABLE_ERROR_TEXT'), $this->blogId, $this->tableName);
+            $this->errorMessages[] = sprintf($this->lang->getText('LANG_TABLE_QUERY_FAILED_FOR_TABLE_ERROR_TEXT'), $this->blogId, $this->tableName);
             if($this->debugMode)
             {
                 $debugMessage = "FAILED TO EXECUTE TABLE QUERY:<br />".nl2br($trustedSQLQuery);

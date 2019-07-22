@@ -46,7 +46,6 @@ interface ConfigurationInterface
     public function getRouting();
 
     // Core methods
-    public function getPluginNamespace();
     /**
      * @return \wpdb
      */
@@ -59,15 +58,11 @@ interface ConfigurationInterface
     public function getCurrentWP_Version();
     public function getOldestCompatiblePluginSemver();
     public function getPluginSemver();
-    public function getEditPluginSemver();
-    public function getPrintPluginSemver();
     public function isNetworkEnabled();
     public function getPluginPrefix();
     public function getPluginHandlePrefix();
     public function getPluginURL_Prefix();
     public function getPluginCSS_Prefix();
-    public function getPluginJS_ClassPrefix();
-    public function getPluginJS_VariablePrefix();
     public function getThemeUI_FolderName();
     public function getPluginName();
     public function getBlogPrefix($paramBlogId = -1);

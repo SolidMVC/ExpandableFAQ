@@ -27,7 +27,7 @@ final class MainController
     const LANG_ERROR_CLONING_IS_FORBIDDEN_TEXT = 'Error in __clone() method: Cloning instances of the class in the Rental System is forbidden.';
     const LANG_ERROR_UNSERIALIZING_IS_FORBIDDEN_TEXT = 'Error in __wakeup() method: Unserializing instances of the class in the Rental System is forbidden.';
     const LANG_ERROR_SESSIONS_ARE_DISABLED_IN_SERVER_TEXT = 'Warning: Sessions are disabled in your server configuration. Please enabled sessions. As a slower &amp; less secure workaround you can use virtual session via cookies, but that is not recommended.';
-    const LANG_ERROR_PLEASE_UPGRADE_PHP_TEXT = 'Sorry, %s requires PHP %s or higher. Your current PHP version is %s. Please upgrade your server Php version.';
+    const LANG_ERROR_PLEASE_UPGRADE_PHP_TEXT = 'Sorry, %s requires PHP %s or higher. Your current PHP version is %s. Please upgrade your server PHP version.';
     const LANG_ERROR_PLEASE_UPGRADE_WP_TEXT = 'Sorry, %s requires WordPress %s or higher. Your current WordPress version is %s. Please upgrade your WordPress setup.';
     const LANG_ERROR_EXTENSION_NOT_EXIST_PLUGIN_CHILD_THEME_TEXT = 'Sorry, but %s extension does not exist neither in %s plugin directory, nor in %s child theme folder, nor in it&#39;s parent %s theme&#39;s folder.';
     const LANG_ERROR_EXTENSION_NOT_EXIST_PLUGIN_THEME_TEXT = 'Sorry, but %s extension does not exist neither in %s plugin directory, nor in %s theme folder.';
@@ -60,7 +60,7 @@ final class MainController
             $this->logToFile(__CLASS__ ."::". __FUNCTION__ .": Constructor loaded\n");
         }
 
-        // We assign it to variable to avoid passing by reference waring for non-variables
+        // We assign it to variable to avoid passing by reference warning for non-variables
         $this->confWithoutRouting = $paramConfWithoutRouting;
 
         //
@@ -342,18 +342,30 @@ final class MainController
     /**
      * Activate (enable+install or enable only) plugin for across the whole network
      * @note - 'get_sites' function requires WordPress 4.6 or newer!
+     * @param bool $networkWideActivation - if the activation is 'network enabled' or 'locally enabled' (even if multisite is enabled)
      */
-    public function networkOrSingleActivate()
+    public function networkOrSingleActivate($networkWideActivation)
     {
-        if(is_multisite())
+        // NOTE: Temporary workaround while #36406 WordPress bug will be fixed
+        //       Read more at https://core.trac.wordpress.org/ticket/36406
+        $requestComingFromNetworkAdmin = isset($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], "/network") !== FALSE ? TRUE : FALSE;
+        if(is_multisite() && ($networkWideActivation || $requestComingFromNetworkAdmin))
         {
             // A workaround until WP will get fixed
             // SHOULD be 'networkActivate' but WordPress does not yet support that feature,
             // so this means as long as the 'MULTISITE' constant is defined in wp-config, we use that method
+
+            // LOCAL DEBUG
+            // trigger_error('Network wide activation (referer: '.$_SERVER['HTTP_REFERER'].').', E_USER_ERROR);
+
             $this->multisiteActivate();
         } else
         {
             // A workaround until WP will get fixed
+
+            // LOCAL DEBUG
+            // trigger_error('Regular activation (non-multisite or multisite\'s local activation, referer: '.$_SERVER['HTTP_REFERER'].').', E_USER_ERROR);
+
             $this->activate();
         }
     }
@@ -416,7 +428,7 @@ final class MainController
                 throw new \Exception(static::LANG_ERROR_LANG_IS_NULL_TEXT);
             }
 
-            // For network-install we only create tables, the rest is done by populating the data (for all blogs or for individual blog)
+            // For network-install we only create tables, the rest is done by populating the data individually for each blog
             $objInstaller = new \ExpandableFAQ\Controllers\Admin\InstallController($conf, $lang, $conf->getBlogId());
             $objInstaller->setTables();
         } catch (\Exception $e)
@@ -980,17 +992,15 @@ final class MainController
             throw new \Exception(static::LANG_ERROR_DEPENDENCIES_ARE_NOT_LOADED_TEXT);
         }
 
+        // NOTE: For i18n() we do not need to assign $conf at all, as it is not used here
+        if(is_null($this->confWithoutRouting))
+        {
+            throw new \Exception(static::LANG_ERROR_CONF_WITHOUT_ROUTING_IS_NULL_TEXT);
+        }
+
         // Singleton pattern - load the language file, only if it is not yet loaded
         if(is_null($this->lang) && static::$dependenciesLoaded === TRUE)
         {
-            // Assign routing to conf, only if it is not yet assigned
-            $conf = $this->conf();
-
-            if(is_null($conf))
-            {
-                throw new \Exception(static::LANG_ERROR_CONF_IS_NULL_TEXT);
-            }
-
             // Traditional WordPress plugin locale filter
             // Note 1: We don't want to include the rows bellow to language model class, as they are a part of controller
             // Note 2: Keep in mind that, if the translation do not exist, plugin will load a default english translation file
@@ -1003,13 +1013,13 @@ final class MainController
 
             // See 1: http://geertdedeckere.be/article/loading-wordpress-language-files-the-right-way
             // See 2: https://ulrich.pogson.ch/load-theme-plugin-translations
-            // wp-content/languages/<EXT_FOLDER_NAME>/lt_LT.mo
+            // wp-content/languages/<PLUGIN_FOLDER_NAME>/lt_LT.mo
             load_textdomain($this->confWithoutRouting->getTextDomain(), $this->confWithoutRouting->getGlobalLangPath().$locale.'.mo');
             // wp-content/plugins/ExpandableFAQ/Languages/<EXT_FOLDER_NAME>/lt_LT.mo
             load_plugin_textdomain($this->confWithoutRouting->getTextDomain(), FALSE, $this->confWithoutRouting->getLocalLangRelPath());
 
             $this->lang = new \ExpandableFAQ\Models\Language\Language(
-                $this->confWithoutRouting->getTextDomain(), $this->confWithoutRouting->getGlobalLangPath(), $conf->getLocalLangPath(), $locale, FALSE
+                $this->confWithoutRouting->getTextDomain(), $this->confWithoutRouting->getGlobalLangPath(), $this->confWithoutRouting->getLocalLangPath(), $locale, FALSE
             );
         }
 

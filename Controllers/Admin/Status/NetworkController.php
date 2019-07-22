@@ -56,25 +56,30 @@ final class NetworkController
 
         if($this->conf->isNetworkEnabled())
         {
-            if(version_compare($minPluginSemverInDatabase, $latestSemver, '=='))
+            if(version_compare($minPluginSemverInDatabase, '6.0.2', '=='))
+            {
+                $allUpdatableSitesSemverUpdated = $objUpdatesObserver->do602_UpdateTo610();
+            } else if(version_compare($minPluginSemverInDatabase, $latestSemver, '=='))
             {
                 // It's a last version
                 $allUpdatableSitesSemverUpdated = TRUE;
             }
 
-            // Process 6.0.Z patches
+            // Process patches
             if(version_compare($minPluginSemverInDatabase, '6.0.0', '>=') && version_compare($maxPluginSemverInDatabase, '6.1.0', '<'))
             {
+                // Process 6.0.Z patches
                 $allUpdatableSitesSemverUpdated = $objPatchesObserver->doPatch(6, 0);
             }
+            // NOTE: No 6.1.Z patches exist yet, so no ELSE IF statement is here
 
             // Cache update messages
-            StaticSession::cacheHTMLArray('admin_debug_message', $objUpdatesObserver->getSavedDebugMessages());
+            StaticSession::cacheHTML_Array('admin_debug_html', $objUpdatesObserver->getSavedDebugMessages());
             StaticSession::cacheValueArray('admin_okay_message', $objUpdatesObserver->getSavedOkayMessages());
             StaticSession::cacheValueArray('admin_error_message', $objUpdatesObserver->getSavedErrorMessages());
 
             // Cache patch messages
-            StaticSession::cacheHTMLArray('admin_debug_message', $objPatchesObserver->getSavedDebugMessages());
+            StaticSession::cacheHTML_Array('admin_debug_html', $objPatchesObserver->getSavedDebugMessages());
             StaticSession::cacheValueArray('admin_okay_message', $objPatchesObserver->getSavedOkayMessages());
             StaticSession::cacheValueArray('admin_error_message', $objPatchesObserver->getSavedErrorMessages());
         }
@@ -101,9 +106,9 @@ final class NetworkController
     public function printContent()
     {
         // Message handler - should always be at the begging of method (in the very first line)
-        $printDebugMessage = StaticValidator::inWP_Debug() ? StaticSession::getHTMLOnce('admin_debug_message') : '';
-        $printErrorMessage = StaticSession::getValueOnce('admin_error_message');
-        $printOkayMessage = StaticSession::getValueOnce('admin_okay_message');
+        $ksesedDebugHTML = StaticValidator::inWP_Debug() ? StaticSession::getKsesedHTML_Once('admin_debug_html') : '';
+        $errorMessage = StaticSession::getValueOnce('admin_error_message');
+        $okayMessage = StaticSession::getValueOnce('admin_okay_message');
 
         // Both - _POST and _GET supported
         if(isset($_GET['update']) || isset($_POST['update'])) { $this->processUpdate(); }
@@ -111,25 +116,20 @@ final class NetworkController
         // Create mandatory instances
         $objStatus = new NetworkStatus($this->conf, $this->lang);
 
-        // Get the tab values
-        $tabs = StaticFormatter::getTabParams(array('status', 'license'), 'status', isset($_GET['tab']) ? $_GET['tab'] : '');
-
         // Create view
         $objView = new PageView();
 
-        // 1. Set the view variables - Tab settings
-        $objView->statusTabChecked = !empty($tabs['status']) ? ' checked="checked"' : '';
-        $objView->licenseTabChecked = !empty($tabs['license']) ? ' checked="checked"' : '';
+        // 1. Set the view variables - Tabs
+        $objView->tabs = StaticFormatter::getTabParams(array('status', 'license'), 'status', isset($_GET['tab']) ? $_GET['tab'] : '');
 
         // 2. Set the view variables - other
         $objView->staticURLs = $this->conf->getRouting()->getFolderURLs();
         $objView->lang = $this->lang->getAll();
-        $objView->debugMessage = $printDebugMessage;
-        $objView->errorMessage = $printErrorMessage;
-        $objView->okayMessage = $printOkayMessage;
+        $objView->ksesedDebugHTML = $ksesedDebugHTML;
+        $objView->errorMessage = $errorMessage;
+        $objView->okayMessage = $okayMessage;
         $objView->statusTabFormAction = network_admin_url('admin.php?page='.$this->conf->getPluginURL_Prefix().'network-status&noheader=true');
-        $objView->isNetworkEnabled = TRUE;
-        $objView->networkEnabled = $this->lang->getPrint('LANG_YES_TEXT');
+        $objView->networkEnabled = TRUE;
         $objView->goToNetworkAdmin = FALSE;
         $objView->updateExists = $objStatus->checkPluginUpdateExistsForSomeBlog();
         $objView->updateAvailable = $objStatus->canUpdatePluginDataInSomeBlog();
@@ -137,9 +137,9 @@ final class NetworkController
         $objView->canUpdate = $objStatus->canUpdatePluginDataInSomeBlog();
         $objView->canMajorlyUpgrade = $objStatus->canMajorlyUpgradePluginDataInSomeBlog();
         $objView->databaseMatchesCodeSemver = $objStatus->isAllBlogsWithPluginDataUpToDate();
-        $objView->databaseSemver = $objStatus->getPrintMinPluginSemverInDatabase();
-        $objView->newestExistingSemver = $this->conf->getPrintPluginSemver();
-        $objView->newestSemverAvailable = $this->conf->getPrintPluginSemver();
+        $objView->minDatabaseSemver = $objStatus->getMinPluginSemverInDatabase();
+        $objView->newestExistingSemver = $this->conf->getPluginSemver();
+        $objView->newestSemverAvailable = $this->conf->getPluginSemver();
 
         // Print the template
         $templateRelPathAndFileName = 'Status'.DIRECTORY_SEPARATOR.'NetworkTabs.php';

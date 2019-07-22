@@ -9,7 +9,7 @@ It’s a MIT-licensed (can be used in premium themes), high quality, native and 
 
 **Requires at least:** 4.6
 
-**Tested up to:** 5.0
+**Tested up to:** 5.2
 
 **Requires PHP:** 5.4
 
@@ -101,12 +101,24 @@ to your website's FAQ page and make automatically expand specific FAQ with a pag
 ![2. Expandable FAQ - Admin FAQ Manager](https://ps.w.org/expandable-faq/assets/screenshot-2.jpg)
 ![3. Expandable FAQ - Admin Global Settings](https://ps.w.org/expandable-faq/assets/screenshot-3.jpg)
 ![4. Expandable FAQ - Admin Import Demo](https://ps.w.org/expandable-faq/assets/screenshot-4.jpg)
-![5. Expandable FAQ - Admin Plugin Status](https://ps.w.org/expandable-faq/assets/screenshot-5.jpg)
-![6. Expandable FAQ - Admin User Manual](https://ps.w.org/expandable-faq/assets/screenshot-6.jpg)
+![5. Expandable FAQ - Admin Plugin Updating](https://ps.w.org/expandable-faq/assets/screenshot-5.jpg)
+![6. Expandable FAQ - Admin Plugin Status](https://ps.w.org/expandable-faq/assets/screenshot-6.jpg)
+![7. Expandable FAQ - Admin User Manual](https://ps.w.org/expandable-faq/assets/screenshot-7.jpg)
 
 
 
 # Changelog
+
+= 6.1.0 =
+* NumberDropdown bug fixed in StaticFormatter.
+* All table classes are now marked as final.
+* For ‘getDataFromDatabaseById’ used array($paramColumns) with getValidSelect instead of paramColumn.
+* ‘esc_html’, and ‘esc_br_html’ are now used everywhere.
+* Import demo and global settings are now fully translated.
+* Added support for ‘style’ [0-9]+ shortcode parameter.
+* Added a note for data population in status page.
+* Replaced ‘getPluginJS_ClassPrefix’ & ‘getPluginJS_VariablePrefix’ with native call.
+* ‘StaticCookie’ and ‘StaticSession’ caching model classes improved.
 
 = 6.0.2 =
 * Updating and patching are now separated. FA now loaded by default after install. Populate/drop data url behaviour changed. Some minor improvements.

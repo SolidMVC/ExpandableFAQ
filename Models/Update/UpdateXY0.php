@@ -46,10 +46,10 @@ final class UpdateXY0 extends AbstractDatabase implements StackInterface, Update
         // $altered = $this->executeQueries($arrSQL);
         //if($altered === FALSE)
         //{
-        //    $this->errorMessages[] = sprintf($this->lang->getPrint('LANG_DATABASE_UPDATE_EARLY_STRUCTURE_ALTER_ERROR_TEXT'), $this->blogId);
+        //    $this->errorMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_EARLY_STRUCTURE_ALTER_ERROR_TEXT'), $this->blogId);
         //} else
         //{
-        //    $this->okayMessages[] = sprintf($this->lang->getPrint('LANG_DATABASE_UPDATE_EARLY_STRUCTURE_ALTERED_TEXT'), $this->blogId);
+        //    $this->okayMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_EARLY_STRUCTURE_ALTERED_TEXT'), $this->blogId);
         //}
 
         return $altered;
@@ -70,10 +70,10 @@ final class UpdateXY0 extends AbstractDatabase implements StackInterface, Update
         // $updated = $this->executeQueries($arrSQL);
         //if($updated === FALSE)
         //{
-        //    $this->errorMessages[] = sprintf($this->lang->getPrint('LANG_DATABASE_UPDATE_DATA_UPDATE_ERROR_TEXT'), $this->blogId);
+        //    $this->errorMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_DATA_UPDATE_ERROR_TEXT'), $this->blogId);
         //} else
         //{
-        //    $this->okayMessages[] = sprintf($this->lang->getPrint('LANG_DATABASE_UPDATE_DATA_UPDATED_TEXT'), $this->blogId);
+        //    $this->okayMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_DATA_UPDATED_TEXT'), $this->blogId);
         //}
 
         return $updated;
@@ -92,10 +92,10 @@ final class UpdateXY0 extends AbstractDatabase implements StackInterface, Update
         // $altered = $this->executeQueries($arrSQL);
         //if($altered === FALSE)
         //{
-        //    $this->errorMessages[] = sprintf($this->lang->getPrint('LANG_DATABASE_UPDATE_LATE_STRUCTURE_ALTER_ERROR_TEXT'), $this->blogId);
+        //    $this->errorMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_LATE_STRUCTURE_ALTER_ERROR_TEXT'), $this->blogId);
         //} else
         //{
-        //    $this->okayMessages[] = sprintf($this->lang->getPrint('LANG_DATABASE_UPDATE_LATE_STRUCTURE_ALTERED_TEXT'), $this->blogId);
+        //    $this->okayMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_LATE_STRUCTURE_ALTERED_TEXT'), $this->blogId);
         //}
 
         return $altered;
@@ -108,10 +108,10 @@ final class UpdateXY0 extends AbstractDatabase implements StackInterface, Update
 
         //if($rolesUpdated === FALSE)
         //{
-        //    $this->errorMessages[] = sprintf($this->lang->getPrint('LANG_DATABASE_UPDATE_ROLES_UPDATE_ERROR_TEXT'), $this->blogId);
+        //    $this->errorMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_ROLES_UPDATE_ERROR_TEXT'), $this->blogId);
         //} else
         //{
-        //    $this->okayMessages[] = sprintf($this->lang->getPrint('LANG_DATABASE_UPDATE_ROLES_UPDATED_TEXT'), $this->blogId);
+        //    $this->okayMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_ROLES_UPDATED_TEXT'), $this->blogId);
         //}
 
         return $rolesUpdated;
@@ -124,10 +124,10 @@ final class UpdateXY0 extends AbstractDatabase implements StackInterface, Update
 
         //if($rolesUpdated === FALSE)
         //{
-        //    $this->errorMessages[] = sprintf($this->lang->getPrint('LANG_DATABASE_UPDATE_CAPABILITIES_UPDATE_ERROR_TEXT'), $this->blogId);
+        //    $this->errorMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_CAPABILITIES_UPDATE_ERROR_TEXT'), $this->blogId);
         //} else
         //{
-        //    $this->okayMessages[] = sprintf($this->lang->getPrint('LANG_DATABASE_UPDATE_CAPABILITIES_UPDATED_TEXT'), $this->blogId);
+        //    $this->okayMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_CAPABILITIES_UPDATED_TEXT'), $this->blogId);
         //}
 
         return $rolesUpdated;
@@ -167,10 +167,10 @@ final class UpdateXY0 extends AbstractDatabase implements StackInterface, Update
 
         if($updated === FALSE)
         {
-            $this->errorMessages[] = sprintf($this->lang->getPrint('LANG_DATABASE_UPDATE_SEMANTIC_VERSION_UPDATE_ERROR_TEXT'), $this->blogId);
+            $this->errorMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_SEMANTIC_VERSION_UPDATE_ERROR_TEXT'), $this->blogId);
         } else
         {
-            $this->okayMessages[] = sprintf($this->lang->getPrint('LANG_DATABASE_UPDATE_SEMANTIC_VERSION_UPDATED_TEXT'), $this->blogId, $newSemver);
+            $this->okayMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_SEMANTIC_VERSION_UPDATED_TEXT'), $this->blogId, $newSemver);
         }
 
         return $updated;

@@ -28,8 +28,6 @@ final class Configuration implements ConfigurationInterface
     private $pluginHandlePrefix                 = "";
     private $pluginURL_Prefix                   = "";
     private $pluginCSS_Prefix                   = "";
-    private $pluginJS_ClassPrefix               = "";
-    private $pluginJS_VariablePrefix            = "";
     private $themeUI_FolderName                 = "";
     private $pluginName                         = "";
     private $blogPrefix                         = "";
@@ -94,24 +92,6 @@ final class Configuration implements ConfigurationInterface
         $this->pluginHandlePrefix               = isset($params['plugin_handle_prefix']) ? sanitize_key($params['plugin_handle_prefix']) : '';
         $this->pluginURL_Prefix                 = isset($params['plugin_url_prefix']) ? sanitize_key($params['plugin_url_prefix']) : '';
         $this->pluginCSS_Prefix                 = isset($params['plugin_css_prefix']) ? sanitize_key($params['plugin_css_prefix']) : '';
-
-        if(isset($params['plugin_js_class_prefix']) && !is_array($params['plugin_js_class_prefix']))
-        {
-            // No sanitization, uppercase chars needed
-            $this->pluginJS_ClassPrefix         = preg_replace('[^-_0-9a-zA-Z]', '', $params['plugin_js_class_prefix']);
-        } else
-        {
-            $this->pluginJS_ClassPrefix         = '';
-        }
-
-        if(isset($params['plugin_js_variable_prefix']) && !is_array($params['plugin_js_variable_prefix']))
-        {
-            // No sanitization, uppercase chars needed
-            $this->pluginJS_VariablePrefix      = preg_replace('[^-_0-9a-zA-Z]', '', $params['plugin_js_variable_prefix']);
-        } else
-        {
-            $this->pluginJS_VariablePrefix      = '';
-        }
 
         if(isset($params['theme_ui_folder_name']) && !is_array($params['theme_ui_folder_name']))
         {
@@ -179,8 +159,16 @@ final class Configuration implements ConfigurationInterface
         //       just it would always forward-slash the path (even in Windows Environment),
         //       and do not use DIRECTORY_SEPARATOR constant, that is always recommended to use
         // @see - https://stackoverflow.com/questions/26881333/when-to-use-directory-separator-in-php-code
-        $this->pluginPath = str_replace(array('/', '\\'), array(DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR), rtrim(dirname($this->pluginPathWithFilename, 1), '/\\').DIRECTORY_SEPARATOR);
-        $this->wpPluginsPath = str_replace(array('/', '\\'), array(DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR), rtrim(dirname($this->pluginPathWithFilename, 2), '/\\').DIRECTORY_SEPARATOR);
+        if(version_compare($this->currentPHP_Version, '7.0.0', '>='))
+        {
+            $this->pluginPath = str_replace(array('/', '\\'), array(DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR), rtrim(dirname($this->pluginPathWithFilename, 1), '/\\').DIRECTORY_SEPARATOR);
+            $this->wpPluginsPath = str_replace(array('/', '\\'), array(DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR), rtrim(dirname($this->pluginPathWithFilename, 2), '/\\').DIRECTORY_SEPARATOR);
+        } else
+        {
+            // PHP 5.6 backwards compatibility
+            $this->pluginPath = str_replace(array('/', '\\'), array(DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR), rtrim(php7_dirname($this->pluginPathWithFilename, 1), '/\\').DIRECTORY_SEPARATOR);
+            $this->wpPluginsPath = str_replace(array('/', '\\'), array(DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR), rtrim(php7_dirname($this->pluginPathWithFilename, 2), '/\\').DIRECTORY_SEPARATOR);
+        }
 
         // Leave directory separator UNIX like here, used in WP database
         // Note: It is mostly used for add_filter calls and comparisons of plugin basename saved in WP options db table
@@ -249,11 +237,6 @@ final class Configuration implements ConfigurationInterface
     public function getRouting()
     {
         return $this->routing;
-    }
-
-    public function getPluginNamespace()
-    {
-        return static::PLUGIN_NAMESPACE;
     }
 
     /**
@@ -329,16 +312,6 @@ final class Configuration implements ConfigurationInterface
         return $this->pluginSemver;
     }
 
-    public function getEditPluginSemver()
-    {
-        return esc_attr($this->pluginSemver);
-    }
-
-    public function getPrintPluginSemver()
-    {
-        return esc_html($this->pluginSemver);
-    }
-
     public function isNetworkEnabled()
     {
         return $this->networkEnabled;
@@ -362,16 +335,6 @@ final class Configuration implements ConfigurationInterface
     public function getPluginCSS_Prefix()
     {
         return $this->pluginCSS_Prefix;
-    }
-
-    public function getPluginJS_ClassPrefix()
-    {
-        return $this->pluginJS_ClassPrefix;
-    }
-
-    public function getPluginJS_VariablePrefix()
-    {
-        return $this->pluginJS_VariablePrefix;
     }
 
     public function getThemeUI_FolderName()

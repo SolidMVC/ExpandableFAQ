@@ -2,21 +2,21 @@
 defined( 'ABSPATH' ) or die( 'No script kiddies, please!' );
 ?>
 <h1>
-	<span><?=$lang['LANG_FAQ_LIST_TEXT'];?></span>&nbsp;&nbsp;
-	<input class="add-new" type="button" value="<?=$lang['LANG_FAQ_ADD_NEW_TEXT'];?>" onClick="window.location.href='<?=$addNewFAQ_URL;?>'" />
+	<span><?=esc_html($lang['LANG_FAQ_LIST_TEXT']);?></span>&nbsp;&nbsp;
+	<input class="add-new" type="button" value="<?=esc_attr($lang['LANG_FAQ_ADD_NEW_TEXT']);?>" onClick="window.location.href='<?=esc_url($addNewFAQ_URL);?>'" />
 </h1>
 <table id="faqs-datatable" class="display faqs-datatable" border="0" style="width:100%">
 	<thead>
         <tr>
-            <th><?=$lang['LANG_ID_TEXT'];?></th>
-            <th><?=$lang['LANG_FAQ_QUESTION_TEXT'];?></th>
-            <th><?=$lang['LANG_FAQ_ANSWER_TEXT'];?></th>
-            <th style="text-align: center"><?=$lang['LANG_LIST_ORDER_TEXT'];?></th>
-            <th><?=$lang['LANG_ACTIONS_TEXT'];?></th>
+            <th><?=esc_html($lang['LANG_ID_TEXT']);?></th>
+            <th><?=esc_html($lang['LANG_FAQ_QUESTION_TEXT']);?></th>
+            <th><?=esc_html($lang['LANG_FAQ_ANSWER_TEXT']);?></th>
+            <th style="text-align: center"><?=esc_html($lang['LANG_LIST_ORDER_TEXT']);?></th>
+            <th><?=esc_html($lang['LANG_ACTIONS_TEXT']);?></th>
         </tr>
 	</thead>
 	<tbody>
-	    <?=$adminFAQ_List;?>
+	    <?=$trustedAdminFAQ_ListHTML;?>
 	</tbody>
 </table>
 <script type="text/javascript">

@@ -73,31 +73,7 @@ interface NetworkStatusInterface
      * @note - This function maintains backwards compatibility to SMVC 6.0.0 and newer
      * @return string
      */
-    public function getEditMinPluginSemverInDatabase();
-
-    /**
-     * @note - This function maintains backwards compatibility to SMVC 6.0.0 and newer
-     * @return string
-     */
-    public function getPrintMinPluginSemverInDatabase();
-
-    /**
-     * @note - This function maintains backwards compatibility to SMVC 6.0.0 and newer
-     * @return string
-     */
     public function getMaxPluginSemverInDatabase();
-
-    /**
-     * @note - This function maintains backwards compatibility to SMVC 6.0.0 and newer
-     * @return string
-     */
-    public function getEditMaxPluginSemverInDatabase();
-
-    /**
-     * @note - This function maintains backwards compatibility to SMVC 6.0.0 and newer
-     * @return string
-     */
-    public function getPrintMaxPluginSemverInDatabase();
 
     /**
      * Is the NS database semver is newer or same as code semver. If no - we should be read for update

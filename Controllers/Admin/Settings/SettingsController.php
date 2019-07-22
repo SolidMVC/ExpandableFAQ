@@ -30,17 +30,13 @@ final class SettingsController extends AbstractController
         // Tab - global settings
         $objStylesObserver = new StylesObserver($this->conf, $this->lang, $this->dbSets->getAll());
         $this->view->globalSettingsTabFormAction = admin_url('admin.php?page='.$this->conf->getPluginURL_Prefix().'change-global-settings&noheader=true');
-        $this->view->systemStylesDropdownOptions = $objStylesObserver->getDropdownOptions($this->dbSets->get('conf_system_style'));
+        $this->view->trustedSystemStylesDropdownOptionsHTML = $objStylesObserver->getTrustedDropdownOptionsHTML($this->dbSets->get('conf_system_style'));
         $this->view->arrGlobalSettings = (new ChangeGlobalSettingsController($this->conf, $this->lang))->getSettings();
 
-        // Get the tab values
-        $tabs = StaticFormatter::getTabParams(array(
+        // Set the view variables - Tabs
+        $this->view->tabs = StaticFormatter::getTabParams(array(
             'global-settings'
         ), 'global-settings', isset($_GET['tab']) ? $_GET['tab'] : '');
-
-
-        // Set the view variables - Tab settings
-        $this->view->globalSettingsTabChecked = !empty($tabs['global-settings']) ? ' checked="checked"' : '';
 
 
         // Print the template

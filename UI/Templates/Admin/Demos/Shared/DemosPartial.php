@@ -4,20 +4,21 @@ defined( 'ABSPATH' ) or die( 'No script kiddies, please!' );
 <h1>
     <span>Import Demo</span>
 </h1>
-<form name="import_demo_form" action="<?=$importDemoTabFormAction;?>" method="POST" id="import_demo_form">
+<form name="import_demo_form" action="<?=esc_url($importDemoTabFormAction);?>" method="POST" id="import_demo_form">
     <div class="big-labels">
         <select name="demo_id" class="required">
-            <?=$demosDropdownOptions;?>
+            <?=$trustedDemosDropdownOptionsHTML;?>
         </select> &nbsp;
-        <input type="submit" value="Import" name="import_demo" onclick="return confirm('Are you sure? This will flush all the content of plugin you have!');"
+        <input type="submit" value="<?=esc_html($lang['LANG_DEMO_IMPORT_SHORT_TEXT']);?>" name="import_demo"
+               onclick="return confirm('<?=esc_js($lang['LANG_DEMO_IMPORTING_DIALOG_TEXT']);?>');"
                style="cursor:pointer;"
             />
     </div>
-    <p><?=$lang['LANG_PLEASE_KEEP_IN_MIND_THAT_TEXT'];?>:</p>
+    <p><?=esc_html($lang['LANG_PLEASE_KEEP_IN_MIND_THAT_TEXT']);?>:</p>
     <ol>
-        <li>By importing demo you will flush all your existing car rental data.</li>
-        <li>Other website content, including pages content, won&#39;t be affected, so you still have to add the shortcodes by yourself.</li>
-        <li>Make sure you have a latest database backup with you before importing a demo.</li>
+        <li><?=esc_html($lang['LANG_DEMO_NOTE_ON_DATA_FLUSHING_TEXT']);?></li>
+        <li><?=esc_html($lang['LANG_DEMO_NOTE_ON_NO_AFFECT_TO_OTHER_CONTENT_TEXT']);?></li>
+        <li><?=esc_html($lang['LANG_DEMO_NOTE_TO_HAVE_DATABASE_BACKUP_TEXT']);?></li>
     </ol>
 </form>
 <script type="text/javascript">

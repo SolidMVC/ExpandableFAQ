@@ -55,32 +55,20 @@ final class Setting extends AbstractStack
     }
 
     /**
+     * NOTE: Unescaped
      * @return string
      */
-    public function getEditValue()
+    public function getValue()
     {
-        $editValue = '';
+        $retValue = '';
         $ret = $this->getDataFromDatabaseByKey($this->confKey);
 
         if(!is_null($ret))
         {
-            $editValue = esc_attr(stripslashes($ret['conf_value']));
+            $retValue = esc_attr(stripslashes($ret['conf_value']));
         }
 
-        return $editValue;
-    }
-
-    public function getPrintValue()
-    {
-        $printValue = '';
-        $ret = $this->getDataFromDatabaseByKey($this->confKey);
-
-        if(!is_null($ret))
-        {
-            $printValue = esc_html(stripslashes($ret['conf_value']));
-        }
-
-        return $printValue;
+        return $retValue;
     }
 
     public function getDetails($paramIncludeUnclassified = FALSE)
@@ -95,15 +83,6 @@ final class Setting extends AbstractStack
 
             // Process translation
             $ret['translated_conf_value'] = $ret['conf_translatable'] == 1 ? $this->lang->getTranslated($ret['conf_key'], $ret['conf_value']) : $ret['conf_value'];
-
-            // Prepare output for print
-            $ret['print_conf_key'] = esc_html($ret['conf_key']);
-            $ret['print_conf_value'] = esc_html($ret['conf_value']);
-            $ret['print_translated_conf_value'] = esc_html($ret['translated_conf_value']);
-
-            // Prepare output for edit
-            $ret['edit_conf_key'] = esc_attr($ret['conf_key']); // for input field
-            $ret['edit_conf_value'] = esc_attr($ret['conf_value']); // for input field
         } else if($paramIncludeUnclassified === TRUE)
         {
             // Fields
@@ -115,15 +94,6 @@ final class Setting extends AbstractStack
 
             // Process translation
             $ret['translated_conf_value'] = '';
-
-            // Prepare output for print
-            $ret['print_conf_key'] = '';
-            $ret['print_conf_value'] = '';
-            $ret['print_translated_conf_value'] = '';
-
-            // Prepare output for edit
-            $ret['edit_conf_key'] = ''; // for input field
-            $ret['edit_conf_value'] = ''; // for input field
         }
 
         return $ret;
@@ -238,7 +208,7 @@ final class Setting extends AbstractStack
         if($sanitizedValue == "" && $paramAllowEmptySlugs === FALSE)
         {
             $ok = FALSE;
-            $this->errorMessages[] = $this->lang->getPrint('LANG_SETTING_EMPTY_SLUG_NOT_ALLOWED_ERROR_TEXT');
+            $this->errorMessages[] = $this->lang->getText('LANG_SETTING_EMPTY_SLUG_NOT_ALLOWED_ERROR_TEXT');
         }
 
         foreach($paramArrOtherValues AS $paramOtherValue)
@@ -247,7 +217,7 @@ final class Setting extends AbstractStack
             if($sanitizedOtherSlugValue == $sanitizedValue)
             {
                 $ok = FALSE;
-                $this->errorMessages[] = $this->lang->getPrint('LANG_SETTING_ALL_SLUGS_HAS_TO_DIFFER_ERROR_TEXT');
+                $this->errorMessages[] = $this->lang->getText('LANG_SETTING_ALL_SLUGS_HAS_TO_DIFFER_ERROR_TEXT');
             }
         }
 
@@ -362,7 +332,7 @@ final class Setting extends AbstractStack
         if(!is_null($settingDetails))
         {
             $this->lang->register($settingDetails['conf_key'], $settingDetails['conf_value']);
-            $this->okayMessages[] = $this->lang->getPrint('LANG_SETTING_REGISTERED_TEXT');
+            $this->okayMessages[] = $this->lang->getText('LANG_SETTING_REGISTERED_TEXT');
         }
     }
 }

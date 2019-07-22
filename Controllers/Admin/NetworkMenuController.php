@@ -34,18 +34,18 @@ final class NetworkMenuController
     {
         $validMenuPosition = intval($paramMenuPosition);
         $iconURL = $this->conf->getRouting()->getAdminImagesURL('Plugin.png');
-        $URLPrefix = $this->conf->getPluginURL_Prefix();
+        $urlPrefix = $this->conf->getPluginURL_Prefix();
 
         // For admins only - update_plugins are official WordPress role for updates
         add_menu_page(
-            $this->lang->getPrint('LANG_MENU_ACCORDION_FAQ_TEXT'), $this->lang->getPrint('LANG_MENU_ACCORDION_FAQ_TEXT'),
-            "update_plugins", "{$URLPrefix}network-menu", array($this, "printNetworkStatus"), $iconURL, $validMenuPosition
+            $this->lang->getText('LANG_MENU_ACCORDION_FAQ_TEXT'), $this->lang->getText('LANG_MENU_ACCORDION_FAQ_TEXT'),
+            "update_plugins", "{$urlPrefix}network-menu", array($this, "printNetworkStatus"), $iconURL, $validMenuPosition
         );
             add_submenu_page(
-                "{$URLPrefix}network-menu", $this->lang->getPrint('LANG_STATUS_NETWORK_TEXT'), $this->lang->getPrint('LANG_STATUS_NETWORK_TEXT'),
-                "update_plugins", "{$URLPrefix}network-status", array($this, "printNetworkStatus")
+                "{$urlPrefix}network-menu", $this->lang->getText('LANG_STATUS_NETWORK_TEXT'), $this->lang->getText('LANG_STATUS_NETWORK_TEXT'),
+                "update_plugins", "{$urlPrefix}network-status", array($this, "printNetworkStatus")
             );
-        remove_submenu_page("{$URLPrefix}network-menu", "{$URLPrefix}network-menu");
+        remove_submenu_page("{$urlPrefix}network-menu", "{$urlPrefix}network-menu");
     }
 
     // Network Status
@@ -76,7 +76,7 @@ final class NetworkMenuController
             $sanitizedName = sanitize_text_field($paramName);
             $sanitizedErrorMessage = sanitize_text_field($paramErrorMessage);
             // Load errors only in local or global debug mode
-            $this->errorMessages[] = sprintf($this->lang->getPrint('LANG_ERROR_IN_METHOD_TEXT'), $sanitizedName, $sanitizedErrorMessage);
+            $this->errorMessages[] = sprintf($this->lang->getText('LANG_ERROR_IN_METHOD_TEXT'), $sanitizedName, $sanitizedErrorMessage);
 
             // 'add_action('admin_notices', ...)' doesn't work here (maybe due to fact, that 'admin_notices' has to be registered not later than X point in code)
 

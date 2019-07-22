@@ -67,18 +67,6 @@ interface SingleStatusInterface
     public function getPluginSemverInDatabase();
 
     /**
-     * @note - This function maintains backwards compatibility to SMVC 6.0.0 and newer
-     * @return string
-     */
-    public function getEditPluginSemverInDatabase();
-
-    /**
-     * @note - This function maintains backwards compatibility to SMVC 6.0.0 and newer
-     * @return string
-     */
-    public function getPrintPluginSemverInDatabase();
-
-    /**
      * Is the NS database semver is newer or same as code semver. If no - we should be read for update
      * @note make sure the blog id here is ok for network
      * @return bool

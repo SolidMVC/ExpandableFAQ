@@ -125,7 +125,7 @@ final class SinglePatchesObserver implements PrimitiveObserverInterface
             }
         } else
         {
-            $error = sprintf($this->lang->getPrint('LANG_DATABASE_UPDATE_PATCH_CLASS_S_DOES_NOT_EXIST_ERROR_TEXT'), $patchClass);
+            $error = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_PATCH_CLASS_S_DOES_NOT_EXIST_ERROR_TEXT'), $patchClass);
             $this->saveAllMessages(array('error' => array($error)));
         }
 

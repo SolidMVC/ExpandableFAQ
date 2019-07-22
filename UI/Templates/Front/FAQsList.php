@@ -13,17 +13,17 @@ wp_enqueue_style('expandable-faq-main');
     <?php if(sizeof($faqs) > 0): ?>
         <dl class="toggle-list">
             <?php foreach($faqs as $faq): ?>
-                <dt id="faq-<?=$faq['faq_id'];?>" class="question-row <?=($faq['expanded'] === TRUE ? 'expanded' : 'collapsed');?>">
+                <dt id="faq-<?=esc_attr($faq['faq_id']);?>" class="question-row <?=($faq['expanded'] === TRUE ? 'expanded' : 'collapsed');?>">
                     <i class="fa <?=($faq['expanded'] === TRUE ? 'fa-minus' : 'fa-plus');?>" aria-hidden="true"></i>
-                    <?=$faq['print_translated_faq_question'];?>
+                    <?=esc_html($faq['translated_faq_question']);?>
                 </dt>
                 <dd class="answer-row">
-                    <?=$faq['print_translated_faq_answer'];?>
+                    <?=esc_br_html($faq['translated_faq_answer']);?>
                 </dd>
             <?php endforeach; ?>
         </dl>
     <?php else:?>
-        <div class="no-faqs-available"><?=$lang['LANG_FAQS_NONE_AVAILABLE_TEXT'];?></div>
+        <div class="no-faqs-available"><?=esc_html($lang['LANG_FAQS_NONE_AVAILABLE_TEXT']);?></div>
     <?php endif; ?>
 </div>
 <script type="text/javascript">

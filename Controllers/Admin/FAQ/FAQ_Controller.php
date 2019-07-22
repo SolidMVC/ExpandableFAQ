@@ -29,18 +29,14 @@ final class FAQ_Controller extends AbstractController
         // Create mandatory instances
         $objFAQsObserver = new FAQsObserver($this->conf, $this->lang, $this->dbSets->getAll());
 
-        // Get the tab values
-        $tabs = StaticFormatter::getTabParams(
+        // 1. Set the view variables - Tabs
+        $this->view->tabs = StaticFormatter::getTabParams(
             array('faqs'), 'faqs', isset($_GET['tab']) ? $_GET['tab'] : ''
         );
 
-        // 1. Set the view variables - Tab settings
-        $this->view->faqsTabChecked = !empty($tabs['faqs']) ? ' checked="checked"' : '';
-
-
         // 2. Set the view variables - other variables
         $this->view->addNewFAQ_URL = admin_url('admin.php?page='.$this->conf->getPluginURL_Prefix().'add-edit-faq&amp;faq_id=0');
-        $this->view->adminFAQ_List = $objFAQsObserver->getAdminList();
+        $this->view->trustedAdminFAQ_ListHTML = $objFAQsObserver->getTrustedAdminListHTML();
 
         // Print the template
         $templateRelPathAndFileName = 'FAQ'.DIRECTORY_SEPARATOR.'ManagerTabs.php';

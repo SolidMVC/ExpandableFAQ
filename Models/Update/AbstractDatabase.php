@@ -240,7 +240,7 @@ abstract class AbstractDatabase extends AbstractStack
             {
                 $tableName = substr($paramTrustedSQLQuery, $startCharPosOfTableName, $tableLength);
             }
-            $this->errorMessages[] = sprintf($this->lang->getPrint('LANG_DATABASE_UPDATE_QUERY_FAILED_FOR_TABLE_ERROR_TEXT'), $this->blogId, $tableName, $this->internalCounter);
+            $this->errorMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_QUERY_FAILED_FOR_TABLE_ERROR_TEXT'), $this->blogId, $tableName, $this->internalCounter);
             if($this->debugMode)
             {
                 $debugMessage = "FAILED AT QUERY:<br />".nl2br($paramTrustedSQLQuery);

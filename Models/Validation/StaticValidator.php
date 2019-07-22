@@ -84,6 +84,38 @@ final class StaticValidator
     }
 
     /**
+     * This method will also remove spaces
+     * @param array $paramColumns
+     * @return string
+     */
+    public static function getValidSelect(array $paramColumns)
+    {
+        // Set defaults
+        $validSelect = '*';
+
+        // We use this to optimize sql queries by selecting only necessary column if needed
+        if(is_array($paramColumns) && sizeof($paramColumns) > 0 && !in_array("*", $paramColumns))
+        {
+            $validColumns = array();
+            foreach($paramColumns AS $paramColumn)
+            {
+                $validColumn = static::getValidKey($paramColumn, '', TRUE, FALSE);
+                if($validColumn != "" && $validColumn != "*" && !in_array($validColumn, $validColumns))
+                {
+                    // Add to columns stack
+                    $validColumns[] = $validColumn;
+                }
+            }
+            if(sizeof($validColumns) > 0)
+            {
+                $validSelect = implode(", ", $validColumns);
+            }
+        }
+
+        return $validSelect;
+    }
+
+    /**
      * Allow alpha-numeric chars, dashes and underscores
      * NOTE #1: Spaces are mostly allowed for SKUs (item model SKU, extra SKU), codes (i.e. extension code, order code, coupon code, location code, special status code, payment method code),
      *          unique identifiers (item UID, location UID) and series (proforma series, invoice series).
@@ -580,7 +612,7 @@ final class StaticValidator
         return $singlePeriod;
     }
 
-    public static function getPrintDateByTimestamp($paramTimestamp)
+    public static function getI18nDateByTimestamp($paramTimestamp)
     {
         // WordPress bug
         // BAD: return date_i18n(get_option('date_format'), $this->pickupTimestamp);
@@ -590,7 +622,7 @@ final class StaticValidator
         return date_i18n(get_option('date_format'), $paramTimestamp + get_option( 'gmt_offset' ) * 3600, TRUE);
     }
 
-    public static function getPrintTimeByTimestamp($paramTimestamp)
+    public static function getI18nTimeByTimestamp($paramTimestamp)
     {
         // WordPress bug
         // BAD: return date_i18n(get_option('time_format'), $this->pickupTimestamp);

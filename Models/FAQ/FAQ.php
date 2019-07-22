@@ -31,14 +31,13 @@ final class FAQ extends AbstractStack implements StackInterface, ElementInterfac
         $this->faqId = StaticValidator::getValidValue($paramFaqId, 'positive_integer', 0);
     }
 
-    private function getDataFromDatabaseById($paramFaqId, $paramColumn = '*')
+    private function getDataFromDatabaseById($paramFaqId, $paramColumns = array('*'))
     {
         $validFaqId = StaticValidator::getValidPositiveInteger($paramFaqId, 0);
-        // We use this to optimize sql queries by selecting only necessary column if needed
-        $validColumn = $paramColumn != '*' ? StaticValidator::getValidKey($paramColumn, '*', TRUE, TRUE) : '*';
+        $validSelect = StaticValidator::getValidSelect($paramColumns);
 
         $sqlQuery = "
-            SELECT {$validColumn}
+            SELECT {$validSelect}
             FROM {$this->conf->getPrefix()}faqs
             WHERE faq_id='{$validFaqId}'
         ";
@@ -74,16 +73,6 @@ final class FAQ extends AbstractStack implements StackInterface, ElementInterfac
             // Retrieve translation
             $ret['translated_faq_question'] = $this->lang->getTranslated("fa{$ret['faq_id']}_faq_question", $ret['faq_question']);
             $ret['translated_faq_answer'] = $this->lang->getTranslated("fa{$ret['faq_id']}_faq_answer", $ret['faq_answer']);
-
-            // Prepare output for print
-            $ret['print_faq_question'] = esc_html($ret['faq_question']);
-            $ret['print_translated_faq_question'] = esc_html($ret['translated_faq_question']);
-            $ret['print_faq_answer'] = nl2br(implode("\n", array_map('esc_html', explode("\n", $ret['faq_answer']))));
-            $ret['print_translated_faq_answer'] = nl2br(implode("\n", array_map('esc_html', explode("\n", $ret['translated_faq_answer']))));
-
-            // Prepare output for edit
-            $ret['edit_faq_question'] = esc_textarea($ret['faq_question']); // for textarea field
-            $ret['edit_faq_answer'] = esc_textarea($ret['faq_answer']); // for textarea field
         }
 
         return $ret;
@@ -127,7 +116,7 @@ final class FAQ extends AbstractStack implements StackInterface, ElementInterfac
         if(!is_null($faqQuestionExists))
         {
             $ok = FALSE;
-            $this->errorMessages[] = $this->lang->getPrint('LANG_FAQ_QUESTION_EXISTS_ERROR_TEXT');
+            $this->errorMessages[] = $this->lang->getText('LANG_FAQ_QUESTION_EXISTS_ERROR_TEXT');
         }
 
         if($validFAQ_Id > 0 && $ok)
@@ -140,10 +129,10 @@ final class FAQ extends AbstractStack implements StackInterface, ElementInterfac
 
             if($saved === FALSE)
             {
-                $this->errorMessages[] = $this->lang->getPrint('LANG_FAQ_UPDATE_ERROR_TEXT');
+                $this->errorMessages[] = $this->lang->getText('LANG_FAQ_UPDATE_ERROR_TEXT');
             } else
             {
-                $this->okayMessages[] = $this->lang->getPrint('LANG_FAQ_UPDATED_TEXT');
+                $this->okayMessages[] = $this->lang->getText('LANG_FAQ_UPDATED_TEXT');
             }
         } else if($ok)
         {
@@ -170,10 +159,10 @@ final class FAQ extends AbstractStack implements StackInterface, ElementInterfac
 
             if($saved === FALSE || $saved === 0)
             {
-                $this->errorMessages[] = $this->lang->getPrint('LANG_FAQ_INSERTION_ERROR_TEXT');
+                $this->errorMessages[] = $this->lang->getText('LANG_FAQ_INSERTION_ERROR_TEXT');
             } else
             {
-                $this->okayMessages[] = $this->lang->getPrint('LANG_FAQ_INSERTED_TEXT');
+                $this->okayMessages[] = $this->lang->getText('LANG_FAQ_INSERTED_TEXT');
             }
         }
 
@@ -187,7 +176,7 @@ final class FAQ extends AbstractStack implements StackInterface, ElementInterfac
         {
             $this->lang->register("fa{$this->faqId}_faq_question", $faqDetails['faq_question']);
             $this->lang->register("fa{$this->faqId}_faq_answer", $faqDetails['faq_answer']);
-            $this->okayMessages[] = $this->lang->getPrint('LANG_FAQ_REGISTERED_TEXT');
+            $this->okayMessages[] = $this->lang->getText('LANG_FAQ_REGISTERED_TEXT');
         }
     }
 
@@ -204,10 +193,10 @@ final class FAQ extends AbstractStack implements StackInterface, ElementInterfac
 
         if($deleted === FALSE || $deleted === 0)
         {
-            $this->errorMessages[] = $this->lang->getPrint('LANG_FAQ_DELETION_ERROR_TEXT');
+            $this->errorMessages[] = $this->lang->getText('LANG_FAQ_DELETION_ERROR_TEXT');
         } else
         {
-            $this->okayMessages[] = $this->lang->getPrint('LANG_FAQ_DELETED_TEXT');
+            $this->okayMessages[] = $this->lang->getText('LANG_FAQ_DELETED_TEXT');
         }
 
         return $deleted;

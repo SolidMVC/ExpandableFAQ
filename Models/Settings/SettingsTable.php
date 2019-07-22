@@ -14,7 +14,7 @@ use ExpandableFAQ\Models\Language\LanguageInterface;
 use ExpandableFAQ\Models\TableInterface;
 use ExpandableFAQ\Models\Validation\StaticValidator;
 
-class SettingsTable extends AbstractTable implements TableInterface
+final class SettingsTable extends AbstractTable implements TableInterface
 {
     /**
      * @param ConfigurationInterface $paramConf

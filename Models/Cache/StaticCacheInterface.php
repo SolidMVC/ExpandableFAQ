@@ -16,7 +16,7 @@ interface StaticCacheInterface
      * @param string $paramKey
      * @param array $paramHTMLs
      */
-    public static function cacheHTMLArray($paramKey, array $paramHTMLs);
+    public static function cacheHTML_Array($paramKey, array $paramHTMLs);
 
     /**
      * Array cache method - optimized for faster array use
@@ -41,9 +41,10 @@ interface StaticCacheInterface
      * @param string $paramKey
      * @return string
      */
-    public static function getHTMLOnce($paramKey);
+    public static function getKsesedHTML_Once($paramKey);
 
     /**
+     * NOTE: Unescaped
      * @param string $paramKey
      * @return string
      */

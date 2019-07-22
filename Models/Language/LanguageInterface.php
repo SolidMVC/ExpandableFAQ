@@ -27,10 +27,47 @@ interface LanguageInterface
     public function getLocale();
 
     /**
+     * NOTE #1: Supports multiline text
+     * NOTE #2: Unescaped
      * @param string $paramKey
      * @return string
      */
-    public function getPrint($paramKey);
+    public function getText($paramKey);
+
+    /**
+     * NOTE: Just an abbreviation method
+     * @param $paramKey
+     * @return string
+     */
+    public function escSQL($paramKey);
+
+    /**
+     * NOTE: Just an abbreviation method
+     * @param $paramKey
+     * @return string
+     */
+    public function escAttr($paramKey);
+
+    /**
+     * NOTE: Just an abbreviation method
+     * @param $paramKey
+     * @return string
+     */
+    public function escHTML($paramKey);
+
+    /**
+     * NOTE: Just an abbreviation method
+     * @param $paramKey
+     * @return string
+     */
+    public function escJS($paramKey);
+
+    /**
+     * NOTE: Just an abbreviation method
+     * @param $paramKey
+     * @return string
+     */
+    public function escTextarea($paramKey);
 
     /**
      * @return array

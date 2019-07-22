@@ -3,7 +3,7 @@
  * Plugin Name: Expandable FAQ
  * Plugin URI: https://wordpress.org/plugins/expandable-faq/
  * Description: It’s a high quality, native and responsive WordPress plugin to create and view F.A.Q.'s
- * Version: 6.0.2
+ * Version: 6.1.0
  * Author: KestutisIT
  * Author URI: https://profiles.wordpress.org/KestutisIT
  * Text Domain: expandable-faq
@@ -13,6 +13,12 @@
 namespace ExpandableFAQ;
 
 defined( 'ABSPATH' ) or die( 'No script kiddies, please!' );
+
+// Include PHP 5.6 backwards compatibility file
+require_once 'php56_compat.php';
+
+// Require missing WordPress core functions
+require_once 'formatting.php';
 
 // Require mandatory models
 require_once 'Models/Configuration/ConfigurationInterface.php';
@@ -34,10 +40,10 @@ if(!class_exists('ExpandableFAQ\ExpandableFAQ'))
     final class ExpandableFAQ
     {
         // Configuration
-        const REQUIRED_PHP_VERSION = '5.4.0';
+        const REQUIRED_PHP_VERSION = '5.6.0';
         const REQUIRED_WP_VERSION = 4.6;
         const OLDEST_COMPATIBLE_PLUGIN_SEMVER = '6.0.0';
-        const PLUGIN_SEMVER = '6.0.2';
+        const PLUGIN_SEMVER = '6.1.0';
 
         // Settings
         /**
@@ -48,9 +54,7 @@ if(!class_exists('ExpandableFAQ\ExpandableFAQ'))
             'plugin_handle_prefix' => 'expandable-faq-',
             'plugin_url_prefix' => 'expandable-faq-',
             'plugin_css_prefix' => 'expandable-faq-',
-            'plugin_js_class_prefix' => 'ExpandableFAQ_',
-            'plugin_js_variable_prefix' => 'expandableFAQ_', // Folder in your current theme path, that may override plugin’s UI
-            'theme_ui_folder_name' => 'ExpandableFAQ_UI',
+            'theme_ui_folder_name' => 'ExpandableFAQ_UI', // Folder in your current theme path, that may override plugin’s UI
             'plugin_name' => 'Expandable FAQ',
             'shortcode' => 'expandable_faq',
             'text_domain' => 'expandable-faq',

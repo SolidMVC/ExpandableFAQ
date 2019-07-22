@@ -13,7 +13,6 @@ defined( 'ABSPATH' ) or die( 'No script kiddies, please!' );
     </li>
 </ul>
 
-
 <p>
     <strong>LAYOUT parameter values (optional, case insensitive):</strong>
 </p>
@@ -35,6 +34,18 @@ defined( 'ABSPATH' ) or die( 'No script kiddies, please!' );
     </li>
     <li>
         layout=&quot;tabs&quot;
+    </li>
+</ul>
+
+<p>
+    <strong>STYLE parameter values (optional, case insensitive):</strong>
+</p>
+<ul>
+    <li>
+        <em>(none)</em>
+    </li>
+    <li>
+        style=&quot;2&quot; - supports any positive integer number from 0 to maximum supported integer (\'PHP_INT_MAX'\)
     </li>
 </ul>
 

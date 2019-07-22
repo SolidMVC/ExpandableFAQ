@@ -15,7 +15,7 @@ final class StaticSession implements StaticCacheInterface
      * @param string $paramKey
      * @param array $paramHTMLs
      */
-    public static function cacheHTMLArray($paramKey, array $paramHTMLs)
+    public static function cacheHTML_Array($paramKey, array $paramHTMLs)
     {
         $sanitizedKey = sanitize_key($paramKey);
         $ksesedHTMLs = array();
@@ -56,10 +56,12 @@ final class StaticSession implements StaticCacheInterface
         {
             if(isset($_SESSION[$sanitizedKey]))
             {
-                $_SESSION[$sanitizedKey] .= '<br />'.implode('<br />', $arrSanitizedValues);
+                // NOTE: '\n' char is used here, to support esc_br_html later
+                $_SESSION[$sanitizedKey] .= "\n".implode("\n", $arrSanitizedValues);
             } else
             {
-                $_SESSION[$sanitizedKey] = implode('<br />', $arrSanitizedValues);
+                // NOTE: '\n' char is used here, to support esc_br_html later
+                $_SESSION[$sanitizedKey] = implode("\n", $arrSanitizedValues);
             }
         }
     }
@@ -98,7 +100,8 @@ final class StaticSession implements StaticCacheInterface
         {
             if(isset($_SESSION[$sanitizedKey]))
             {
-                $_SESSION[$sanitizedKey] .= '<br />'.$sanitizedValue;
+                // NOTE: '\n' char is used here, to support esc_br_html later
+                $_SESSION[$sanitizedKey] .= "\n".$sanitizedValue;
             } else
             {
                 $_SESSION[$sanitizedKey] = $sanitizedValue;
@@ -110,20 +113,14 @@ final class StaticSession implements StaticCacheInterface
      * @param string $paramKey
      * @return string
      */
-    public static function getHTMLOnce($paramKey)
+    public static function getKsesedHTML_Once($paramKey)
     {
         $retHTML = "";
         $sanitizedKey = sanitize_key($paramKey);
         if(isset($_SESSION[$sanitizedKey]))
         {
-            $arrRAW_HTMLs = explode("<br />", $_SESSION[$sanitizedKey]);
-            $arrHTMLs = array();
-            foreach($arrRAW_HTMLs AS $rawHTML)
-            {
-                // HTML is allowed here
-                $arrHTMLs[] = wp_kses_post($rawHTML);
-            }
-            $retHTML = implode("<br />", $arrHTMLs);
+            // No exploding needed here
+            $retHTML = wp_kses_post($_SESSION[$sanitizedKey]);
 
             // All done with session variable - now unset it
             unset($_SESSION[$sanitizedKey]);
@@ -133,6 +130,7 @@ final class StaticSession implements StaticCacheInterface
     }
 
     /**
+     * NOTE: Unescaped
      * @param string $paramKey
      * @return string
      */
@@ -142,14 +140,9 @@ final class StaticSession implements StaticCacheInterface
         $sanitizedKey = sanitize_key($paramKey);
         if(isset($_SESSION[$sanitizedKey]))
         {
-            $arrRAW_Values = explode("<br />", $_SESSION[$sanitizedKey]);
-            $arrValues = array();
-            foreach($arrRAW_Values AS $rawValue)
-            {
-                // Only text is allowed
-                $arrValues[] = esc_html(sanitize_text_field($rawValue));
-            }
-            $retValue = implode("<br />", $arrValues);
+            // Only text is allowed for each value
+            // NOTE: '\n' char is used here, to support esc_br_html later
+            $retValue = implode("\n", array_map('sanitize_text_field', explode("\n", $_SESSION[$sanitizedKey])));
 
             // All done with session variable - now unset it
             unset($_SESSION[$sanitizedKey]);
@@ -159,6 +152,7 @@ final class StaticSession implements StaticCacheInterface
     }
 
     /**
+     * Array cache method - optimized for faster array use
      * @param string $paramKey
      * @return void
      */

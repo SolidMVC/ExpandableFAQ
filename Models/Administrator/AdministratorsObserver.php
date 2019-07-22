@@ -40,18 +40,18 @@ final class AdministratorsObserver implements ObserverInterface
      * @param string $paramDefaultLabel
      * @return string
      */
-    public function getDropdownOptions($paramSelectedWPUserId = -1, $paramDefaultValue = -1, $paramDefaultLabel = "")
+    public function getTrustedDropdownOptionsHTML($paramSelectedWPUserId = -1, $paramDefaultValue = -1, $paramDefaultLabel = "")
     {
         $validDefaultValue = StaticValidator::getValidInteger($paramDefaultValue, -1);
-        $validDefaultLabel = esc_html(sanitize_text_field($paramDefaultLabel));
+        $sanitizedDefaultLabel = sanitize_text_field($paramDefaultLabel);
 
         $retHTML = '';
         if($paramSelectedWPUserId == $validDefaultValue)
         {
-            $retHTML .= '<option value="'.$validDefaultValue.'" selected="selected">'.$validDefaultLabel.'</option>';
+            $retHTML .= '<option value="'.esc_attr($validDefaultValue).'" selected="selected">'.esc_html($sanitizedDefaultLabel).'</option>';
         } else
         {
-            $retHTML .= '<option value="'.$validDefaultValue.'">'.$validDefaultLabel.'</option>';
+            $retHTML .= '<option value="'.esc_attr($validDefaultValue).'">'.esc_html($sanitizedDefaultLabel).'</option>';
         }
 
         $roleName = (new AdministratorRole($this->conf, $this->lang))->getRoleName();
@@ -63,10 +63,10 @@ final class AdministratorsObserver implements ObserverInterface
             $printWPUserDisplayName = esc_html($objWPUser->display_name);
             if($validWPUserId == $paramSelectedWPUserId)
             {
-                $retHTML .= '<option value="'.$validWPUserId.'" selected="selected">'.$printWPUserDisplayName.'</option>';
+                $retHTML .= '<option value="'.esc_attr($validWPUserId).'" selected="selected">'.$printWPUserDisplayName.'</option>';
             } else
             {
-                $retHTML .= '<option value="'.$validWPUserId.'">'.$printWPUserDisplayName.'</option>';
+                $retHTML .= '<option value="'.esc_attr($validWPUserId).'">'.$printWPUserDisplayName.'</option>';
             }
         }
         return $retHTML;

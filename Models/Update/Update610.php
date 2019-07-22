@@ -1,7 +1,6 @@
 <?php
 /**
- * Patch class
- * NOTE: This is a boilerplate class, so please replace PatchXYZ with exact major ("X") and minor ("Y"), i.e. "Patches70Z"
+ * Update class
  *
  * @package ExpandableFAQ
  * @author KestutisIT
@@ -14,11 +13,11 @@ use ExpandableFAQ\Models\StackInterface;
 use ExpandableFAQ\Models\Language\LanguageInterface;
 use ExpandableFAQ\Models\Validation\StaticValidator;
 
-final class PatchesXYZ extends AbstractDatabase implements StackInterface, DatabaseInterface, PatchInterface
+final class Update610 extends AbstractDatabase implements StackInterface, UpdateInterface
 {
-    const CURRENT_MAJOR = 7; // Positive integer [X]
-    const CURRENT_MINOR = 0; // Positive integer [Y]
-    const LATEST_PATCH = 1; // Positive integer [Z]
+    const NEW_MAJOR = 6; // Positive integer [X]
+    const NEW_MINOR = 1; // Positive integer [Y]
+    // NOTE: No patch here for updates. For updates the patch is always '0'
     const LATEST_RELEASE = ''; // String
     const LATEST_BUILD_METADATA = ''; // String
     const PLUGIN_PREFIX = "expandable_faq_";
@@ -37,65 +36,100 @@ final class PatchesXYZ extends AbstractDatabase implements StackInterface, Datab
      * SQL for early database altering
      * @return bool
      */
-    public function patchDatabaseEarlyStructure()
+    public function alterDatabaseEarlyStructure()
     {
         // NOTHING HERE
-        $patched = TRUE;
+        $altered = TRUE;
 
-        //$arrSQL = array();
-        //$patched = $this->executeQueries($arrSQL);
-        //if($patched === FALSE)
+        // $arrSQL = array();
+        // $altered = $this->executeQueries($arrSQL);
+        //if($altered === FALSE)
         //{
-        //    $this->errorMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_EARLY_STRUCTURE_PATCH_ERROR_TEXT'), $this->blogId);
+        //    $this->errorMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_EARLY_STRUCTURE_ALTER_ERROR_TEXT'), $this->blogId);
         //} else
         //{
-        //    $this->okayMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_EARLY_STRUCTURE_PATCHED_TEXT'), $this->blogId);
+        //    $this->okayMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_EARLY_STRUCTURE_ALTERED_TEXT'), $this->blogId);
         //}
 
-        return $patched;
+        return $altered;
     }
 
     /**
+     * SQL for updating database data
      * @return bool
      */
-    public function patchData()
+    public function updateDatabaseData()
     {
         // NOTHING HERE
-        $patched = TRUE;
 
-        //$arrSQL = array();
-        //$patched = $this->executeQueries($arrSQL);
-        //if($patched === FALSE)
+        // Update main data
+        $updated = TRUE;
+
+        // $arrSQL = array();
+        // $updated = $this->executeQueries($arrSQL);
+        //if($updated === FALSE)
         //{
-        //    $this->errorMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_DATA_PATCH_ERROR_TEXT'), $this->blogId);
+        //    $this->errorMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_DATA_UPDATE_ERROR_TEXT'), $this->blogId);
         //} else
         //{
-        //    $this->okayMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_DATA_PATCHED_TEXT'), $this->blogId);
+        //    $this->okayMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_DATA_UPDATED_TEXT'), $this->blogId);
         //}
 
-        return $patched;
+        return $updated;
     }
 
     /**
      * SQL for late database altering
      * @return bool
      */
-    public function patchDatabaseLateStructure()
+    public function alterDatabaseLateStructure()
     {
         // NOTHING HERE
-        $patched = TRUE;
+        $altered = TRUE;
 
         // $arrSQL = array();
-        // $patched = $this->executeQueries($arrSQL);
-        //if($patched === FALSE)
+        // $altered = $this->executeQueries($arrSQL);
+        //if($altered === FALSE)
         //{
-        //    $this->errorMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_LATE_STRUCTURE_PATCH_ERROR_TEXT'), $this->blogId);
+        //    $this->errorMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_LATE_STRUCTURE_ALTER_ERROR_TEXT'), $this->blogId);
         //} else
         //{
-        //    $this->okayMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_LATE_STRUCTURE_PATCHED_TEXT'), $this->blogId);
+        //    $this->okayMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_LATE_STRUCTURE_ALTERED_TEXT'), $this->blogId);
         //}
 
-        return $patched;
+        return $altered;
+    }
+
+    public function updateCustomRoles()
+    {
+        // NOTHING HERE
+        $rolesUpdated = TRUE;
+
+        //if($rolesUpdated === FALSE)
+        //{
+        //    $this->errorMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_ROLES_UPDATE_ERROR_TEXT'), $this->blogId);
+        //} else
+        //{
+        //    $this->okayMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_ROLES_UPDATED_TEXT'), $this->blogId);
+        //}
+
+        return $rolesUpdated;
+    }
+
+    public function updateCustomCapabilities()
+    {
+        // NOTHING HERE
+        $rolesUpdated = TRUE;
+
+        //if($rolesUpdated === FALSE)
+        //{
+        //    $this->errorMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_CAPABILITIES_UPDATE_ERROR_TEXT'), $this->blogId);
+        //} else
+        //{
+        //    $this->okayMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_CAPABILITIES_UPDATED_TEXT'), $this->blogId);
+        //}
+
+        return $rolesUpdated;
     }
 
     /**
@@ -108,7 +142,8 @@ final class PatchesXYZ extends AbstractDatabase implements StackInterface, Datab
         $updated = FALSE;
         $validBlogId = StaticValidator::getValidPositiveInteger($this->blogId, 0);
 
-        $newSemver = static::CURRENT_MAJOR.'.'.static::CURRENT_MINOR.'.'.static::LATEST_PATCH;
+        // NOTE: For updates the patch is always 0
+        $newSemver = static::NEW_MAJOR.'.'.static::NEW_MINOR.'.0';
         $newSemver .= static::LATEST_RELEASE != "" ? "-".static::LATEST_RELEASE : "";
         $newSemver .= static::LATEST_BUILD_METADATA != "" ? "+".static::LATEST_BUILD_METADATA : "";
 

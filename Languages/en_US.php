@@ -76,6 +76,7 @@ return array(
     'LANG_UNKNOWN_TEXT' => 'Unknown',
     'LANG_UNKNOWN_ERROR_TEXT' => 'Unknown error.',
     'LANG_PLEASE_KEEP_IN_MIND_THAT_TEXT' => 'Please keep in mind that',
+    'LANG_NOTICE_S_TEXT' => 'Notice: %s',
     'LANG_ERROR_IN_METHOD_TEXT' => 'Error in \'%s\' method: %s!',
 
     // OK / Error Messages - (Database) Update
@@ -107,8 +108,13 @@ return array(
     // Demo Element
     'LANG_DEMO_SELECT_TEXT' => ' --- Select Demo --- ',
     'LANG_DEMO_IMPORT_TEXT' => 'Import Demo',
+    'LANG_DEMO_IMPORT_SHORT_TEXT' => 'Import',
+    'LANG_DEMO_NOTE_ON_DATA_FLUSHING_TEXT' => 'By importing demo you will flush all your existing data of this plugin.',
+    'LANG_DEMO_NOTE_ON_NO_AFFECT_TO_OTHER_CONTENT_TEXT' => 'Other website content, including pages content, won\'t be affected, so you still have to add the shortcodes by yourself.',
+    'LANG_DEMO_NOTE_TO_HAVE_DATABASE_BACKUP_TEXT' => 'Make sure you have a latest database backup with you before importing a demo.',
 
     // OK / Error Messages - Demo Element
+    'LANG_DEMO_IMPORTING_DIALOG_TEXT' => 'Are you sure? This will flush all the content of plugin you have!',
     'LANG_DEMO_SQL_FILE_DOES_NOT_EXIST_OR_IS_NOT_READABLE_TEXT' => 'Error: Demo SQL file does not exists or is not readable!',
     'LANG_DEMO_INSERTION_ERROR_TEXT' => 'Error: MySQL insert error in demo data import!',
     'LANG_DEMO_INSERTED_TEXT' => 'Completed: Demo data has been imported successfully!',
@@ -169,6 +175,11 @@ return array(
     'LANG_SETTINGS_DROP_DATA_TEXT' => 'Drop Data',
     'LANG_SETTINGS_GLOBAL_TEXT' => 'Global Settings',
     'LANG_SETTINGS_GLOBAL_SHORT_TEXT' => 'Global',
+    'LANG_SETTINGS_USE_SESSIONS_TEXT' => 'Use Sessions',
+    'LANG_SETTINGS_FRONTEND_STYLE_TEXT' => 'Front-End Style',
+    'LANG_SETTINGS_FONT_AWESOME_ICONS_TEXT' => 'Font Awesome Icons',
+    'LANG_SETTINGS_NOTE_FOR_SESSIONS_USAGE_TEXT' => 'Use of sessions is recommended, if supported by the server - that gives better site loading speed & additional security layer.',
+    'LANG_SETTINGS_NOTE_FOR_ASSETS_LOADING_PLACE_TEXT' => 'Loading assets from the other place, means that scripts/style/fonts/images will be loaded from the current or parent theme (if defined there), or from other plugin (if defined there).',
     'LANG_SETTINGS_CHANGE_GLOBAL_SETTINGS_TEXT' => 'Change Global Settings',
     'LANG_SETTINGS_CHANGE_NOTIFICATION_SETTINGS_TEXT' => 'Change Notification Settings',
     'LANG_SETTINGS_UPDATE_GLOBAL_SETTINGS_TEXT' => 'Update global settings',
@@ -210,6 +221,8 @@ return array(
     'LANG_STATUS_UPDATE_STEP_CLICK_UPDATE_TEXT' => 'Go back to "Expandable FAQ -> Status" page and click [Update] button - it will update the plugin\'s database tables',
     'LANG_STATUS_UPDATE_STEP_DONE_TEXT' => 'That\'s it',
     'LANG_STATUS_GO_TO_NETWORK_ADMIN_TEXT' => 'To check for updates of network-enabled plugin, go to "Expandable FAQ -> Status" menu item, located in WordPress Network Admin.',
+    'LANG_STATUS_NOTE_FOR_POSSIBLY_NOT_IMPORTED_DATA_TEXT' => 'Note: You may also see this message, because you did not yet imported plugin\'s data to this exact blog. To do that, go to your current blog\'s plugin list, and click "Import Data" below the plugin\'s name.',
+    'LANG_STATUS_NETWORK_NOTE_FOR_POSSIBLY_NOT_IMPORTED_DATA_TEXT' => 'Note: You may also see this message, because it might be that there is zero blog\'s in your network that has the plugin\'s data imported. To import it, go to any of your blog\'s plugin list, and click "Import Data" below the plugin\'s name.',
     'LANG_STATUS_SYSTEM_READY_FOR_UPDATE_TEXT' => 'Expandable FAQ is ready for update',
     'LANG_STATUS_SYSTEM_READY_FOR_UPGRADE_TEXT' => 'Expandable FAQ is ready for upgrade',
     'LANG_STATUS_UPDATE_TO_NEXT_VERSION_TEXT' => 'Update plugin to the next version',

@@ -1,7 +1,6 @@
 <?php
 /**
  * Patch class
- * NOTE: This is a boilerplate class, so please replace PatchXYZ with exact major ("X") and minor ("Y"), i.e. "Patches70Z"
  *
  * @package ExpandableFAQ
  * @author KestutisIT
@@ -14,11 +13,11 @@ use ExpandableFAQ\Models\StackInterface;
 use ExpandableFAQ\Models\Language\LanguageInterface;
 use ExpandableFAQ\Models\Validation\StaticValidator;
 
-final class PatchesXYZ extends AbstractDatabase implements StackInterface, DatabaseInterface, PatchInterface
+final class Patches61Z extends AbstractDatabase implements StackInterface, DatabaseInterface, PatchInterface
 {
-    const CURRENT_MAJOR = 7; // Positive integer [X]
-    const CURRENT_MINOR = 0; // Positive integer [Y]
-    const LATEST_PATCH = 1; // Positive integer [Z]
+    const CURRENT_MAJOR = 6; // Positive integer [X]
+    const CURRENT_MINOR = 1; // Positive integer [Y]
+    const LATEST_PATCH = 0; // Positive integer [Z]
     const LATEST_RELEASE = ''; // String
     const LATEST_BUILD_METADATA = ''; // String
     const PLUGIN_PREFIX = "expandable_faq_";
@@ -42,15 +41,20 @@ final class PatchesXYZ extends AbstractDatabase implements StackInterface, Datab
         // NOTHING HERE
         $patched = TRUE;
 
-        //$arrSQL = array();
-        //$patched = $this->executeQueries($arrSQL);
-        //if($patched === FALSE)
-        //{
-        //    $this->errorMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_EARLY_STRUCTURE_PATCH_ERROR_TEXT'), $this->blogId);
-        //} else
-        //{
-        //    $this->okayMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_EARLY_STRUCTURE_PATCHED_TEXT'), $this->blogId);
-        //}
+        /*$arrSQL = array();
+        $objSemver = new Semver($this->pluginSemverInDatabase, FALSE);
+        $currentPatch = $objSemver->getPatch();
+
+        // No patches yet
+
+        $patched = $this->executeQueries($arrSQL);
+        if($patched === FALSE)
+        {
+            $this->errorMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_EARLY_STRUCTURE_PATCH_ERROR_TEXT'), $this->blogId);
+        } else
+        {
+            $this->okayMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_EARLY_STRUCTURE_PATCHED_TEXT'), $this->blogId);
+        }*/
 
         return $patched;
     }
@@ -63,15 +67,24 @@ final class PatchesXYZ extends AbstractDatabase implements StackInterface, Datab
         // NOTHING HERE
         $patched = TRUE;
 
-        //$arrSQL = array();
-        //$patched = $this->executeQueries($arrSQL);
-        //if($patched === FALSE)
-        //{
-        //    $this->errorMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_DATA_PATCH_ERROR_TEXT'), $this->blogId);
-        //} else
-        //{
-        //    $this->okayMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_DATA_PATCHED_TEXT'), $this->blogId);
-        //}
+        /*$arrSQL = array();
+        $validBlogId = StaticValidator::getValidPositiveInteger($this->blogId, 0);
+
+        $objSemver = new Semver($this->pluginSemverInDatabase, FALSE);
+        $currentPatch = $objSemver->getPatch();
+
+        // No patches yet
+
+        // Execute queries
+        $patched = $this->executeQueries($arrSQL);
+
+        if($patched === FALSE)
+        {
+            $this->errorMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_DATA_PATCH_ERROR_TEXT'), $this->blogId);
+        } else
+        {
+            $this->okayMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_DATA_PATCHED_TEXT'), $this->blogId);
+        }*/
 
         return $patched;
     }
@@ -116,7 +129,7 @@ final class PatchesXYZ extends AbstractDatabase implements StackInterface, Datab
         $semverUpdated = $this->executeQuery("
             UPDATE `{$this->conf->getPrefix()}settings`
             SET `conf_value`='{$newSemver}'
-            WHERE `conf_key`='conf_plugin_semver' AND blog_id='{$validBlogId}'
+            WHERE `conf_key` IN ('conf_plugin_semver', 'conf_plugin_version') AND blog_id='{$validBlogId}'
         ");
         // Reset counter back to 0 to say that the new update can start from the first update class query. That will be used in future updates
         $counterReset = $this->executeQuery("

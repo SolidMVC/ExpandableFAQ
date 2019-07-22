@@ -32,6 +32,7 @@ use ExpandableFAQ\Controllers\Front\Shortcodes\EntryController;
 use ExpandableFAQ\Controllers\Front\Shortcodes\ServicesController;
 use ExpandableFAQ\Models\Configuration\ConfigurationInterface;
 use ExpandableFAQ\Models\Language\LanguageInterface;
+use ExpandableFAQ\Models\Validation\StaticValidator;
 
 final class ShortcodeController
 {
@@ -56,8 +57,9 @@ final class ShortcodeController
         // Get special shortcode parameter values
         $sanitizedDisplay = isset($paramAttrArray['display']) ? sanitize_key($paramAttrArray['display']) : "";
         $paramLayout = isset($paramAttrArray['layout']) ? $paramAttrArray['layout'] : "";
+        $paramStyle = isset($paramAttrArray['style']) ? $paramAttrArray['style'] : "";
 
-        // Layout processor
+        // Layout processor - sanitize early
         $layoutParts = explode("-", $paramLayout);
         $sanitizedLayout = '';
         foreach($layoutParts AS $layoutPart)
@@ -65,10 +67,18 @@ final class ShortcodeController
             $sanitizedLayout .= ucfirst(sanitize_key($layoutPart));
         }
 
+        // Validate style early
+        $validStyle = '';
+        if($paramStyle != "")
+        {
+            $validStyle = StaticValidator::getValidPositiveInteger($paramStyle, 0);
+        }
+
         // Prepare the limits array - pop unnecessary array elements
         $paramArrLimits = $paramAttrArray;
         if(isset($paramArrLimits['display'])) { unset($paramArrLimits['display']); }
         if(isset($paramArrLimits['layout'])) { unset($paramArrLimits['layout']); }
+        if(isset($paramArrLimits['style'])) { unset($paramArrLimits['style']); }
 
         // Render the page HTML to output buffer cache
         switch($sanitizedDisplay)
@@ -76,7 +86,7 @@ final class ShortcodeController
             case "faqs":
                 // Create instance and render F.A.Q.'s list
                 $objFAQsController = new FAQsController($this->conf, $this->lang, $paramArrLimits);
-                $retContent = $objFAQsController->getContent($sanitizedLayout);
+                $retContent = $objFAQsController->getContent($sanitizedLayout, $validStyle);
                 break;
 
             default:

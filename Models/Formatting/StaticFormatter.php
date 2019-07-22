@@ -120,19 +120,6 @@ final class StaticFormatter
         return $formattedPercentage;
     }
 
-    public static function getPrintMessage(array $paramMessages)
-    {
-        $messagesToAdd = array();
-        foreach($paramMessages AS $paramMessage)
-        {
-            $messagesToAdd[] = sanitize_text_field($paramMessage);
-        }
-
-        $printMessage = implode('<br />', $messagesToAdd);
-
-        return $printMessage;
-    }
-
     public static function getAllDaysOfTheMonthArray($paramYear = "current", $paramMonth = "current", $paramWeekend = "SAT_SUN")
     {
         if($paramYear =="current" && $paramMonth == "current")
@@ -472,7 +459,7 @@ final class StaticFormatter
         return $arrHourTimestamps;
     }
 
-    public static function generateDropdownOptions($from, $to, $selectedValue = "", $defaultValue = "", $defaultText = "", $prefixed = FALSE, $suffix = "")
+    public static function generateDropdownOptionsHTML($from, $to, $selectedValue = "", $defaultValue = "", $defaultText = "", $prefixed = FALSE, $suffix = "")
     {
         $ret = "";
         $suffix = $suffix != '' ? ' '.$suffix : '';
@@ -481,10 +468,10 @@ final class StaticFormatter
         {
             if($selectedValue == $defaultValue)
             {
-                $ret .= '<option value="'.$defaultValue.'" selected="selected">'.$defaultText.'</option>';
+                $ret .= '<option value="'.esc_attr($defaultValue).'" selected="selected">'.$defaultText.'</option>';
             } else
             {
-                $ret .= '<option value="'.$defaultValue.'">'.$defaultText.'</option>';
+                $ret .= '<option value="'.esc_attr($defaultValue).'">'.$defaultText.'</option>';
             }
         }
 
@@ -493,11 +480,11 @@ final class StaticFormatter
             $prefixedValue = $prefixed ? sprintf('%0'.strlen($to).'d', $i) : $i;
             if($prefixedValue == $selectedValue)
             {
-                $ret .= '<option value="'.$prefixedValue.'" selected="selected">'.$i.$suffix.'</option>';
+                $ret .= '<option value="'.esc_attr($prefixedValue).'" selected="selected">'.$i.$suffix.'</option>';
 
             } else
             {
-                $ret .= '<option value="'.$prefixedValue.'">'.$i.$suffix.'</option>';
+                $ret .= '<option value="'.esc_attr($prefixedValue).'">'.$i.$suffix.'</option>';
             }
         }
 
@@ -511,7 +498,7 @@ final class StaticFormatter
      * @param string $paramDefaultText - if "SKIP" is used, it will skip from showing
      * @return string
      */
-    public static function getKeyValueDropdownOptions(array $paramValueTextPairs, $paramSelectedValue = "", $paramDefaultValue = "", $paramDefaultText = "")
+    public static function getKeyValueDropdownOptionsHTML(array $paramValueTextPairs, $paramSelectedValue = "", $paramDefaultValue = "", $paramDefaultText = "")
     {
         $ret = "";
 
@@ -519,20 +506,20 @@ final class StaticFormatter
         {
             if($paramSelectedValue == $paramDefaultValue)
             {
-                $ret = '<option value="'.$paramDefaultValue.'" selected="selected">'.$paramDefaultText.'</option>';
+                $ret = '<option value="'.esc_attr($paramDefaultValue).'" selected="selected">'.$paramDefaultText.'</option>';
             } else
             {
-                $ret = '<option value="'.$paramDefaultValue.'">'.$paramDefaultText.'</option>';
+                $ret = '<option value="'.esc_attr($paramDefaultValue).'">'.$paramDefaultText.'</option>';
             }
         }
         foreach ($paramValueTextPairs as $value => $text)
         {
             if($value == $paramSelectedValue)
             {
-                $ret .= '<option value="'.$value.'" selected="selected">'.$text.'</option>';
+                $ret .= '<option value="'.esc_attr($value).'" selected="selected">'.$text.'</option>';
             } else
             {
-                $ret .= '<option value="'.$value.'">'.$text.'</option>';
+                $ret .= '<option value="'.esc_attr($value).'">'.$text.'</option>';
             }
         }
 
@@ -559,11 +546,11 @@ final class StaticFormatter
         return ($a['unit']['discounted_total'] < $b['unit']['discounted_total']) ? -1 : 1;
     }
 
-    public static function getYearStartDatesDropdownOptions(
+    public static function getYearStartDatesDropdownOptionsHTML(
         $paramSelectedValue, $paramStartYear, $paramEndYear, $paramDateFormat = 'm/d/Y', $paramDefaultValue = "", $paramDefaultLabel = ""
     ) {
-        $printDefaultValue = esc_html(sanitize_text_field($paramDefaultValue));
-        $printDefaultLabel = esc_html(sanitize_text_field($paramDefaultLabel));
+        $sanitizedDefaultValue = sanitize_text_field($paramDefaultValue);
+        $sanitizedDefaultLabel = sanitize_text_field($paramDefaultLabel);
         $retHTML = '';
 
         $shortDateFormat = "m/d/Y";
@@ -582,10 +569,10 @@ final class StaticFormatter
         {
             if($paramDefaultValue == $paramSelectedValue)
             {
-                $retHTML .= '<option value="'.$printDefaultValue.'" selected="selected">'.$printDefaultLabel.'</option>';
+                $retHTML .= '<option value="'.esc_attr($sanitizedDefaultValue).'" selected="selected">'.esc_html($sanitizedDefaultLabel).'</option>';
             } else
             {
-                $retHTML .= '<option value="'.$printDefaultValue.'">'.$printDefaultLabel.'</option>';
+                $retHTML .= '<option value="'.esc_attr($sanitizedDefaultValue).'">'.esc_html($sanitizedDefaultLabel).'</option>';
             }
         }
 
@@ -605,21 +592,21 @@ final class StaticFormatter
             $value = date($shortDateFormat, $timestamp);
             if($year == $paramSelectedValue)
             {
-                $retHTML .= '<option value="'.$value.'" selected="selected">'.$year.'</option>';
+                $retHTML .= '<option value="'.esc_attr($value).'" selected="selected">'.$year.'</option>';
             } else
             {
-                $retHTML .= '<option value="'.$value.'">'.$year.'</option>';
+                $retHTML .= '<option value="'.esc_attr($value).'">'.$year.'</option>';
             }
         }
 
         return $retHTML;
     }
 
-    public static function getMonthStartDatesDropdownOptions(
+    public static function getMonthStartDatesDropdownOptionsHTML(
         $paramSelectedValue, $paramStartTimestamp, $paramEndTimestamp, $paramDateFormat = 'm/d/Y', $paramDefaultValue = "", $paramDefaultLabel = ""
     ) {
-        $printDefaultValue = esc_html(sanitize_text_field($paramDefaultValue));
-        $printDefaultLabel = esc_html(sanitize_text_field($paramDefaultLabel));
+        $sanitizedDefaultValue = sanitize_text_field($paramDefaultValue);
+        $sanitizedDefaultLabel = sanitize_text_field($paramDefaultLabel);
         $retHTML = '';
 
         $monthWithYearFormat = "m, Y";
@@ -660,10 +647,10 @@ final class StaticFormatter
         {
             if($paramDefaultValue == $paramSelectedValue)
             {
-                $retHTML .= '<option value="'.$printDefaultValue.'" selected="selected">'.$printDefaultLabel.'</option>';
+                $retHTML .= '<option value="'.esc_attr($sanitizedDefaultValue).'" selected="selected">'.esc_html($sanitizedDefaultLabel).'</option>';
             } else
             {
-                $retHTML .= '<option value="'.$printDefaultValue.'">'.$printDefaultLabel.'</option>';
+                $retHTML .= '<option value="'.esc_attr($sanitizedDefaultValue).'">'.esc_html($sanitizedDefaultLabel).'</option>';
             }
         }
 
@@ -678,10 +665,10 @@ final class StaticFormatter
                 $label = date($monthWithYearFormat, $timestamp);
                 if($value == $paramSelectedValue)
                 {
-                    $retHTML .= '<option value="'.$value.'" selected="selected">'.$label.'</option>';
+                    $retHTML .= '<option value="'.esc_attr($value).'" selected="selected">'.$label.'</option>';
                 } else
                 {
-                    $retHTML .= '<option value="'.$value.'">'.$label.'</option>';
+                    $retHTML .= '<option value="'.esc_attr($value).'">'.$label.'</option>';
                 }
             }
         }
@@ -718,7 +705,7 @@ final class StaticFormatter
      * @param array $paramExcludedTimes - times to exclude, i.e. (09:00:00)
      * @return string
      */
-    public static function getTimeDropdownOptions($paramTimeInterval = 1800, $paramSelectedTime = "09:00:00", $paramISOTimeFrom = "00:00:00", $paramISOTimeTo = "23:30:00", $paramMidnightText = "00:00", $paramNoonText = "12:00", $paramExcludedTimes = array())
+    public static function getTimeDropdownOptionsHTML($paramTimeInterval = 1800, $paramSelectedTime = "09:00:00", $paramISOTimeFrom = "00:00:00", $paramISOTimeTo = "23:30:00", $paramMidnightText = "00:00", $paramNoonText = "12:00", $paramExcludedTimes = array())
     {
         $UTCUnixTimeFrom = strtotime(date("Y-m-d")." ".$paramISOTimeFrom);
         $UTCUnixTimeTo = strtotime(date("Y-m-d")." ".$paramISOTimeTo);
@@ -799,27 +786,28 @@ final class StaticFormatter
 
                 $currentTime = $currentHour.':'.$currentMin.':00';
 
-                $UTCUnixCurrentTime = strtotime(date("Y-m-d")." ".$currentTime);
+                $utcUnixCurrentTime = strtotime(date("Y-m-d")." ".$currentTime);
                 if($currentTime == "00:00:00")
                 {
-                    $printCurrentTime = esc_html(sanitize_text_field($paramMidnightText));
+                    $currentTimeText = sanitize_text_field($paramMidnightText);
                 } else if($currentTime == "12:00:00")
                 {
-                    $printCurrentTime = esc_html(sanitize_text_field($paramNoonText));
+                    $currentTimeText = sanitize_text_field($paramNoonText);
                 } else
                 {
-                    $printCurrentTime = date_i18n(get_option('time_format'), $UTCUnixCurrentTime, TRUE);
+                   // i18n
+                    $currentTimeText = date_i18n(get_option('time_format'), $utcUnixCurrentTime, TRUE);
                 }
 
                 // Show time only it is is not in exclude list
-                if($UTCUnixCurrentTime >= $UTCUnixTimeFrom && $UTCUnixCurrentTime <= $UTCUnixTimeTo && !in_array($currentTime, $paramExcludedTimes))
+                if($utcUnixCurrentTime >= $UTCUnixTimeFrom && $utcUnixCurrentTime <= $UTCUnixTimeTo && !in_array($currentTime, $paramExcludedTimes))
                 {
                     if($currentTime == $stringSelectedTime)
                     {
-                        $retHTML .= '<option value="'.$currentTime.'" selected="selected">'.$printCurrentTime.'</option>';
+                        $retHTML .= '<option value="'.esc_attr($currentTime).'" selected="selected">'.esc_html($currentTimeText).'</option>';
                     } else
                     {
-                        $retHTML .= '<option value="'.$currentTime.'">'.$printCurrentTime.'</option>';
+                        $retHTML .= '<option value="'.esc_attr($currentTime).'">'.esc_html($currentTimeText).'</option>';
                     }
                 }
             }
@@ -828,21 +816,21 @@ final class StaticFormatter
         // Special 23:59:59
         if($paramISOTimeTo == "23:59:59" && !in_array("23:59:59", $paramExcludedTimes))
         {
-            $UTCUnixCurrentTime = strtotime(date("Y-m-d")." 23:59:59");
-            $printCurrentTime = date_i18n(get_option('time_format'), $UTCUnixCurrentTime, TRUE);
+            $utcUnixCurrentTime = strtotime(date("Y-m-d")." 23:59:59");
+            $currentTimeText = date_i18n(get_option('time_format'), $utcUnixCurrentTime, TRUE);
 
             if($paramSelectedTime == "23:59:59")
             {
-                $retHTML .= '<option value="23:59:59" selected="selected">'.$printCurrentTime.'</option>';
+                $retHTML .= '<option value="23:59:59" selected="selected">'.esc_html($currentTimeText).'</option>';
 
             } else
             {
-                $retHTML .= '<option value="23:59:59">'.$printCurrentTime.'</option>';
+                $retHTML .= '<option value="23:59:59">'.esc_html($currentTimeText).'</option>';
             }
         }
 
         // DEBUG
-        //echo "<br />getTimeDropdownOptions(): FROM-TO TIME: {$paramISOTimeFrom} - {$paramISOTimeTo}, SELECTED: {$paramSelectedTime}";
+        //echo "<br />getTimeDropdownOptionsHTML(): FROM-TO TIME: {$paramISOTimeFrom} - {$paramISOTimeTo}, SELECTED: {$paramSelectedTime}";
 
         return $retHTML;
     }
@@ -857,26 +845,34 @@ final class StaticFormatter
      * @param string $paramSuffix
      * @return string
      */
-    public static function getNumberDropdownOptions($paramValueFrom = 0, $paramValueTill = 100, $paramSelectedValue = 0, $paramDefaultValue = "", $paramDefaultLabel = "", $paramSuffix = "")
+    public static function getTrustedNumberDropdownOptionsHTML($paramValueFrom = 0, $paramValueTill = 100, $paramSelectedValue = 0, $paramDefaultValue = "", $paramDefaultLabel = "", $paramSuffix = "")
     {
         $retHTML = '';
-        $validSuffix = esc_html(sanitize_text_field($paramSuffix));
+        $validSuffix = $paramSuffix != "" ? " ".esc_html(sanitize_text_field($paramSuffix)) : "";
 
         if($paramDefaultValue != "" || $paramDefaultLabel != "")
         {
-            $printDefaultValue = esc_html(sanitize_text_field($paramDefaultValue));
-            $printDefaultLabel = esc_html(sanitize_text_field($paramDefaultLabel));
+            $sanitizedDefaultValue = sanitize_text_field($paramDefaultValue);
+            $sanitizedDefaultLabel = sanitize_text_field($paramDefaultLabel);
             if($paramSelectedValue == $paramDefaultValue)
             {
-                $retHTML .= '<option value="'.$printDefaultValue.'" selected="selected">'.$printDefaultLabel.'</option>';
+                $retHTML .= '<option value="'.esc_attr($sanitizedDefaultValue).'" selected="selected">'.esc_html($sanitizedDefaultLabel).'</option>';
             } else
             {
-                $retHTML .= '<option value="'.$printDefaultValue.'">'.$printDefaultLabel.'</option>';
+                $retHTML .= '<option value="'.esc_attr($sanitizedDefaultValue).'">'.esc_html($sanitizedDefaultLabel).'</option>';
             }
         }
         $i = intval($paramValueFrom);
         while ($i <= $paramValueTill)
         {
+            if($i == $paramSelectedValue)
+            {
+                $retHTML .= '<option value="'.esc_attr($i).'" selected="selected">'.$i.$validSuffix.'</option>';
+            } else
+            {
+                $retHTML .= '<option value="'.esc_attr($i).'">'.$i.$validSuffix.'</option>';
+            }
+
             if($i < 100)
             {
                 // 1+
@@ -901,14 +897,6 @@ final class StaticFormatter
             {
                 // 1M+
                 $i += 100000;
-            }
-            $value = $i;
-            if($i == $paramSelectedValue)
-            {
-                $retHTML .= '<option value="'.$value.'" selected="selected">'.$i.$validSuffix.'</option>';
-            } else
-            {
-                $retHTML .= '<option value="'.$value.'">'.$i.$validSuffix.'</option>';
             }
         }
 

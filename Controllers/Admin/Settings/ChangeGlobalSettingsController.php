@@ -36,7 +36,7 @@ final class ChangeGlobalSettingsController extends AbstractController
         $objSetting = new Setting($this->conf, $this->lang, $key);
         $objSetting->saveNumber(isset($_POST[$key]) ? $_POST[$key] : 0, 0, array(0, 1), TRUE);
 
-        StaticSession::cacheValueArray('admin_okay_message', array($this->lang->getPrint('LANG_SETTINGS_GLOBAL_SETTINGS_UPDATED_TEXT')));
+        StaticSession::cacheValueArray('admin_okay_message', array($this->lang->getText('LANG_SETTINGS_GLOBAL_SETTINGS_UPDATED_TEXT')));
 
         wp_safe_redirect('admin.php?page='.$this->conf->getPluginURL_Prefix().'settings&tab=global-settings');
         exit;
@@ -51,25 +51,25 @@ final class ChangeGlobalSettingsController extends AbstractController
 
         if($this->dbSets->get('conf_use_sessions') == 1)
         {
-            $selectUseSessions  = '<option value="0">'.$this->lang->getPrint('LANG_NO_TEXT').'</option>'."\n";
-            $selectUseSessions .= '<option value="1" selected="selected">'.$this->lang->getPrint('LANG_YES_TEXT').'</option>'."\n";
+            $trustedUseSessionsHTML  = '<option value="0">'.$this->lang->escHTML('LANG_NO_TEXT').'</option>'."\n";
+            $trustedUseSessionsHTML .= '<option value="1" selected="selected">'.$this->lang->escHTML('LANG_YES_TEXT').'</option>'."\n";
         } else
         {
-            $selectUseSessions  = '<option value="0" selected="selected">'.$this->lang->getPrint('LANG_NO_TEXT').'</option>'."\n";
-            $selectUseSessions .= '<option value="1">'.$this->lang->getPrint('LANG_YES_TEXT').'</option>'."\n";
+            $trustedUseSessionsHTML  = '<option value="0" selected="selected">'.$this->lang->escHTML('LANG_NO_TEXT').'</option>'."\n";
+            $trustedUseSessionsHTML .= '<option value="1">'.$this->lang->escHTML('LANG_YES_TEXT').'</option>'."\n";
         }
-        $retSettings['select_use_sessions'] = $selectUseSessions;
+        $retSettings['trusted_use_sessions_html'] = $trustedUseSessionsHTML;
 
         if($this->dbSets->get('conf_load_font_awesome_from_plugin') == 1)
         {
-            $selectLoadFontAwesomeFromPlugin  = '<option value="0">'.$this->lang->getPrint('LANG_SETTING_LOAD_FROM_OTHER_PLACE_TEXT').'</option>'."\n";
-            $selectLoadFontAwesomeFromPlugin .= '<option value="1" selected="selected">'.$this->lang->getPrint('LANG_SETTING_LOAD_FROM_PLUGIN_TEXT').'</option>'."\n";
+            $trustedLoadFontAwesomeFromPluginHTML  = '<option value="0">'.$this->lang->escHTML('LANG_SETTING_LOAD_FROM_OTHER_PLACE_TEXT').'</option>'."\n";
+            $trustedLoadFontAwesomeFromPluginHTML .= '<option value="1" selected="selected">'.$this->lang->escHTML('LANG_SETTING_LOAD_FROM_PLUGIN_TEXT').'</option>'."\n";
         } else
         {
-            $selectLoadFontAwesomeFromPlugin  = '<option value="0" selected="selected">'.$this->lang->getPrint('LANG_SETTING_LOAD_FROM_OTHER_PLACE_TEXT').'</option>'."\n";
-            $selectLoadFontAwesomeFromPlugin .= '<option value="1">'.$this->lang->getPrint('LANG_SETTING_LOAD_FROM_PLUGIN_TEXT').'</option>'."\n";
+            $trustedLoadFontAwesomeFromPluginHTML  = '<option value="0" selected="selected">'.$this->lang->escHTML('LANG_SETTING_LOAD_FROM_OTHER_PLACE_TEXT').'</option>'."\n";
+            $trustedLoadFontAwesomeFromPluginHTML .= '<option value="1">'.$this->lang->escHTML('LANG_SETTING_LOAD_FROM_PLUGIN_TEXT').'</option>'."\n";
         }
-        $retSettings['select_load_font_awesome_from_plugin'] = $selectLoadFontAwesomeFromPlugin;
+        $retSettings['trusted_load_font_awesome_from_plugin_html'] = $trustedLoadFontAwesomeFromPluginHTML;
 
 
         return $retSettings;

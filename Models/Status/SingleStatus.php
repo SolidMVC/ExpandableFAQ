@@ -72,12 +72,12 @@ final class SingleStatus extends AbstractStack implements StackInterface, Single
                 {
                     // Show additional plugin links only if the plugin is up-to-date, and has existing extension data for Blog ID=X
                     $dropDataPageURL = admin_url('admin.php?page='.$this->conf->getPluginURL_Prefix().'single-status&drop_data=1&noheader=true');
-                    $retLinks[] = '<a href="'.$dropDataPageURL.'">'.$this->lang->getPrint('LANG_SETTINGS_DROP_DATA_TEXT').'</a>';
+                    $retLinks[] = '<a href="'.esc_url($dropDataPageURL).'">'.$this->lang->escHTML('LANG_SETTINGS_DROP_DATA_TEXT').'</a>';
                 } else
                 {
                     // Show additional plugin links only if the plugin is up-to-date, and doesn't have existing extension data for Blog ID=X
                     $populateDataPageURL = admin_url('admin.php?page='.$this->conf->getPluginURL_Prefix().'single-status&populate_data=1&noheader=true');
-                    $retLinks[] = '<a href="'.$populateDataPageURL.'">'.$this->lang->getPrint('LANG_SETTINGS_POPULATE_DATA_TEXT').'</a>';
+                    $retLinks[] = '<a href="'.esc_url($populateDataPageURL).'">'.$this->lang->escHTML('LANG_SETTINGS_POPULATE_DATA_TEXT').'</a>';
                 }
             }
         } else
@@ -91,7 +91,7 @@ final class SingleStatus extends AbstractStack implements StackInterface, Single
             {
                 // Show update link, but only if the plugin is not network enabled and is allowed to update from current version
                 $updatePageURL = admin_url('admin.php?page='.$this->conf->getPluginURL_Prefix().'single-status&update=1');
-                $retLinks[] = '<a href="'.$updatePageURL.'">'.$this->lang->getPrint('LANG_UPDATE_TEXT').'</a>';
+                $retLinks[] = '<a href="'.esc_url($updatePageURL).'">'.$this->lang->escHTML('LANG_UPDATE_TEXT').'</a>';
             }
         }
 
@@ -113,7 +113,7 @@ final class SingleStatus extends AbstractStack implements StackInterface, Single
             {
                 // Show additional info links only if the plugin is up-to-date
                 $statusURL = admin_url('admin.php?page='.$this->conf->getPluginURL_Prefix().'single-status');
-                $retLinks[] = '<a href="'.$statusURL.'">'.$this->lang->getPrint('LANG_STATUS_TEXT').'</a>';
+                $retLinks[] = '<a href="'.esc_url($statusURL).'">'.$this->lang->escHTML('LANG_STATUS_TEXT').'</a>';
             }
         } else
         {
@@ -122,7 +122,7 @@ final class SingleStatus extends AbstractStack implements StackInterface, Single
             {
                 // Show additional info links only if the plugin is up-to-date
                 $statusURL = admin_url('admin.php?page='.$this->conf->getPluginURL_Prefix().'single-status');
-                $retLinks[] = '<a href="'.$statusURL.'">'.$this->lang->getPrint('LANG_STATUS_TEXT').'</a>';
+                $retLinks[] = '<a href="'.esc_url($statusURL).'">'.$this->lang->escHTML('LANG_STATUS_TEXT').'</a>';
             }
         }
 
@@ -322,24 +322,6 @@ final class SingleStatus extends AbstractStack implements StackInterface, Single
         }
 
         return $databaseSemver;
-    }
-
-    /**
-     * @note - This function maintains backwards compatibility to SMVC 6.0.0 and newer
-     * @return string
-     */
-    public function getEditPluginSemverInDatabase()
-    {
-        return esc_attr($this->getPluginSemverInDatabase());
-    }
-
-    /**
-     * @note - This function maintains backwards compatibility to SMVC 6.0.0 and newer
-     * @return string
-     */
-    public function getPrintPluginSemverInDatabase()
-    {
-        return esc_html($this->getPluginSemverInDatabase());
     }
 
     /**

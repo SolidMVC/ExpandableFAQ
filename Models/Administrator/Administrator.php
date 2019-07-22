@@ -70,12 +70,4 @@ final class Administrator extends AbstractStack implements StackInterface, WPUse
 
         return $displayName;
     }
-
-    /**
-     * @return string
-     */
-    public function getPrintDisplayName()
-    {
-        return esc_html($this->getDisplayName());
-    }
 }

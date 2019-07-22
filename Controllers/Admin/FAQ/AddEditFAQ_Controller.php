@@ -24,7 +24,7 @@ final class AddEditFAQ_Controller extends AbstractController
         $objFAQ = new FAQ($this->conf, $this->lang, $this->dbSets->getAll(), $paramFAQId);
         $objFAQ->delete();
 
-        StaticSession::cacheHTMLArray('admin_debug_message', $objFAQ->getDebugMessages());
+        StaticSession::cacheHTML_Array('admin_debug_html', $objFAQ->getDebugMessages());
         StaticSession::cacheValueArray('admin_okay_message', $objFAQ->getOkayMessages());
         StaticSession::cacheValueArray('admin_error_message', $objFAQ->getErrorMessages());
 
@@ -43,7 +43,7 @@ final class AddEditFAQ_Controller extends AbstractController
             $objFAQ->registerForTranslation();
         }
 
-        StaticSession::cacheHTMLArray('admin_debug_message', $objFAQ->getDebugMessages());
+        StaticSession::cacheHTML_Array('admin_debug_html', $objFAQ->getDebugMessages());
         StaticSession::cacheValueArray('admin_okay_message', $objFAQ->getOkayMessages());
         StaticSession::cacheValueArray('admin_error_message', $objFAQ->getErrorMessages());
 
@@ -71,8 +71,8 @@ final class AddEditFAQ_Controller extends AbstractController
         if(!is_null($localDetails))
         {
             $this->view->faqId = $localDetails['faq_id'];
-            $this->view->faqQuestion = $localDetails['edit_faq_question'];
-            $this->view->faqAnswer = $localDetails['edit_faq_answer'];
+            $this->view->faqQuestion = $localDetails['faq_question'];
+            $this->view->faqAnswer = $localDetails['faq_answer'];
             $this->view->faqOrder = $localDetails['faq_order'];
         } else
         {

@@ -42,7 +42,7 @@ final class ImportDemoController extends AbstractController
 
         // INFO: This plugin does not use custom post types
 
-        StaticSession::cacheHTMLArray('admin_debug_message', $objDemo->getDebugMessages());
+        StaticSession::cacheHTML_Array('admin_debug_html', $objDemo->getDebugMessages());
         StaticSession::cacheValueArray('admin_okay_message', $objDemo->getOkayMessages());
         StaticSession::cacheValueArray('admin_error_message', $objDemo->getErrorMessages());
 

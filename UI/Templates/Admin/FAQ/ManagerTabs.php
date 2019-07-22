@@ -19,17 +19,17 @@ wp_enqueue_style('expandable-faq-admin');
 ?>
 <div class="car-expandable-faq-list-admin expandable-faq-tabbed-admin expandable-faq-tabbed-admin-wide bg-cyan">
     <?php if ($errorMessage != ""): ?>
-        <div class="admin-info-message admin-wide-message admin-error-message"><?=$errorMessage;?></div>
+        <div class="admin-info-message admin-wide-message admin-error-message"><?=esc_br_html($errorMessage);?></div>
     <?php elseif ($okayMessage != ""): ?>
-        <div class="admin-info-message admin-wide-message admin-okay-message"><?=$okayMessage;?></div>
+        <div class="admin-info-message admin-wide-message admin-okay-message"><?=esc_br_html($okayMessage);?></div>
     <?php endif; ?>
-    <?php if ($debugMessage != ""): ?>
-        <div class="admin-info-message admin-wide-message admin-debug-message"><?=$debugMessage;?></div>
+    <?php if ($ksesedDebugHTML != ""): ?>
+        <div class="admin-info-message admin-wide-message admin-debug-html"><?=$ksesedDebugHTML;?></div>
     <?php endif; ?>
     <div class="body">
         <!-- tabs -->
         <div class="modern-tabs modern-tabs-pos-top-left modern-tabs-anim-flip modern-tabs-response-to-icons">
-            <input type="radio" name="modern-tabs"<?=$faqsTabChecked;?> id="modern-tab1" class="modern-tab-content-1">
+            <input type="radio" name="modern-tabs"<?=(!empty($tabs['faqs']) ? ' checked="checked"' : '');?> id="modern-tab1" class="modern-tab-content-1">
             <label for="modern-tab1"><span><span><i class="fa fa-question-circle" aria-hidden="true"></i>F.A.Q.&#39;s</span></span></label>
 
             <ul>

@@ -152,15 +152,15 @@ final class Demo extends AbstractStack implements StackInterface
             }
         } else
         {
-            $this->errorMessages[] = $this->lang->getPrint('LANG_DEMO_SQL_FILE_DOES_NOT_EXIST_OR_IS_NOT_READABLE_TEXT');
+            $this->errorMessages[] = $this->lang->getText('LANG_DEMO_SQL_FILE_DOES_NOT_EXIST_OR_IS_NOT_READABLE_TEXT');
         }
 
         if($inserted === FALSE)
         {
-            $this->errorMessages[] = $this->lang->getPrint('LANG_DEMO_INSERTION_ERROR_TEXT');
+            $this->errorMessages[] = $this->lang->getText('LANG_DEMO_INSERTION_ERROR_TEXT');
         } else
         {
-            $this->okayMessages[] = $this->lang->getPrint('LANG_DEMO_INSERTED_TEXT');
+            $this->okayMessages[] = $this->lang->getText('LANG_DEMO_INSERTED_TEXT');
         }
 
         return $inserted;

@@ -21,10 +21,11 @@ final class FAQsController extends AbstractController
 
     /**
      * @param string $paramLayout
+     * @param string $paramStyle
      * @return string
      * @throws \Exception
      */
-    public function getContent($paramLayout = "List")
+    public function getContent($paramLayout = "List", $paramStyle = "")
     {
         // Create mandatory instances
         $objFAQsObserver = new FAQsObserver($this->conf, $this->lang, $this->dbSets->getAll());
@@ -41,7 +42,7 @@ final class FAQsController extends AbstractController
 
         // Get the template
         $this->view->faqs = $faqs;
-        $retContent = $this->getTemplate('', 'FAQs', $paramLayout);
+        $retContent = $this->getTemplate('', 'FAQs', $paramLayout, $paramStyle);
 
         return $retContent;
     }

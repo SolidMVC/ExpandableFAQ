@@ -4,8 +4,8 @@ Donate link: https://profiles.wordpress.org/KestutisIT
 Website link: https://wordpress.org/plugins/expandable-faq/
 Tags: collapsible, expandable, faqs, expand, collapse
 Requires at least: 4.6
-Tested up to: 5.0
-Requires PHP: 5.4
+Tested up to: 5.2
+Requires PHP: 5.6
 Stable tag: trunk
 License: MIT License
 License URI: https://opensource.org/licenses/MIT
@@ -93,12 +93,23 @@ to your website's FAQ page and make automatically expand specific FAQ with a pag
 2. Expandable FAQ - Admin FAQ Manager
 3. Expandable FAQ - Admin Global Settings
 4. Expandable FAQ - Admin Import Demo
-5. Expandable FAQ - Admin Plugin Status
-6. Expandable FAQ - Admin User Manual
-
+5. Expandable FAQ - Admin Plugin Updating
+6. Expandable FAQ - Admin Plugin Status
+7. Expandable FAQ - Admin User Manual
 
 
 == Changelog ==
+
+= 6.1.0 =
+* NumberDropdown bug fixed in StaticFormatter.
+* All table classes are now marked as final.
+* For ‘getDataFromDatabaseById’ used array($paramColumns) with getValidSelect instead of paramColumn.
+* ‘esc_html’, and ‘esc_br_html’ are now used everywhere.
+* Import demo and global settings are now fully translated.
+* Added support for ‘style’ [0-9]+ shortcode parameter.
+* Added a note for data population in status page.
+* Replaced ‘getPluginJS_ClassPrefix’ & ‘getPluginJS_VariablePrefix’ with native call.
+* ‘StaticCookie’ and ‘StaticSession’ caching model classes improved.
 
 = 6.0.2 =
 * Updating and patching are now separated. FA now loaded by default after install. Populate/drop data url behaviour changed. Some minor improvements.

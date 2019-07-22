@@ -49,13 +49,13 @@ return array(
 );
 -----------------------------------
 In the templates it will get loaded as:
-<?=$lang['TEST_BUTTON_LABEL'];?>
+<?=esc_html($lang['TEST_BUTTON_LABEL']);?>
 
 And it the Models it will be loaded as:
 -----------------------------------
 <?php
 ...
-$dynamicLabel = $this->lang->getPrint('TEST_BUTTON_LABEL');
+$dynamicLabel = $this->lang->getText('TEST_BUTTON_LABEL');
 ...
 -----------------------------------
 

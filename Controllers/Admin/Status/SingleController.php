@@ -104,7 +104,7 @@ final class SingleController
                     if(method_exists($objTable, 'deleteContent') && method_exists($objTable, 'getDebugMessages') && method_exists($objTable, 'getErrorMessages'))
                     {
                         $objTable->deleteContent();
-                        StaticSession::cacheHTMLArray('admin_debug_message', $objTable->getDebugMessages());
+                        StaticSession::cacheHTML_Array('admin_debug_html', $objTable->getDebugMessages());
                         // We don't process okay messages here
                         StaticSession::cacheValueArray('admin_error_message', $objTable->getErrorMessages());
                     } else
@@ -149,7 +149,6 @@ final class SingleController
 
         // Allow only one update at-a-time per site refresh. We need that to save resources of server to not to get to timeout phase
         $semverUpdated = FALSE;
-        $pluginSemverInDatabase = $objStatus->getPluginSemverInDatabase();
         $latestSemver = $this->conf->getPluginSemver();
 
         // ----------------------------------------
@@ -158,25 +157,33 @@ final class SingleController
 
         if($this->conf->isNetworkEnabled() === FALSE)
         {
-            if(version_compare($pluginSemverInDatabase, $latestSemver, '=='))
+            $currentPluginSemverInDatabase = $objStatus->getPluginSemverInDatabase();
+            if(version_compare($currentPluginSemverInDatabase, '6.0.2', '=='))
+            {
+                $semverUpdated = $objUpdatesObserver->do602_UpdateTo610();
+            } else if(version_compare($currentPluginSemverInDatabase, $latestSemver, '=='))
             {
                 // It's a last version
                 $semverUpdated = TRUE;
             }
 
-            // Run 6.0.Z patches
-            if(version_compare($pluginSemverInDatabase, '6.0.0', '>=') && version_compare($pluginSemverInDatabase, '6.1.0', '<'))
+            // Run patches
+            // NOTE: Is import here to get plugin semver once again, to make sure we have up to date data
+            $updatedPluginSemverInDatabase = $objStatus->getPluginSemverInDatabase();
+            if(version_compare($updatedPluginSemverInDatabase, '6.0.0', '>=') && version_compare($updatedPluginSemverInDatabase, '6.1.0', '<'))
             {
+                // Run 6.0.Z patches
                 $semverUpdated = $objPatchesObserver->doPatch(6, 0);
             }
+            // NOTE: No 6.1.Z patches exist yet, so no ELSE IF statement is here
 
             // Cache update messages
-            StaticSession::cacheHTMLArray('admin_debug_message', $objUpdatesObserver->getSavedDebugMessages());
+            StaticSession::cacheHTML_Array('admin_debug_html', $objUpdatesObserver->getSavedDebugMessages());
             StaticSession::cacheValueArray('admin_okay_message', $objUpdatesObserver->getSavedOkayMessages());
             StaticSession::cacheValueArray('admin_error_message', $objUpdatesObserver->getSavedErrorMessages());
 
             // Cache patch messages
-            StaticSession::cacheHTMLArray('admin_debug_message', $objPatchesObserver->getSavedDebugMessages());
+            StaticSession::cacheHTML_Array('admin_debug_html', $objPatchesObserver->getSavedDebugMessages());
             StaticSession::cacheValueArray('admin_okay_message', $objPatchesObserver->getSavedOkayMessages());
             StaticSession::cacheValueArray('admin_error_message', $objPatchesObserver->getSavedErrorMessages());
         }
@@ -203,9 +210,9 @@ final class SingleController
     public function printContent()
     {
         // Message handler - should always be at the begging of method (in the very first line)
-        $printDebugMessage = StaticValidator::inWP_Debug() ? StaticSession::getHTMLOnce('admin_debug_message') : '';
-        $printErrorMessage = StaticSession::getValueOnce('admin_error_message');
-        $printOkayMessage = StaticSession::getValueOnce('admin_okay_message');
+        $ksesedDebugHTML = StaticValidator::inWP_Debug() ? StaticSession::getKsesedHTML_Once('admin_debug_html') : '';
+        $errorMessage = StaticSession::getValueOnce('admin_error_message');
+        $okayMessage = StaticSession::getValueOnce('admin_okay_message');
 
         // Both - _POST and _GET supported
         if(isset($_GET['populate_data']) || isset($_POST['populate_data'])) { $this->processPopulateData(); }
@@ -215,24 +222,20 @@ final class SingleController
         // Create mandatory instances
         $objStatus = new SingleStatus($this->conf, $this->lang, $this->conf->getBlogId());
 
-        // Get the tab values
-        $tabs = StaticFormatter::getTabParams(array('status'), 'status', isset($_GET['tab']) ? $_GET['tab'] : '');
-
         // Create view
         $objView = new PageView();
 
-        // 1. Set the view variables - Tab settings
-        $objView->statusTabChecked = !empty($tabs['status']) ? ' checked="checked"' : '';
+        // 1. Set the view variables - Tabs
+        $objView->tabs = StaticFormatter::getTabParams(array('status'), 'status', isset($_GET['tab']) ? $_GET['tab'] : '');
 
         // 2. Set the view variables - other
         $objView->staticURLs = $this->conf->getRouting()->getFolderURLs();
         $objView->lang = $this->lang->getAll();
-        $objView->debugMessage = $printDebugMessage;
-        $objView->errorMessage = $printErrorMessage;
-        $objView->okayMessage = $printOkayMessage;
+        $objView->ksesedDebugHTML = $ksesedDebugHTML;
+        $objView->errorMessage = $errorMessage;
+        $objView->okayMessage = $okayMessage;
         $objView->statusTabFormAction = admin_url('admin.php?page='.$this->conf->getPluginURL_Prefix().'single-status&noheader=true');
-        $objView->isNetworkEnabled = $this->conf->isNetworkEnabled();
-        $objView->networkEnabled = $this->conf->isNetworkEnabled() ? $this->lang->getPrint('LANG_YES_TEXT') : $this->lang->getPrint('LANG_NO_TEXT');
+        $objView->networkEnabled = $this->conf->isNetworkEnabled();
         $objView->goToNetworkAdmin = $this->conf->isNetworkEnabled() ? TRUE : FALSE;
         $objView->updateExists = $objStatus->checkPluginUpdateExists();
         $objView->updateAvailable = $objStatus->canUpdatePluginDataInDatabase();
@@ -240,9 +243,9 @@ final class SingleController
         $objView->canUpdate = $objStatus->canUpdatePluginDataInDatabase();
         $objView->canMajorlyUpgrade = $objStatus->canMajorlyUpgradePluginDataInDatabase();
         $objView->databaseMatchesCodeSemver = $objStatus->isPluginDataUpToDateInDatabase();
-        $objView->databaseSemver = $objStatus->getPrintPluginSemverInDatabase();
-        $objView->newestExistingSemver = $this->conf->getPrintPluginSemver();
-        $objView->newestSemverAvailable = $this->conf->getPrintPluginSemver();
+        $objView->databaseSemver = $objStatus->getPluginSemverInDatabase();
+        $objView->newestExistingSemver = $this->conf->getPluginSemver();
+        $objView->newestSemverAvailable = $this->conf->getPluginSemver();
 
         // Print the template
         $templateRelPathAndFileName = 'Status'.DIRECTORY_SEPARATOR.'SingleTabs.php';

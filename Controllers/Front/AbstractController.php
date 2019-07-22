@@ -57,10 +57,11 @@ abstract class AbstractController
      * @param string $paramTemplateFolder
      * @param string $paramTemplateName
      * @param string $paramTemplateLayout (empty layout is supported)
+     * @param string $paramStyle
      * @return string
      * @throws \Exception
      */
-    protected function getTemplate($paramTemplateFolder, $paramTemplateName, $paramTemplateLayout)
+    protected function getTemplate($paramTemplateFolder, $paramTemplateName, $paramTemplateLayout, $paramStyle = "")
     {
         $validTemplateFolder = '';
         $validTemplateName = '';
@@ -77,15 +78,18 @@ abstract class AbstractController
         if(in_array($paramTemplateLayout, array(
             '',
             'Slider', 'List', 'Grid', 'Table', 'Tabs',
-            'Slider1', 'List1', 'Grid1', 'Table1', 'Tabs1',
-            'Slider2', 'List2', 'Grid2', 'Table2', 'Tabs2',
-            'Slider3', 'List3', 'Grid3', 'Table3', 'Tabs3',
-            'Slider4', 'List4', 'Grid4', 'Table4', 'Tabs4',
         )))
         {
             $validTemplateLayout = $paramTemplateLayout;
         }
-        $templateRelPathAndFileName = $validTemplateFolder.$validTemplateName.$validTemplateLayout.'.php';
+
+        $validStyle = '';
+        if(!is_array($paramStyle) && $paramStyle != '')
+        {
+            $validStyle = StaticValidator::getValidPositiveInteger($paramStyle, 0);
+        }
+
+        $templateRelPathAndFileName = $validTemplateFolder.$validTemplateName.$validTemplateLayout.$validStyle.'.php';
         $retTemplate = $this->view->render($this->conf->getRouting()->getFrontTemplatesPath($templateRelPathAndFileName));
 
         return $retTemplate;

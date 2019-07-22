@@ -55,10 +55,10 @@ final class Patches60Z extends AbstractDatabase implements StackInterface, Datab
         $patched = $this->executeQueries($arrSQL);
         if($patched === FALSE)
         {
-            $this->errorMessages[] = sprintf($this->lang->getPrint('LANG_DATABASE_UPDATE_EARLY_STRUCTURE_PATCH_ERROR_TEXT'), $this->blogId);
+            $this->errorMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_EARLY_STRUCTURE_PATCH_ERROR_TEXT'), $this->blogId);
         } else
         {
-            $this->okayMessages[] = sprintf($this->lang->getPrint('LANG_DATABASE_UPDATE_EARLY_STRUCTURE_PATCHED_TEXT'), $this->blogId);
+            $this->okayMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_EARLY_STRUCTURE_PATCHED_TEXT'), $this->blogId);
         }
 
         return $patched;
@@ -88,10 +88,10 @@ final class Patches60Z extends AbstractDatabase implements StackInterface, Datab
 
         if($patched === FALSE)
         {
-            $this->errorMessages[] = sprintf($this->lang->getPrint('LANG_DATABASE_UPDATE_DATA_PATCH_ERROR_TEXT'), $this->blogId);
+            $this->errorMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_DATA_PATCH_ERROR_TEXT'), $this->blogId);
         } else
         {
-            $this->okayMessages[] = sprintf($this->lang->getPrint('LANG_DATABASE_UPDATE_DATA_PATCHED_TEXT'), $this->blogId);
+            $this->okayMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_DATA_PATCHED_TEXT'), $this->blogId);
         }
 
         return $patched;
@@ -110,10 +110,10 @@ final class Patches60Z extends AbstractDatabase implements StackInterface, Datab
         // $patched = $this->executeQueries($arrSQL);
         //if($patched === FALSE)
         //{
-        //    $this->errorMessages[] = sprintf($this->lang->getPrint('LANG_DATABASE_UPDATE_LATE_STRUCTURE_PATCH_ERROR_TEXT'), $this->blogId);
+        //    $this->errorMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_LATE_STRUCTURE_PATCH_ERROR_TEXT'), $this->blogId);
         //} else
         //{
-        //    $this->okayMessages[] = sprintf($this->lang->getPrint('LANG_DATABASE_UPDATE_LATE_STRUCTURE_PATCHED_TEXT'), $this->blogId);
+        //    $this->okayMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_LATE_STRUCTURE_PATCHED_TEXT'), $this->blogId);
         //}
 
         return $patched;
@@ -152,10 +152,10 @@ final class Patches60Z extends AbstractDatabase implements StackInterface, Datab
 
         if($updated === FALSE)
         {
-            $this->errorMessages[] = sprintf($this->lang->getPrint('LANG_DATABASE_UPDATE_SEMANTIC_VERSION_UPDATE_ERROR_TEXT'), $this->blogId);
+            $this->errorMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_SEMANTIC_VERSION_UPDATE_ERROR_TEXT'), $this->blogId);
         } else
         {
-            $this->okayMessages[] = sprintf($this->lang->getPrint('LANG_DATABASE_UPDATE_SEMANTIC_VERSION_UPDATED_TEXT'), $this->blogId, $newSemver);
+            $this->okayMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_SEMANTIC_VERSION_UPDATED_TEXT'), $this->blogId, $newSemver);
         }
 
         return $updated;

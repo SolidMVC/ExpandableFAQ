@@ -87,7 +87,7 @@ final class Install extends AbstractStack implements StackInterface, InstallInte
                 if($ok === FALSE)
                 {
                     $inserted = FALSE;
-                    $this->errorMessages[] = sprintf($this->lang->getPrint('LANG_TABLE_QUERY_FAILED_FOR_WP_TABLE_INSERTION_ERROR_TEXT'), $this->blogId, $sqlTable);
+                    $this->errorMessages[] = sprintf($this->lang->getText('LANG_TABLE_QUERY_FAILED_FOR_WP_TABLE_INSERTION_ERROR_TEXT'), $this->blogId, $sqlTable);
                     if($this->debugMode)
                     {
                         $debugMessage = "INSERT FAILED TO WP TABLE FOR QUERY: ".nl2br($sqlQuery);
@@ -109,7 +109,7 @@ final class Install extends AbstractStack implements StackInterface, InstallInte
                 if($ok === FALSE)
                 {
                     $inserted = FALSE;
-                    $this->errorMessages[] = sprintf($this->lang->getPrint('LANG_TABLE_QUERY_FAILED_FOR_PLUGIN_TABLE_INSERTION_ERROR_TEXT'), $this->blogId, $sqlTable);
+                    $this->errorMessages[] = sprintf($this->lang->getText('LANG_TABLE_QUERY_FAILED_FOR_PLUGIN_TABLE_INSERTION_ERROR_TEXT'), $this->blogId, $sqlTable);
                     if($this->debugMode)
                     {
                         $debugMessage = "INSERT FAILED TO PLUGIN TABLE FOR QUERY: ".nl2br($sqlQuery);
@@ -123,10 +123,10 @@ final class Install extends AbstractStack implements StackInterface, InstallInte
 
         if($inserted === FALSE)
         {
-            $this->errorMessages[] = sprintf($this->lang->getPrint('LANG_INSTALL_INSERTION_ERROR_TEXT'), $this->blogId);
+            $this->errorMessages[] = sprintf($this->lang->getText('LANG_INSTALL_INSERTION_ERROR_TEXT'), $this->blogId);
         } else
         {
-            $this->okayMessages[] = sprintf($this->lang->getPrint('LANG_INSTALL_INSERTED_TEXT'), $this->blogId);
+            $this->okayMessages[] = sprintf($this->lang->getText('LANG_INSTALL_INSERTED_TEXT'), $this->blogId);
         }
 
         return $inserted;
@@ -164,7 +164,7 @@ final class Install extends AbstractStack implements StackInterface, InstallInte
                 if($ok === FALSE)
                 {
                     $replaced = FALSE;
-                    $this->errorMessages[] = sprintf($this->lang->getPrint('LANG_TABLE_QUERY_FAILED_FOR_WP_TABLE_REPLACE_ERROR_TEXT'), $this->blogId, $sqlTable);
+                    $this->errorMessages[] = sprintf($this->lang->getText('LANG_TABLE_QUERY_FAILED_FOR_WP_TABLE_REPLACE_ERROR_TEXT'), $this->blogId, $sqlTable);
                     if($this->debugMode)
                     {
                         $debugMessage = "REPLACE FAILED TO WP TABLE FOR QUERY: ".nl2br($sqlQuery);
@@ -186,7 +186,7 @@ final class Install extends AbstractStack implements StackInterface, InstallInte
                 if($ok === FALSE)
                 {
                     $replaced = FALSE;
-                    $this->errorMessages[] = sprintf($this->lang->getPrint('LANG_TABLE_QUERY_FAILED_FOR_PLUGIN_TABLE_REPLACE_ERROR_TEXT'), $this->blogId, $sqlTable);
+                    $this->errorMessages[] = sprintf($this->lang->getText('LANG_TABLE_QUERY_FAILED_FOR_PLUGIN_TABLE_REPLACE_ERROR_TEXT'), $this->blogId, $sqlTable);
                     if($this->debugMode)
                     {
                         $debugMessage = "REPLACE FAILED TO PLUGIN TABLE FOR QUERY: ".nl2br($sqlQuery);
@@ -200,10 +200,10 @@ final class Install extends AbstractStack implements StackInterface, InstallInte
 
         if($replaced === FALSE)
         {
-            $this->errorMessages[] = sprintf($this->lang->getPrint('LANG_INSTALL_REPLACE_ERROR_TEXT'), $this->blogId);
+            $this->errorMessages[] = sprintf($this->lang->getText('LANG_INSTALL_REPLACE_ERROR_TEXT'), $this->blogId);
         } else
         {
-            $this->okayMessages[] = sprintf($this->lang->getPrint('LANG_INSTALL_REPLACED_TEXT'), $this->blogId);
+            $this->okayMessages[] = sprintf($this->lang->getText('LANG_INSTALL_REPLACED_TEXT'), $this->blogId);
         }
 
         return $replaced;

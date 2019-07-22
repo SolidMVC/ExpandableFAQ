@@ -61,7 +61,7 @@ final class StylesObserver implements ObserverInterface
         return $retSupportedStyles;
     }
 
-    public function getDropdownOptions($paramSelectedStyle)
+    public function getTrustedDropdownOptionsHTML($paramSelectedStyle)
     {
         $retHTML = '';
         $supportedStyles = $this->getSupportedStyles();
@@ -69,10 +69,10 @@ final class StylesObserver implements ObserverInterface
         {
             if($supportedStyle['style_name'] == $paramSelectedStyle)
             {
-                $retHTML .= '<option value="'.$supportedStyle['style_name'].'" selected="selected">'.$supportedStyle['style_name'].'</option>'."\n";
+                $retHTML .= '<option value="'.esc_attr($supportedStyle['style_name']).'" selected="selected">'.$supportedStyle['style_name'].'</option>'."\n";
             } else
             {
-                $retHTML .= '<option value="'.$supportedStyle['style_name'].'">'.$supportedStyle['style_name'].'</option>'."\n";
+                $retHTML .= '<option value="'.esc_attr($supportedStyle['style_name']).'">'.$supportedStyle['style_name'].'</option>'."\n";
             }
         }
 
