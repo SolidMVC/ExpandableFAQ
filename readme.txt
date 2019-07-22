@@ -110,6 +110,9 @@ to your website's FAQ page and make automatically expand specific FAQ with a pag
 * Added a note for data population in status page.
 * Replaced ‘getPluginJS_ClassPrefix’ & ‘getPluginJS_VariablePrefix’ with native call.
 * ‘StaticCookie’ and ‘StaticSession’ caching model classes improved.
+* Fixed issue with network installing when multisite is enabled in WordPress, as well as created workaround until WordPress core bug #36406 will be fixed (read more at [https://core.trac.wordpress.org/ticket/36406]( https://core.trac.wordpress.org/ticket/36406 "WordPress Trac")).
+* PHP 5.6 backwards compatibility added.
+
 
 = 6.0.2 =
 * Updating and patching are now separated. FA now loaded by default after install. Populate/drop data url behaviour changed. Some minor improvements.
