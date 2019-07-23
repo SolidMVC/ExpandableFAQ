@@ -17,7 +17,7 @@ final class Patches61Z extends AbstractDatabase implements StackInterface, Datab
 {
     const CURRENT_MAJOR = 6; // Positive integer [X]
     const CURRENT_MINOR = 1; // Positive integer [Y]
-    const LATEST_PATCH = 0; // Positive integer [Z]
+    const LATEST_PATCH = 1; // Positive integer [Z]
     const LATEST_RELEASE = ''; // String
     const LATEST_BUILD_METADATA = ''; // String
     const PLUGIN_PREFIX = "expandable_faq_";
@@ -38,25 +38,8 @@ final class Patches61Z extends AbstractDatabase implements StackInterface, Datab
      */
     public function patchDatabaseEarlyStructure()
     {
-        // NOTHING HERE
-        $patched = TRUE;
-
-        /*$arrSQL = array();
-        $objSemver = new Semver($this->pluginSemverInDatabase, FALSE);
-        $currentPatch = $objSemver->getPatch();
-
-        // No patches yet
-
-        $patched = $this->executeQueries($arrSQL);
-        if($patched === FALSE)
-        {
-            $this->errorMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_EARLY_STRUCTURE_PATCH_ERROR_TEXT'), $this->blogId);
-        } else
-        {
-            $this->okayMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_EARLY_STRUCTURE_PATCHED_TEXT'), $this->blogId);
-        }*/
-
-        return $patched;
+        // NOTHING HERE YET
+        return TRUE;
     }
 
     /**
@@ -64,29 +47,8 @@ final class Patches61Z extends AbstractDatabase implements StackInterface, Datab
      */
     public function patchData()
     {
-        // NOTHING HERE
-        $patched = TRUE;
-
-        /*$arrSQL = array();
-        $validBlogId = StaticValidator::getValidPositiveInteger($this->blogId, 0);
-
-        $objSemver = new Semver($this->pluginSemverInDatabase, FALSE);
-        $currentPatch = $objSemver->getPatch();
-
-        // No patches yet
-
-        // Execute queries
-        $patched = $this->executeQueries($arrSQL);
-
-        if($patched === FALSE)
-        {
-            $this->errorMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_DATA_PATCH_ERROR_TEXT'), $this->blogId);
-        } else
-        {
-            $this->okayMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_DATA_PATCHED_TEXT'), $this->blogId);
-        }*/
-
-        return $patched;
+        // NOTHING HERE YET
+        return TRUE;
     }
 
     /**
@@ -95,20 +57,8 @@ final class Patches61Z extends AbstractDatabase implements StackInterface, Datab
      */
     public function patchDatabaseLateStructure()
     {
-        // NOTHING HERE
-        $patched = TRUE;
-
-        // $arrSQL = array();
-        // $patched = $this->executeQueries($arrSQL);
-        //if($patched === FALSE)
-        //{
-        //    $this->errorMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_LATE_STRUCTURE_PATCH_ERROR_TEXT'), $this->blogId);
-        //} else
-        //{
-        //    $this->okayMessages[] = sprintf($this->lang->getText('LANG_DATABASE_UPDATE_LATE_STRUCTURE_PATCHED_TEXT'), $this->blogId);
-        //}
-
-        return $patched;
+        // NOTHING HERE YET
+        return TRUE;
     }
 
     /**

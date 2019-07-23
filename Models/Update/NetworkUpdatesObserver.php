@@ -99,7 +99,7 @@ final class NetworkUpdatesObserver implements PrimitiveObserverInterface
             // and current site database was not yet updated
             if(
                 $networkEarlyStructAltered && $objSingleStatus->checkPluginDataExistsOf('6.0.2')
-                && version_compare($objSingleStatus->getPluginSemverInDatabase(), '6.1.0', '==')
+                && version_compare($objSingleStatus->getPluginSemverInDatabase(), '6.0.2', '==')
             ) {
                 $dataUpdated = $objSingleDB_Update->updateDatabaseData();
                 if($dataUpdated === FALSE)

@@ -108,6 +108,11 @@ to your website's FAQ page and make automatically expand specific FAQ with a pag
 
 # Changelog
 
+= 6.1.1 =
+* Escaping added, when necessary to ‘_doing_it_wrong’ calls.
+* Network-updating now can be done for 6.1.1 successfully.
+* Some additional minor improvements / patches.
+
 = 6.1.0 =
 * NumberDropdown bug fixed in StaticFormatter.
 * All table classes are now marked as final.

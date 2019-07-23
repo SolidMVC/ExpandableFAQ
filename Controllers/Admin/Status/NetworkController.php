@@ -7,11 +7,8 @@
  * @license MIT License. See Legal/License.txt for details.
  */
 namespace ExpandableFAQ\Controllers\Admin\Status;
-use ExpandableFAQ\Controllers\Admin\InstallController;
 use ExpandableFAQ\Models\Configuration\ConfigurationInterface;
 use ExpandableFAQ\Models\Formatting\StaticFormatter;
-use ExpandableFAQ\Models\Install\Install;
-use ExpandableFAQ\Models\Language\Language;
 use ExpandableFAQ\Models\Language\LanguageInterface;
 use ExpandableFAQ\Models\Cache\StaticSession;
 use ExpandableFAQ\Models\Status\NetworkStatus;
@@ -46,32 +43,36 @@ final class NetworkController
 
         // Allow only one update at-a-time per site refresh. We need that to save resources of server to not to get to timeout phase
         $allUpdatableSitesSemverUpdated = FALSE;
-        $minPluginSemverInDatabase = $objStatus->getMinPluginSemverInDatabase();
-        $maxPluginSemverInDatabase = $objStatus->getMaxPluginSemverInDatabase();
+        $currentMinPluginSemverInDatabase = $objStatus->getMinPluginSemverInDatabase();
         $latestSemver = $this->conf->getPluginSemver();
 
         // ----------------------------------------
         // NOTE: A PLACE FOR UPDATE CODE
         // ----------------------------------------
-
         if($this->conf->isNetworkEnabled())
         {
-            if(version_compare($minPluginSemverInDatabase, '6.0.2', '=='))
+            if(version_compare($currentMinPluginSemverInDatabase, '6.0.2', '=='))
             {
                 $allUpdatableSitesSemverUpdated = $objUpdatesObserver->do602_UpdateTo610();
-            } else if(version_compare($minPluginSemverInDatabase, $latestSemver, '=='))
+            } else if(version_compare($currentMinPluginSemverInDatabase, $latestSemver, '=='))
             {
                 // It's a last version
                 $allUpdatableSitesSemverUpdated = TRUE;
             }
 
             // Process patches
-            if(version_compare($minPluginSemverInDatabase, '6.0.0', '>=') && version_compare($maxPluginSemverInDatabase, '6.1.0', '<'))
+            // NOTE: Is import here to get plugin semver once again, to make sure we have up to date data
+            $updatedMinPluginSemverInDatabase = $objStatus->getMinPluginSemverInDatabase();
+            $updatedMaxPluginSemverInDatabase = $objStatus->getMaxPluginSemverInDatabase();
+            if(version_compare($updatedMinPluginSemverInDatabase, '6.0.0', '>=') && version_compare($updatedMaxPluginSemverInDatabase, '6.1.0', '<'))
             {
                 // Process 6.0.Z patches
                 $allUpdatableSitesSemverUpdated = $objPatchesObserver->doPatch(6, 0);
+            } else if(version_compare($updatedMinPluginSemverInDatabase, '6.1.0', '>=') && version_compare($updatedMaxPluginSemverInDatabase, '6.2.0', '<'))
+            {
+                // Process 6.1.Z patches
+                $allUpdatableSitesSemverUpdated = $objPatchesObserver->doPatch(6, 1);
             }
-            // NOTE: No 6.1.Z patches exist yet, so no ELSE IF statement is here
 
             // Cache update messages
             StaticSession::cacheHTML_Array('admin_debug_html', $objUpdatesObserver->getSavedDebugMessages());

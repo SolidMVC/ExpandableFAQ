@@ -25,9 +25,9 @@ final class NetworkStatus extends AbstractStack implements StackInterface, Netwo
     /**
      * CAUTION! Be careful when using echo debug, as this class is used in ajax requests,
      *          so only if it is links display call, or 'die()' is called afterwards, the echoing will work as expected.
-     * @var int
+     * @var bool
      */
-    private $echoDebug 	    = 0;
+    private $echoDebug 	    = FALSE;
 
     public function __construct(ConfigurationInterface &$paramConf, LanguageInterface &$paramLang)
     {

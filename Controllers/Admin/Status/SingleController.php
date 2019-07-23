@@ -174,8 +174,11 @@ final class SingleController
             {
                 // Run 6.0.Z patches
                 $semverUpdated = $objPatchesObserver->doPatch(6, 0);
+            } else if(version_compare($updatedPluginSemverInDatabase, '6.1.0', '>=') && version_compare($updatedPluginSemverInDatabase, '6.2.0', '<'))
+            {
+                // Run 6.1.Z patches
+                $semverUpdated = $objPatchesObserver->doPatch(6, 1);
             }
-            // NOTE: No 6.1.Z patches exist yet, so no ELSE IF statement is here
 
             // Cache update messages
             StaticSession::cacheHTML_Array('admin_debug_html', $objUpdatesObserver->getSavedDebugMessages());
