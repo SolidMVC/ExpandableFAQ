@@ -50,7 +50,7 @@ final class SingleMenuController
 
         // For those, who have 'update_plugins' rights - update_plugins are official WordPress role for updates
         add_menu_page(
-            $this->lang->getText('LANG_MENU_ACCORDION_FAQ_TEXT'), $this->lang->getText('LANG_MENU_ACCORDION_FAQ_TEXT'),
+            $this->lang->getText('LANG_MENU_EXPANDABLE_FAQ_TEXT'), $this->lang->getText('LANG_MENU_EXPANDABLE_FAQ_TEXT'),
             "update_plugins", "{$urlPrefix}single-menu", array($this, "printSingleStatus"), $iconURL, $validMenuPosition
         );
         add_submenu_page(
@@ -72,17 +72,17 @@ final class SingleMenuController
 
         // For those, who have 'view_{$pluginPrefix}partner_earnings' rights
         add_menu_page(
-            $this->lang->getText('LANG_MENU_ACCORDION_FAQ_TEXT'), $this->lang->getText('LANG_MENU_ACCORDION_FAQ_TEXT'),
-            "view_{$pluginPrefix}all_faqs", "{$urlPrefix}single-menu", array($this, "printFAQManager"), $iconURL, $validMenuPosition
+            $this->lang->getText('LANG_MENU_EXPANDABLE_FAQ_TEXT'), $this->lang->getText('LANG_MENU_EXPANDABLE_FAQ_TEXT'),
+            "view_{$pluginPrefix}all_faqs", "{$urlPrefix}single-menu", array($this, "printFAQ_Manager"), $iconURL, $validMenuPosition
         );
             // For those, who have 'view_{$pluginPrefix}all_faqs' or 'manage_{$pluginPrefix}all_faqs' rights
             add_submenu_page(
                 "{$urlPrefix}single-menu", $this->lang->getText('LANG_FAQ_MANAGER_TEXT'), $this->lang->getText('LANG_FAQ_MANAGER_TEXT'),
-                "view_{$pluginPrefix}all_faqs", "{$urlPrefix}faq-manager", array($this, "printFAQManager")
+                "view_{$pluginPrefix}all_faqs", "{$urlPrefix}faq-manager", array($this, "printFAQ_Manager")
             );
                 add_submenu_page(
                     "{$urlPrefix}faq-manager", $this->lang->getText('LANG_FAQ_ADD_EDIT_TEXT'), $this->lang->getText('LANG_FAQ_ADD_EDIT_TEXT'),
-                    "manage_{$pluginPrefix}all_faqs", "{$urlPrefix}add-edit-faq", array($this, "printFAQAddEdit")
+                    "manage_{$pluginPrefix}all_faqs", "{$urlPrefix}add-edit-faq", array($this, "printFAQ_AddEdit")
                 );
 
             // For those, who have 'manage_{$pluginPrefix}all_settings' rights
@@ -125,7 +125,7 @@ final class SingleMenuController
     /* ------------------------------------------------------------------------------------- */
 
     // F.A.Q. Manager
-    public function printFAQManager()
+    public function printFAQ_Manager()
     {
         try
         {
@@ -138,7 +138,7 @@ final class SingleMenuController
         }
     }
 
-    public function printFAQAddEdit()
+    public function printFAQ_AddEdit()
     {
         try
         {

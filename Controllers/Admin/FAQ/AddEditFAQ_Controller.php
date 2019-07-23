@@ -19,9 +19,9 @@ final class AddEditFAQ_Controller extends AbstractController
         parent::__construct($paramConf, $paramLang);
     }
 
-    private function processDelete($paramFAQId)
+    private function processDelete($paramFAQ_Id)
     {
-        $objFAQ = new FAQ($this->conf, $this->lang, $this->dbSets->getAll(), $paramFAQId);
+        $objFAQ = new FAQ($this->conf, $this->lang, $this->dbSets->getAll(), $paramFAQ_Id);
         $objFAQ->delete();
 
         StaticSession::cacheHTML_Array('admin_debug_html', $objFAQ->getDebugMessages());
@@ -61,8 +61,8 @@ final class AddEditFAQ_Controller extends AbstractController
         if(isset($_GET['delete_faq'])) { $this->processDelete($_GET['delete_faq']); }
         if(isset($_POST['save_faq'], $_POST['faq_id'])) { $this->processSave($_POST['faq_id']); }
 
-        $paramFAQId = isset($_GET['faq_id']) ? $_GET['faq_id'] : 0;
-        $objFAQ = new FAQ($this->conf, $this->lang, $this->dbSets->getAll(), $paramFAQId);
+        $paramFAQ_Id = isset($_GET['faq_id']) ? $_GET['faq_id'] : 0;
+        $objFAQ = new FAQ($this->conf, $this->lang, $this->dbSets->getAll(), $paramFAQ_Id);
         $localDetails = $objFAQ->getDetails();
 
         // Set the view variables

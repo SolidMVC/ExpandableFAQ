@@ -163,9 +163,14 @@ return array(
     // Manual Element
     'LANG_MANUAL_TEXT' => 'Manual',
     'LANG_MANUAL_INSTRUCTIONS_TEXT' => 'Instructions',
+    'LANG_MANUAL_SHORTCODES_TEXT' => 'Shortcodes',
+    'LANG_MANUAL_SHORTCODE_PARAMETERS_TEXT' => 'Shortcode Parameters',
+    'LANG_MANUAL_URL_PARAMETERS_AND_HASHTAGS_TEXT' => 'URL Parameters & Hashtags',
+    'LANG_MANUAL_UI_OVERRIDING_TEXT' => 'UI Overriding',
+    'LANG_MANUAL_TUTORIAL_HOW_TO_OVERRIDE_UI_TEXT' => 'Tutorial - How to Override User Interface (UI)',
 
     // Menu Element
-    'LANG_MENU_ACCORDION_FAQ_TEXT' => 'Expandable FAQ',
+    'LANG_MENU_EXPANDABLE_FAQ_TEXT' => 'Expandable FAQ',
     'LANG_MENU_INVENTORY_TEXT' => 'Expandable FAQ Inventory',
     'LANG_MENU_INVENTORY_SHORT_TEXT' => 'FAQ Inventory',
 

@@ -22,19 +22,19 @@ wp_enqueue_style('expandable-faq-admin');
 		<!-- tabs -->
 		<div class="modern-tabs modern-tabs-pos-top-left modern-tabs-anim-flip modern-tabs-response-to-icons">
 			<input type="radio" name="modern-tabs"<?=(!empty($tabs['instructions']) ? ' checked="checked"' : '');?> id="modern-tab1" class="modern-tab-content-1">
-			<label for="modern-tab1"><span><span><i class="fa fa-info-circle" aria-hidden="true"></i>Instructions</span></span></label>
+			<label for="modern-tab1"><span><span><i class="fa fa-info-circle" aria-hidden="true"></i><?=esc_html($lang['LANG_MANUAL_INSTRUCTIONS_TEXT']);?></span></span></label>
 
             <input type="radio" name="modern-tabs"<?=(!empty($tabs['shortcodes']) ? ' checked="checked"' : '');?> id="modern-tab2" class="modern-tab-content-2">
-            <label for="modern-tab2"><span><span><i class="fa fa-tasks" aria-hidden="true"></i>Shortcodes</span></span></label>
+            <label for="modern-tab2"><span><span><i class="fa fa-tasks" aria-hidden="true"></i><?=esc_html($lang['LANG_MANUAL_SHORTCODES_TEXT']);?></span></span></label>
 
             <input type="radio" name="modern-tabs"<?=(!empty($tabs['shortcode-parameters']) ? ' checked="checked"' : '');?> id="modern-tab3" class="modern-tab-content-3">
-            <label for="modern-tab3"><span><span><i class="fa fa-code" aria-hidden="true"></i>Shortcode Parameters</span></span></label>
+            <label for="modern-tab3"><span><span><i class="fa fa-code" aria-hidden="true"></i><?=esc_html($lang['LANG_MANUAL_SHORTCODE_PARAMETERS_TEXT']);?></span></span></label>
 
-            <input type="radio" name="modern-tabs"<?=(!empty($tabs['url-parameters-hastags']) ? ' checked="checked"' : '');?> id="modern-tab4" class="modern-tab-content-4">
-            <label for="modern-tab4"><span><span><i class="fa fa-link" aria-hidden="true"></i>URL Parameters &amp; Hashtags</span></span></label>
+            <input type="radio" name="modern-tabs"<?=(!empty($tabs['url-parameters-hashtags']) ? ' checked="checked"' : '');?> id="modern-tab4" class="modern-tab-content-4">
+            <label for="modern-tab4"><span><span><i class="fa fa-link" aria-hidden="true"></i><?=esc_html($lang['LANG_MANUAL_URL_PARAMETERS_AND_HASHTAGS_TEXT']);?></span></span></label>
 
             <input type="radio" name="modern-tabs"<?=(!empty($tabs['ui-overriding']) ? ' checked="checked"' : '');?> id="modern-tab5" class="modern-tab-content-5">
-            <label for="modern-tab5"><span><span><i class="fa fa-crop" aria-hidden="true"></i>UI Overriding</span></span></label>
+            <label for="modern-tab5"><span><span><i class="fa fa-crop" aria-hidden="true"></i><?=esc_html($lang['LANG_MANUAL_UI_OVERRIDING_TEXT']);?></span></span></label>
 
 			<ul>
 				<li class="modern-tab-content-1">

@@ -52,7 +52,7 @@ of the plugins on w.org plugins directly (and, actually, many of premium marketp
 
 The goal of this plugin is to full-fill the needs of website-starter, that needs a great tool which can last him for many years until it will grow that big so he would grow-out current plugins and would need some kind of different plugins.
 
-And, I believe, that many other developers had the same issue when tried to create their first premium theme or set-up a website for their client. Starting with the issues with license type to the moment when F.A.Q. is `hardcode` into theme code.
+And, I believe, that many other developers had the same issue when tried to create their first premium theme or set-up a website for their client. Starting with the issues with license type to the moment when F.A.Q. is `hardcoded` into theme code.
 
 So I wanted to help all these developers to save their time, and I'm releasing this plugin for you to simplify your work. And I'm releasing it under MIT license, which allows you to use this plugin your website bundle without any restrictions for both - free and commercial use.
 
@@ -75,7 +75,7 @@ This section describes how to install the plugin and get it working.
 3. Go to admin menu item `Expandable FAQ` -> `FAQ Manager` and add F.A.Q.'s.
 4. Now create a page by clicking the [Add New] button under the page menu.
 5. Add `[expandable_faq display="faqs" layout="list"]` shortcode to page content and click on `[Publish]` button.
-6. In WordPress front-end page, where you added search shortcode, you will see expandable F.A.Q.'s.
+6. In WordPress front-end page, where you added Expandable FAQ shortcode, you will see expandable F.A.Q.'s.
 7. Congratulations, you're done! We wish you to have a pleasant work with our Expandable FAQ for WordPress.
 
 
@@ -107,6 +107,12 @@ to your website's FAQ page and make automatically expand specific FAQ with a pag
 
 
 # Changelog
+
+= 6.1.2 =
+* Fixed wrong admin JS filename issue.
+* Improved variable naming to `FAQ_`, where was still missing.
+* Other small naming improvements.
+* Missing translations added for manuals, demos and FAQ tabs.
 
 = 6.1.1 =
 * Escaping added, when necessary to ‘_doing_it_wrong’ calls.

@@ -1,6 +1,6 @@
 <?php
 /**
- * Faqs Observer
+ * FAQs Observer
 
  * @package ExpandableFAQ
  * @author KestutisIT
@@ -35,15 +35,15 @@ final class FAQsObserver implements ObserverInterface
         return ($this->debugMode >= 1 ? TRUE : FALSE);
     }
 
-    public function getAllIds($paramFaqId = -1)
+    public function getAllIds($paramFAQ_Id = -1)
     {
-        $validFaqId = StaticValidator::getValidInteger($paramFaqId, -1); // -1 means 'skip'
+        $validFAQ_Id = StaticValidator::getValidInteger($paramFAQ_Id, -1); // -1 means 'skip'
 
         $sqlAdd = '';
-        if($validFaqId > 0)
+        if($validFAQ_Id > 0)
         {
             // FAQ id
-            $sqlAdd .= " AND faq_id='{$validFaqId}'";
+            $sqlAdd .= " AND faq_id='{$validFAQ_Id}'";
         }
 
         $searchSQL = "
@@ -61,26 +61,26 @@ final class FAQsObserver implements ObserverInterface
         return $searchResult;
     }
 
-    public function getTranslatedDropdownOptionsHTML($paramSelectedFAQId = -1, $paramDefaultValue = -1, $paramDefaultLabel = "")
+    public function getTranslatedDropdownOptionsHTML($paramSelectedFAQ_Id = -1, $paramDefaultValue = -1, $paramDefaultLabel = "")
     {
-        return $this->getTrustedDropdownOptionsHTML($paramSelectedFAQId, $paramDefaultValue, $paramDefaultLabel, TRUE);
+        return $this->getTrustedDropdownOptionsHTML($paramSelectedFAQ_Id, $paramDefaultValue, $paramDefaultLabel, TRUE);
     }
 
     /**
-     * @param int $paramSelectedFAQId
+     * @param int $paramSelectedFAQ_Id
      * @param int $paramDefaultValue
      * @param string $paramDefaultLabel
      * @param bool $paramTranslated
      * @return string
      */
-    public function getTrustedDropdownOptionsHTML($paramSelectedFAQId = -1, $paramDefaultValue = -1, $paramDefaultLabel = "", $paramTranslated = FALSE)
+    public function getTrustedDropdownOptionsHTML($paramSelectedFAQ_Id = -1, $paramDefaultValue = -1, $paramDefaultLabel = "", $paramTranslated = FALSE)
     {
         $validDefaultValue = StaticValidator::getValidInteger($paramDefaultValue, -1);
         $sanitizedDefaultLabel = sanitize_text_field($paramDefaultLabel);
         $faqIds = $this->getAllIds();
 
         $retHTML = '';
-        if($paramSelectedFAQId == $validDefaultValue)
+        if($paramSelectedFAQ_Id == $validDefaultValue)
         {
             $retHTML .= '<option value="'.esc_attr($validDefaultValue).'" selected="selected">'.esc_html($sanitizedDefaultLabel).'</option>';
         } else
@@ -93,7 +93,7 @@ final class FAQsObserver implements ObserverInterface
             $faqDetails = $objFAQ->getDetails();
             $question = $paramTranslated ? $faqDetails['translated_question'] : $faqDetails['question'];
 
-            if($faqDetails['faq_id'] == $paramSelectedFAQId)
+            if($faqDetails['faq_id'] == $paramSelectedFAQ_Id)
             {
                 $retHTML .= '<option value="'.esc_attr($faqDetails['faq_id']).'" selected="selected">'.esc_html($question).'</option>';
             } else

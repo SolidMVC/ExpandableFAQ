@@ -66,7 +66,7 @@ final class NetworkUpdatesObserver implements PrimitiveObserverInterface
     }
 
     /**
-     * For updating across multisite the network-enabled plugin from 5.0.0 to V6.0.0
+     * For updating across multisite the network-enabled plugin from 6.0.2 to 6.1.0 semantic version
      * @note - Works only with WordPress 4.6+
      * @return bool
      * @throws \Exception

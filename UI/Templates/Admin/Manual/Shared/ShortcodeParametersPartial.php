@@ -2,7 +2,7 @@
 defined( 'ABSPATH' ) or die( 'No script kiddies, please!' );
 ?>
 <h1>
-    <span>Shortcode Parameters</span>
+    <span><?=esc_html($lang['LANG_MANUAL_SHORTCODE_PARAMETERS_TEXT']);?></span>
 </h1>
 <p>
     <strong>DISPLAY parameter values (required, case insensitive):</strong>

@@ -2,7 +2,7 @@
 defined( 'ABSPATH' ) or die( 'No script kiddies, please!' );
 ?>
 <h1>
-    <span>URL Parameters &amp; Hashtags</span>
+    <span><?=esc_html($lang['LANG_MANUAL_URL_PARAMETERS_AND_HASHTAGS_TEXT']);?></span>
 </h1>
 <p>
     For some particular situations, instead of using shortcodes and creating a different WordPress page for each shortcode,

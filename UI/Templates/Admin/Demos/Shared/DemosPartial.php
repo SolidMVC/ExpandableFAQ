@@ -2,7 +2,7 @@
 defined( 'ABSPATH' ) or die( 'No script kiddies, please!' );
 ?>
 <h1>
-    <span>Import Demo</span>
+    <span><?=esc_html($lang['LANG_DEMO_IMPORT_TEXT']);?></span>
 </h1>
 <form name="import_demo_form" action="<?=esc_url($importDemoTabFormAction);?>" method="POST" id="import_demo_form">
     <div class="big-labels">

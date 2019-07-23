@@ -64,7 +64,7 @@ final class SingleUpdatesObserver implements PrimitiveObserverInterface
     }
 
     /**
-     * For updating single site plugin from 5.0.0 to V6.0.0
+     * For updating single site plugin from 6.0.2 to 6.1.0 semantic version
      */
     public function do602_UpdateTo610()
     {

@@ -22,24 +22,24 @@ final class FAQ extends AbstractStack implements StackInterface, ElementInterfac
     private $debugMode 	            = 0;
     private $faqId                  = 0;
 
-    public function __construct(ConfigurationInterface &$paramConf, LanguageInterface &$paramLang, array $paramSettings, $paramFaqId)
+    public function __construct(ConfigurationInterface &$paramConf, LanguageInterface &$paramLang, array $paramSettings, $paramFAQ_Id)
     {
         // Set class settings
         $this->conf = $paramConf;
         // Already sanitized before in it's constructor. Too much sanitization will kill the system speed
         $this->lang = $paramLang;
-        $this->faqId = StaticValidator::getValidValue($paramFaqId, 'positive_integer', 0);
+        $this->faqId = StaticValidator::getValidValue($paramFAQ_Id, 'positive_integer', 0);
     }
 
-    private function getDataFromDatabaseById($paramFaqId, $paramColumns = array('*'))
+    private function getDataFromDatabaseById($paramFAQ_Id, $paramColumns = array('*'))
     {
-        $validFaqId = StaticValidator::getValidPositiveInteger($paramFaqId, 0);
+        $validFAQ_Id = StaticValidator::getValidPositiveInteger($paramFAQ_Id, 0);
         $validSelect = StaticValidator::getValidSelect($paramColumns);
 
         $sqlQuery = "
             SELECT {$validSelect}
             FROM {$this->conf->getPrefix()}faqs
-            WHERE faq_id='{$validFaqId}'
+            WHERE faq_id='{$validFAQ_Id}'
         ";
         $retData = $this->conf->getInternalWPDB()->get_row($sqlQuery, ARRAY_A);
 
@@ -185,10 +185,10 @@ final class FAQ extends AbstractStack implements StackInterface, ElementInterfac
      */
     public function delete()
     {
-        $validFaqId = StaticValidator::getValidPositiveInteger($this->faqId, 0);
+        $validFAQ_Id = StaticValidator::getValidPositiveInteger($this->faqId, 0);
         $deleted = $this->conf->getInternalWPDB()->query("
             DELETE FROM {$this->conf->getPrefix()}faqs
-            WHERE faq_id='{$validFaqId}' AND blog_id='{$this->conf->getBlogId()}'
+            WHERE faq_id='{$validFAQ_Id}' AND blog_id='{$this->conf->getBlogId()}'
         ");
 
         if($deleted === FALSE || $deleted === 0)

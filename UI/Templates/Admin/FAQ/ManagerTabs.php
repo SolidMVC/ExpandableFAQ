@@ -30,7 +30,7 @@ wp_enqueue_style('expandable-faq-admin');
         <!-- tabs -->
         <div class="modern-tabs modern-tabs-pos-top-left modern-tabs-anim-flip modern-tabs-response-to-icons">
             <input type="radio" name="modern-tabs"<?=(!empty($tabs['faqs']) ? ' checked="checked"' : '');?> id="modern-tab1" class="modern-tab-content-1">
-            <label for="modern-tab1"><span><span><i class="fa fa-question-circle" aria-hidden="true"></i>F.A.Q.&#39;s</span></span></label>
+            <label for="modern-tab1"><span><span><i class="fa fa-question-circle" aria-hidden="true"></i><?=esc_html($lang['LANG_FAQS_TEXT']);?></span></span></label>
 
             <ul>
                 <li class="modern-tab-content-1">

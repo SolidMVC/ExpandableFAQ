@@ -2,7 +2,7 @@
 defined( 'ABSPATH' ) or die( 'No script kiddies, please!' );
 ?>
 <h1>
-    <span>Tutorial - How to Override User Interface (UI)</span>
+    <span><?=esc_html($lang['LANG_MANUAL_TUTORIAL_HOW_TO_OVERRIDE_UI_TEXT']);?></span>
 </h1>
 
 <h3>For very beginners:</h3>
