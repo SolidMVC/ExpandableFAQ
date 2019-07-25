@@ -91,14 +91,14 @@ final class FAQsObserver implements ObserverInterface
         {
             $objFAQ = new FAQ($this->conf, $this->lang, $this->settings, $faqId);
             $faqDetails = $objFAQ->getDetails();
-            $question = $paramTranslated ? $faqDetails['translated_question'] : $faqDetails['question'];
+            $faqQuestion = $paramTranslated ? $faqDetails['translated_faq_question'] : $faqDetails['faq_question'];
 
             if($faqDetails['faq_id'] == $paramSelectedFAQ_Id)
             {
-                $retHTML .= '<option value="'.esc_attr($faqDetails['faq_id']).'" selected="selected">'.esc_html($question).'</option>';
+                $retHTML .= '<option value="'.esc_attr($faqDetails['faq_id']).'" selected="selected">'.esc_html($faqQuestion).'</option>';
             } else
             {
-                $retHTML .= '<option value="'.esc_attr($faqDetails['faq_id']).'">'.esc_html($question).'</option>';
+                $retHTML .= '<option value="'.esc_attr($faqDetails['faq_id']).'">'.esc_html($faqQuestion).'</option>';
             }
         }
 
@@ -119,24 +119,24 @@ final class FAQsObserver implements ObserverInterface
             $objFAQ = new FAQ($this->conf, $this->lang, $this->settings, $faqId);
             $faqDetails = $objFAQ->getDetails();
 
-            $questionHMTL = esc_html($faqDetails['translated_faq_question']);
+            $faqQuestionHMTL = esc_html($faqDetails['translated_faq_question']);
             if($this->lang->canTranslateSQL())
             {
-                $questionHMTL .= '<br />-------------------------------<br />';
-                $questionHMTL .= '<span class="not-translated" title="'.$this->lang->escAttr('LANG_WITHOUT_TRANSLATION_TEXT').'">('.esc_html($faqDetails['faq_question']).')</span>';
+                $faqQuestionHMTL .= '<br />-------------------------------<br />';
+                $faqQuestionHMTL .= '<span class="not-translated" title="'.$this->lang->escAttr('LANG_WITHOUT_TRANSLATION_TEXT').'">('.esc_html($faqDetails['faq_question']).')</span>';
             }
 
-            $answerHTML = esc_br_html($faqDetails['translated_faq_answer']);
+            $faqAnswerHTML = esc_br_html($faqDetails['translated_faq_answer']);
             if($this->lang->canTranslateSQL())
             {
-                $answerHTML .= '<br />-------------------------------<br />';
-                $answerHTML .= '<span class="not-translated" title="'.$this->lang->escAttr('LANG_WITHOUT_TRANSLATION_TEXT').'">('.esc_br_html($faqDetails['faq_answer']).')</span>';
+                $faqAnswerHTML .= '<br />-------------------------------<br />';
+                $faqAnswerHTML .= '<span class="not-translated" title="'.$this->lang->escAttr('LANG_WITHOUT_TRANSLATION_TEXT').'">('.esc_br_html($faqDetails['faq_answer']).')</span>';
             }
 
             $retHTML .= '<tr>';
             $retHTML .= '<td>'.esc_html($faqId).'</td>';
-            $retHTML .= '<td>'.$questionHMTL.'</td>';
-            $retHTML .= '<td>'.$answerHTML.'</td>';
+            $retHTML .= '<td>'.$faqQuestionHMTL.'</td>';
+            $retHTML .= '<td>'.$faqAnswerHTML.'</td>';
             $retHTML .= '<td style="text-align: center">'.esc_html($faqDetails['faq_order']).'</td>';
             $retHTML .= '<td align="right">';
             if(current_user_can('manage_'.$this->conf->getPluginPrefix().'all_faqs'))

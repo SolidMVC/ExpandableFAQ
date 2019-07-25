@@ -103,6 +103,7 @@ to your website's FAQ page and make automatically expand specific FAQ with a pag
 = 6.1.3 =
 * Redirection bug fixed for updating the plugin from plugins page.
 * Left-over CSS classes and PHP code removed.
+* Small minor label bug fixed and small renaming done.
 
 = 6.1.2 =
 * Fixed wrong admin JS filename issue.
