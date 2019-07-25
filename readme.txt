@@ -26,7 +26,7 @@ This means that you making a theme to be what the theme has to be - a UI part of
 
 **Third** - it is much more secure than any other plugin's on the market. It is based on top-end S.O.L.I.D. coding principle with input data validation with data-patterns, output escaping.
 
-**Forth** - this plugin is scalable – it’s source code is fully object-oriented, clean & logical, based on MVC architectural pattern with templates engine, compliant with strict PSR-2 coding standard and PSR-4 autoloaders, and easy to understand how to add new features on your own.
+**Fourth** - this plugin is scalable – it’s source code is fully object-oriented, clean & logical, based on MVC architectural pattern with templates engine, compliant with strict PSR-2 coding standard and PSR-4 autoloaders, and easy to understand how to add new features on your own.
 
 **Fifth** - this plugin works well with big databases & high-traffic websites – it is created on optimal BCNF database structure and was tested on live website with 1M customers database and 500,000 active daily views.
 
