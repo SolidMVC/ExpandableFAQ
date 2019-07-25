@@ -6,17 +6,3 @@
 .single-navigation {
     display: none;
 }
-/*Single item page - item block*/
-/*NOTE: Extension-Specific CSS !*/
-#wrapper #main div.type-car_rental_item {
-    /*padding-top: 76px;*/
-    padding-top: 19px;
-    margin-bottom: 19px;
-}
-/*Single location page - location block*/
-/*NOTE: Extension-Specific CSS !*/
-#wrapper #main div.type-car_rental_location {
-    /*padding-top: 76px;*/
-    padding-top: 19px;
-    margin-bottom: 19px;
-}

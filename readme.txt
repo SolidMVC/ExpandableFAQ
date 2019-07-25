@@ -100,6 +100,10 @@ to your website's FAQ page and make automatically expand specific FAQ with a pag
 
 == Changelog ==
 
+= 6.1.3 =
+* Redirection bug fixed for updating the plugin from plugins page.
+* Left-over CSS classes and PHP code removed.
+
 = 6.1.2 =
 * Fixed wrong admin JS filename issue.
 * Improved variable naming to `FAQ_`, where was still missing.

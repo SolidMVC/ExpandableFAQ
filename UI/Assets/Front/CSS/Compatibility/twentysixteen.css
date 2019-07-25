@@ -3,15 +3,3 @@
  * Theme Name: Twenty Sixteen
  * License: Licensed under the AGPL license.
  */
-/*Single item page - item block*/
-/*NOTE: Extension-Specific CSS !*/
-#wrapper #main div.type-car_rental_item {
-    padding-top: 19px;
-    margin-bottom: 19px;
-}
-/*Single location page - location block*/
-/*NOTE: Extension-Specific CSS !*/
-#wrapper #main div.type-car_rental_location {
-    padding-top: 19px;
-    margin-bottom: 19px;
-}

@@ -90,7 +90,7 @@ final class SingleStatus extends AbstractStack implements StackInterface, Single
             if($pluginDataUpToDate === FALSE && $this->canUpdatePluginDataInDatabase())
             {
                 // Show update link, but only if the plugin is not network enabled and is allowed to update from current version
-                $updatePageURL = admin_url('admin.php?page='.$this->conf->getPluginURL_Prefix().'single-status&update=1');
+                $updatePageURL = admin_url('admin.php?page='.$this->conf->getPluginURL_Prefix().'single-status&update=1&noheader=true');
                 $retLinks[] = '<a href="'.esc_url($updatePageURL).'">'.$this->lang->escHTML('LANG_UPDATE_TEXT').'</a>';
             }
         }

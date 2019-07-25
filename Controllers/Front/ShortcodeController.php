@@ -8,28 +8,7 @@
  * @license MIT License. See Legal/License.txt for details.
  */
 namespace ExpandableFAQ\Controllers\Front;
-use ExpandableFAQ\Controllers\Front\Shortcodes\AddEditRespondentController;
-use ExpandableFAQ\Controllers\Front\Shortcodes\AddEditReviewController;
-use ExpandableFAQ\Controllers\Front\Shortcodes\BenefitsController;
-use ExpandableFAQ\Controllers\Front\Shortcodes\OrganizationContactController;
-use ExpandableFAQ\Controllers\Front\Shortcodes\OrganizationController;
-use ExpandableFAQ\Controllers\Front\Shortcodes\ContactController;
-use ExpandableFAQ\Controllers\Front\Shortcodes\ChangeOrderController;
-use ExpandableFAQ\Controllers\Front\Shortcodes\DealsController;
 use ExpandableFAQ\Controllers\Front\Shortcodes\FAQsController;
-use ExpandableFAQ\Controllers\Front\Shortcodes\ItemsAvailabilityController;
-use ExpandableFAQ\Controllers\Front\Shortcodes\DecisionMakersController;
-use ExpandableFAQ\Controllers\Front\Shortcodes\ManufacturersController;
-use ExpandableFAQ\Controllers\Front\Shortcodes\ReviewsController;
-use ExpandableFAQ\Controllers\Front\Shortcodes\DecisionMakerController;
-use ExpandableFAQ\Controllers\Front\Shortcodes\ExtrasAvailabilityController;
-use ExpandableFAQ\Controllers\Front\Shortcodes\ExtrasPricesController;
-use ExpandableFAQ\Controllers\Front\Shortcodes\EntriesAvailabilityController;
-use ExpandableFAQ\Controllers\Front\Shortcodes\EntriesController;
-use ExpandableFAQ\Controllers\Front\Shortcodes\EntriesPriceController;
-use ExpandableFAQ\Controllers\Front\Shortcodes\SearchController;
-use ExpandableFAQ\Controllers\Front\Shortcodes\EntryController;
-use ExpandableFAQ\Controllers\Front\Shortcodes\ServicesController;
 use ExpandableFAQ\Models\Configuration\ConfigurationInterface;
 use ExpandableFAQ\Models\Language\LanguageInterface;
 use ExpandableFAQ\Models\Validation\StaticValidator;

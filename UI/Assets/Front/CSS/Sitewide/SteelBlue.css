@@ -3,24 +3,3 @@
  * Style Name: Steel Blue
  * License: Licensed under the AGPL license.
  */
-.car_rental_page {
-    margin-top: 45px;
-}
-/* Single item page heading title - item name */
-#wrapper #main div.type-car_rental_item > h2.entry-title,
-.car_rental_item > h2.entry-title {
-    margin-top: 10px;
-    font-size: 26px;
-    font-weight: bold;
-    text-transform: uppercase;
-    color: #747474;
-}
-/* Single location page heading title - location name */
-#wrapper #main div.type-car_rental_location > h2.entry-title,
-.car_rental_location > h2.entry-title {
-    margin-top: 10px;
-    font-size: 26px;
-    font-weight: bold;
-    text-transform: uppercase;
-    color: #747474;
-}

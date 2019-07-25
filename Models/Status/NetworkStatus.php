@@ -75,7 +75,7 @@ final class NetworkStatus extends AbstractStack implements StackInterface, Netwo
         if($allBlogsWithPluginDataUpToDate === FALSE && $this->canUpdatePluginDataInSomeBlog())
         {
             // Show the network-update link, but only if it is allowed to update from current version
-            $networkUpdatePageURL = network_admin_url('admin.php?page='.$this->conf->getPluginURL_Prefix().'network-status&update=1');
+            $networkUpdatePageURL = network_admin_url('admin.php?page='.$this->conf->getPluginURL_Prefix().'network-status&update=1&noheader=true');
             $retLinks[] = '<a href="'.esc_url($networkUpdatePageURL).'">'.$this->lang->escHTML('LANG_UPDATE_TEXT').'</a>';
         }
 
