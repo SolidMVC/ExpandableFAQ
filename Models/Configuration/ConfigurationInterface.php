@@ -63,6 +63,10 @@ interface ConfigurationInterface
     public function getPluginHandlePrefix();
     public function getPluginURL_Prefix();
     public function getPluginCSS_Prefix();
+    public function getGalleryFolderName();
+    public function getGlobalGalleryPath();
+    public function getGlobalGalleryPathWithoutEndSlash();
+    public function getGlobalGalleryURL();
     public function getThemeUI_FolderName();
     public function getPluginName();
     public function getBlogPrefix($paramBlogId = -1);

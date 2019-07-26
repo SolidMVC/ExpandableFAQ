@@ -34,8 +34,8 @@ final class FAQ_Controller extends AbstractController
             array('faqs'), 'faqs', isset($_GET['tab']) ? $_GET['tab'] : ''
         );
 
-        // 2. Set the view variables - other variables
-        $this->view->addNewFAQ_URL = admin_url('admin.php?page='.$this->conf->getPluginURL_Prefix().'add-edit-faq&amp;faq_id=0');
+        // 2. Set the view variables - FAQs tab
+        $this->view->addNewFAQ_URL = admin_url('admin.php?page='.$this->conf->getPluginURL_Prefix().'add-edit-faq&faq_id=0');
         $this->view->trustedAdminFAQ_ListHTML = $objFAQsObserver->getTrustedAdminListHTML();
 
         // Print the template

@@ -108,6 +108,10 @@ to your website's FAQ page and make automatically expand specific FAQ with a pag
 
 # Changelog
 
+= 6.1.4 =
+* Small tune-up, gallery support added to configuration.
+* [SITE_URL] BBCode support added for install/import.
+
 = 6.1.3 =
 * Redirection bug fixed for updating the plugin from plugins page.
 * Left-over CSS classes and PHP code removed.

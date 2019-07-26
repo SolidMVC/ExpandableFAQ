@@ -63,7 +63,6 @@ final class Install extends AbstractStack implements StackInterface, InstallInte
      */
     public function insertContent()
     {
-        $validBlogId = intval($this->blogId);
         // Language file already loaded, so we can use translated text
 
         // Insert SQL
@@ -82,7 +81,8 @@ final class Install extends AbstractStack implements StackInterface, InstallInte
             // Insert data to WP tables
             foreach($arrInsertSQL AS $sqlTable => $sqlData)
             {
-                $sqlQuery = "INSERT INTO `{$this->conf->getBlogPrefix($this->blogId)}{$sqlTable}` {$sqlData}";
+                $replacedSQL_Data = $this->parseBBCodes($sqlData);
+                $sqlQuery = "INSERT INTO `{$this->conf->getBlogPrefix($this->blogId)}{$sqlTable}` {$replacedSQL_Data}";
                 $ok = $this->conf->getInternalWPDB()->query($sqlQuery);
                 if($ok === FALSE)
                 {
@@ -101,10 +101,10 @@ final class Install extends AbstractStack implements StackInterface, InstallInte
             // Parse shortcodes and make SQL queries
             foreach($arrPluginInsertSQL AS $sqlTable => $sqlData)
             {
-                $sqlData = $this->parseBBCodes($sqlData);
+                $replacedSQL_Data = $this->parseBBCodes($sqlData);
 
                 // Note: we don't use blog_id param for getPrefix, as it is always the same
-                $sqlQuery = "INSERT INTO `{$this->conf->getPrefix()}{$sqlTable}` {$sqlData}";
+                $sqlQuery = "INSERT INTO `{$this->conf->getPrefix()}{$sqlTable}` {$replacedSQL_Data}";
                 $ok = $this->conf->getInternalWPDB()->query($sqlQuery);
                 if($ok === FALSE)
                 {
@@ -157,9 +157,10 @@ final class Install extends AbstractStack implements StackInterface, InstallInte
             // Replace data to WP tables
             foreach($arrReplaceSQL AS $sqlTable => $sqlData)
             {
+                $replacedSQL_Data = $this->parseBBCodes($sqlData);
                 // Note - MySQL 'REPLACE INTO' works like MySQL 'INSERT INTO', except that if there is a row
                 // with the same key you are trying to insert, it will be deleted on replace instead of giving you an error.
-                $sqlQuery = "REPLACE INTO `{$this->conf->getBlogPrefix($this->blogId)}{$sqlTable}` {$sqlData}";
+                $sqlQuery = "REPLACE INTO `{$this->conf->getBlogPrefix($this->blogId)}{$sqlTable}` {$replacedSQL_Data}";
                 $ok = $this->conf->getInternalWPDB()->query($sqlQuery);
                 if($ok === FALSE)
                 {
@@ -178,9 +179,9 @@ final class Install extends AbstractStack implements StackInterface, InstallInte
             // Parse shortcodes and make SQL queries
             foreach($arrPluginReplaceSQL AS $sqlTable => $sqlData)
             {
-                $sqlData = str_replace('[BLOG_ID]', intval($this->blogId), $sqlData);
+                $replacedSQL_Data = $this->parseBBCodes($sqlData);
                 // Note: we don't use blog_id param for getPrefix, as it is always the same
-                $sqlQuery = "REPLACE INTO `{$this->conf->getPrefix()}{$sqlTable}` {$sqlData}";
+                $sqlQuery = "REPLACE INTO `{$this->conf->getPrefix()}{$sqlTable}` {$replacedSQL_Data}";
                 $ok = $this->conf->getInternalWPDB()->query($sqlQuery);
 
                 if($ok === FALSE)

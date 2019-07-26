@@ -34,6 +34,7 @@ return array(
     'LANG_REQ_TEXT' => 'Req.',
     'LANG_NOT_REQUIRED_TEXT' => 'Not required',
     'LANG_REQUIRED_TEXT' => 'Required',
+    'LANG_AVAILABLE_TEXT' => 'Available',
     'LANG_VISIBLE_TEXT' => 'Visible',
     'LANG_HIDDEN_TEXT' => 'Hidden',
     'LANG_ENABLED_TEXT' => 'Enabled',
@@ -71,6 +72,10 @@ return array(
     'LANG_OPTIONAL_TEXT' => 'Optional',
     'LANG_OPTIONAL2_TEXT' => 'optional', // Lowercase
     'LANG_IMAGE_TEXT' => 'Image',
+    'LANG_IMAGE_VIEW_TEXT' => 'View Image',
+    'LANG_IMAGE_VIEW_DEMO_TEXT' => 'View Demo Image',
+    'LANG_IMAGE_DELETE_TEXT' => 'Delete Image',
+    'LANG_IMAGE_UNSET_DEMO_TEXT' => 'Unset Demo Image',
     'LANG_IMAGE_NONE_TEXT' => 'No Image',
     'LANG_NO_ERRORS_TEXT' => 'No errors',
     'LANG_UNKNOWN_TEXT' => 'Unknown',

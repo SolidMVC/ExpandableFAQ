@@ -101,7 +101,7 @@ final class DemosObserver implements PrimitiveObserverInterface
         // DEBUG
         if($this->debugMode == 1)
         {
-            echo "<br />Php demo files: ".nl2br(print_r($phpFiles, TRUE));
+            echo "<br />PHP demo files: ".nl2br(print_r($phpFiles, TRUE));
             echo "<br />Demos: ".nl2br(print_r($retDemos, TRUE));
         }
 

@@ -1,7 +1,7 @@
 <?php
 /**
- * FAQ
-
+ * FAQ Element
+ *
  * @package ExpandableFAQ
  * @author KestutisIT
  * @copyright KestutisIT
@@ -136,7 +136,6 @@ final class FAQ extends AbstractStack implements StackInterface, ElementInterfac
             }
         } else if($ok)
         {
-            // For admins we do not save the IP, as the source writers IP may be unknown
             $saved = $this->conf->getInternalWPDB()->query("
                 INSERT INTO {$this->conf->getPrefix()}faqs
                 (

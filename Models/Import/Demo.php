@@ -47,7 +47,7 @@ final class Demo extends AbstractStack implements StackInterface
         return $this->demoId;
     }
 
-    private function replaceBBCodes($trustedSQLData)
+    private function replaceBBCodes($trustedSQL_Data)
     {
         // Spring
         $springStartTimestamp = strtotime(date("Y")."-03-01 00:00:00");
@@ -73,6 +73,7 @@ final class Demo extends AbstractStack implements StackInterface
         // WP Prefix is used in demos only in one place - in WordPress user meta data table for blog prefix
         $arrFrom = array(
             '[WP_PREFIX]', '[BLOG_ID]',
+            '[SITE_URL]',
             '[SPRING_START_TIMESTAMP]', '[SPRING_END_TIMESTAMP]',
             '[SUMMER_START_TIMESTAMP]', '[SUMMER_END_TIMESTAMP]',
             '[AUTUMN_START_TIMESTAMP]', '[AUTUMN_END_TIMESTAMP]',
@@ -81,15 +82,16 @@ final class Demo extends AbstractStack implements StackInterface
         );
         $arrTo = array(
             $this->conf->getBlogPrefix(), $this->conf->getBlogId(),
+            get_site_url(),
             $springStartTimestamp, $springEndTimestamp,
             $summerStartTimestamp, $summerEndTimestamp,
             $autumnStartTimestamp, $autumnEndTimestamp,
             $winterStartTimestamp, $winterEndTimestamp,
             $todayTimestamp, $yesterdayTimestamp
         );
-        $replacedSQLData = str_replace($arrFrom, $arrTo, $trustedSQLData);
+        $replacedSQL_Data = str_replace($arrFrom, $arrTo, $trustedSQL_Data);
 
-        return $replacedSQLData;
+        return $replacedSQL_Data;
     }
 
     /**
@@ -123,9 +125,9 @@ final class Demo extends AbstractStack implements StackInterface
             // Parse blog id and plugin version BB codes and replace data in plugin tables
             foreach($arrPluginReplaceSQL AS $sqlTable => $sqlData)
             {
-                $replacedSQLData = $this->replaceBBCodes($sqlData);
+                $replacedSQL_Data = $this->replaceBBCodes($sqlData);
                 $sqlQuery = "
-                    REPLACE INTO `{$this->conf->getPrefix()}{$sqlTable}` {$replacedSQLData}
+                    REPLACE INTO `{$this->conf->getPrefix()}{$sqlTable}` {$replacedSQL_Data}
                 ";
 
                 // DEBUG

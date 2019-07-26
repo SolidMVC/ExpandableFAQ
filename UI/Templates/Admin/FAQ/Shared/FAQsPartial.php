@@ -26,7 +26,7 @@ jQuery(document).ready(function() {
 		"bJQueryUI": true,
 		"iDisplayLength": 25,
 		"bSortClasses": false,
-		"aaSorting": [[0,'asc']],
+		"aaSorting": [[3,'asc'],[0,'asc']],
         "aoColumns": [
             { "width": "1%" },
             { "width": "30%" },

@@ -93,6 +93,31 @@ final class Configuration implements ConfigurationInterface
         $this->pluginURL_Prefix                 = isset($params['plugin_url_prefix']) ? sanitize_key($params['plugin_url_prefix']) : '';
         $this->pluginCSS_Prefix                 = isset($params['plugin_css_prefix']) ? sanitize_key($params['plugin_css_prefix']) : '';
 
+        if(isset($params['gallery_folder_name']) && !is_array($params['gallery_folder_name']))
+        {
+            // No sanitization, uppercase needed
+            $this->galleryFolderName            = preg_replace('[^-_0-9a-zA-Z]', '', $params['gallery_folder_name']);
+        } else
+        {
+            $this->galleryFolderName            = '';
+        }
+
+        // Extension gallery is always in one place, so it is static, and can be defined in the class constructor to safe resources later
+        $uploadsDir = wp_upload_dir();
+        if($this->galleryFolderName != "")
+        {
+            // This plugin has its own gallery folder
+            $this->globalGalleryPath = str_replace('\\', DIRECTORY_SEPARATOR, $uploadsDir['basedir']).DIRECTORY_SEPARATOR.$this->galleryFolderName.DIRECTORY_SEPARATOR;
+            $this->globalGalleryPathWithoutEndSlash = str_replace('\\', DIRECTORY_SEPARATOR, $uploadsDir['basedir']).DIRECTORY_SEPARATOR.$this->galleryFolderName;
+            $this->globalGalleryURL = $uploadsDir['baseurl'].'/'.$this->galleryFolderName.'/';
+        } else
+        {
+            // Otherwise - either gallery is not needed, or we should use global gallery folder
+            $this->globalGalleryPath = str_replace('\\', DIRECTORY_SEPARATOR, $uploadsDir['basedir']).DIRECTORY_SEPARATOR;
+            $this->globalGalleryPathWithoutEndSlash = str_replace('\\', DIRECTORY_SEPARATOR, $uploadsDir['basedir']);
+            $this->globalGalleryURL = $uploadsDir['baseurl'].'/';
+        }
+
         if(isset($params['theme_ui_folder_name']) && !is_array($params['theme_ui_folder_name']))
         {
             // No sanitization, uppercase chars needed
@@ -335,6 +360,26 @@ final class Configuration implements ConfigurationInterface
     public function getPluginCSS_Prefix()
     {
         return $this->pluginCSS_Prefix;
+    }
+
+    public function getGalleryFolderName()
+    {
+        return $this->galleryFolderName;
+    }
+
+    public function getGlobalGalleryPath()
+    {
+        return $this->globalGalleryPath;
+    }
+
+    public function getGlobalGalleryPathWithoutEndSlash()
+    {
+        return $this->globalGalleryPathWithoutEndSlash;
+    }
+
+    public function getGlobalGalleryURL()
+    {
+        return $this->globalGalleryURL;
     }
 
     public function getThemeUI_FolderName()
