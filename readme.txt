@@ -79,11 +79,11 @@ Yes, differently than other similar F.A.Q. plugins, this plugin does not use the
 
 = Does it support URL parameters and hashtags? =
 
-Yes, if your F.A.Q. ID is i.e. `42` (you can get your F.A.Q. ID from `Expandable FAQ` -> `FAQ Manager`), then you can go
+Yes, if your F.A.Q. ID is i.e. `4` (you can get your F.A.Q. ID from `Expandable FAQ` -> `FAQ Manager`), then you can go
 to your website's FAQ page and make automatically expand specific FAQ with a page focus to that F.A.Q. via this URL structure:
 
 `
-<YOUR-SITE>.com/<FAQ-PAGE>/?expand_faq=[ID]#faq-[ID]
+<YOUR-SITE>.com/<FAQ-PAGE>/?expand_faq=4#faq-4
 `
 
 
@@ -99,6 +99,11 @@ to your website's FAQ page and make automatically expand specific FAQ with a pag
 
 
 == Changelog ==
+
+= 6.1.5 =
+* Abbreviation functions support added as `es(..)`, `at(..)`, `abh(..)`, `eh()`, `ej()`, `et()` for use mostly in templates, but they can also be used in models, if you use observer models that may be generating and returning to controller whole HTML blocks. Also these functions may be valuable for developers, that wants to have their HTML templates (or PHP-enhanced templates) be fully based only on SolidMVC (MIT-licensed), and not WordPress (GPL-licensed), as in this case your templates would be intensively calling only the MIT-licensed SolidMVC micro-framework’s functions. Additionally, this allows you to write a shorter code for your templates, which is easier to read for your designers.
+* escBrHTML(..) support added for language interface.
+* Minor documentation and code tune-up.
 
 = 6.1.4 =
 * Small tune-up, gallery support added to configuration.

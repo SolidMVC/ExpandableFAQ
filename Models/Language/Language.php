@@ -195,6 +195,16 @@ final class Language implements LanguageInterface
      * @param $paramKey
      * @return string
      */
+    public function escBrHTML($paramKey)
+    {
+        return esc_br_html($this->getText($paramKey));
+    }
+
+    /**
+     * NOTE: Just an abbreviation method
+     * @param $paramKey
+     * @return string
+     */
     public function escHTML($paramKey)
     {
         return esc_html($this->getText($paramKey));

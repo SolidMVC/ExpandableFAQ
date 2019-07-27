@@ -144,7 +144,7 @@ final class Demo extends AbstractStack implements StackInterface
                     // DEBUG
                     if($this->debugMode > 0)
                     {
-                        $debugMessage = "[DEMO] FAILED TO REPLACE IN PLUGIN TABLE: ".nl2br(esc_html($sqlQuery));
+                        $debugMessage = "[DEMO] FAILED TO REPLACE IN PLUGIN TABLE: ".esc_br_html($sqlQuery);
                         $this->debugMessages[] = $debugMessage;
                         //echo $debugMessage; // This class is used with redirect, do not output here
                     }

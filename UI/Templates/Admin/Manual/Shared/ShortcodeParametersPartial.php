@@ -54,7 +54,7 @@ defined( 'ABSPATH' ) or die( 'No script kiddies, please!' );
 </p>
 <ul>
     <li>
-        expanded_faq=&quot;1&quot; (default is no expanded F.A.Q.&#39;s - &#39;-1&#39;)
+        expanded_faq=&quot;4&quot; (default is no expanded F.A.Q.&#39;s - &#39;-1&#39;)
     </li>
 </ul>
 
@@ -62,4 +62,5 @@ defined( 'ABSPATH' ) or die( 'No script kiddies, please!' );
 <h3>Example:</h3>
 <pre>
     [expandable_faq display=&quot;faqs&quot; layout=&quot;list&quot;]
+    [expandable_faq display=&quot;faqs&quot; expanded_faq=&quot;4&quot; layout=&quot;list&quot; style=&quot;2&quot;]
 </pre>

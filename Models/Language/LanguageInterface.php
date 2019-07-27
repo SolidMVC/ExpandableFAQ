@@ -53,6 +53,13 @@ interface LanguageInterface
      * @param $paramKey
      * @return string
      */
+    public function escBrHTML($paramKey);
+
+    /**
+     * NOTE: Just an abbreviation method
+     * @param $paramKey
+     * @return string
+     */
     public function escHTML($paramKey);
 
     /**

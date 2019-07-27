@@ -34,4 +34,4 @@ defined( 'ABSPATH' ) or die( 'No script kiddies, please!' );
 </ol>
 
 <h3>Example:</h3>
-<p>To expand a F.A.Q. with ID=1 and focus screen to it, go to &#39;https://your-site.com/faqs/?expanded_faq=1#faq-1&#39; URL.</p>
+<p>To expand a F.A.Q. with ID=4 and focus screen to it, go to &#39;https://your-site.com/faqs/?expanded_faq=4#faq-4&#39; URL.</p>
