@@ -6,7 +6,7 @@
  * @copyright   Kestutis Matuliauskas
  * @License     @license See Legal/License.txt for details.
  *
- * @car-expandable-faq-plugin-demo
+ * @expandable-faq-plugin-demo
  * Demo UID: 1
  * Demo Name: Car Rental Agency - Crimson Red
  * Demo Enabled: 1

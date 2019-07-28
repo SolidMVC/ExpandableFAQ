@@ -9,7 +9,7 @@ wp_enqueue_style('font-awesome');
 wp_enqueue_style('modern-tabs');
 wp_enqueue_style('expandable-faq-admin');
 ?>
-<div class="car-expandable-faq-status-admin expandable-faq-tabbed-admin expandable-faq-tabbed-admin-medium bg-cyan">
+<div class="expandable-faq-status-admin expandable-faq-tabbed-admin expandable-faq-tabbed-admin-medium bg-cyan">
 	<?php if ($errorMessage != ""): ?>
 		<div class="admin-info-message admin-standard-width-message admin-error-message"><?=esc_br_html($errorMessage);?></div>
 	<?php elseif ($okayMessage != ""): ?>

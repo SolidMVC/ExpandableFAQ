@@ -11,7 +11,7 @@ wp_enqueue_style('modern-tabs');
 wp_enqueue_style('jquery-validate');
 wp_enqueue_style('expandable-faq-admin');
 ?>
-<div class="car-expandable-faq-settings-admin expandable-faq-tabbed-admin expandable-faq-tabbed-admin expandable-faq-tabbed-admin-wide bg-cyan">
+<div class="expandable-faq-settings-admin expandable-faq-tabbed-admin expandable-faq-tabbed-admin expandable-faq-tabbed-admin-wide bg-cyan">
 	<?php if ($errorMessage != ""): ?>
 		<div class="admin-info-message admin-wide-message admin-error-message"><?=esc_br_html($errorMessage);?></div>
 	<?php elseif ($okayMessage != ""): ?>

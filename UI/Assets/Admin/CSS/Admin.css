@@ -118,7 +118,7 @@ div.expandable-faq-tabbed-admin a:hover {
 /*************************************************************************/
 /**************************** MAIN STYLES ********************************/
 /*************************************************************************/
-div.car-expandable-faq-error {
+div.expandable-faq-error {
     margin: 0 0 0 -20px;
     display: block;
     overflow: hidden;
@@ -220,8 +220,8 @@ div.expandable-faq-tabbed-admin .typography table.settings-table tbody tr td.pse
     color: navy;
     text-align: right;
 }
-div.car-expandable-faq-settings-admin div.section-header,
-div.car-expandable-faq-settings-admin form table.google-settings thead tr th {
+div.expandable-faq-settings-admin div.section-header,
+div.expandable-faq-settings-admin form table.google-settings thead tr th {
     font-size: 16px;
     font-weight: bold;
     background-color: white;
@@ -230,46 +230,46 @@ div.car-expandable-faq-settings-admin form table.google-settings thead tr th {
     padding-left: 6px;
     padding-right: 6px;
 }
-div.car-expandable-faq-settings-admin form table.google-settings tbody tr:first-child td {
+div.expandable-faq-settings-admin form table.google-settings tbody tr:first-child td {
     padding-top: 10px;
 }
-div.car-expandable-faq-settings-admin form table.google-settings tbody tr:last-child td {
+div.expandable-faq-settings-admin form table.google-settings tbody tr:last-child td {
     padding-bottom: 10px;
 }
-div.car-expandable-faq-settings-admin ul.justify,
-div.car-expandable-faq-settings-admin ol.justify,
-div.car-expandable-faq-settings-admin p.justify {
+div.expandable-faq-settings-admin ul.justify,
+div.expandable-faq-settings-admin ol.justify,
+div.expandable-faq-settings-admin p.justify {
     text-align: justify;
 }
-div.car-expandable-faq-settings-admin p.top-padded,
-div.car-expandable-faq-settings-admin div.top-padded {
+div.expandable-faq-settings-admin p.top-padded,
+div.expandable-faq-settings-admin div.top-padded {
     padding-top: 20px;
     padding-bottom: 0;
 }
-div.car-expandable-faq-settings-admin ol.small-description,
-div.car-expandable-faq-settings-admin p.small-description {
+div.expandable-faq-settings-admin ol.small-description,
+div.expandable-faq-settings-admin p.small-description {
     font-size: 11px;
     line-height: 1.5em;
     margin-top: 0;
 }
-div.car-expandable-faq-settings-admin form table.organization-details-table thead tr th {
+div.expandable-faq-settings-admin form table.organization-details-table thead tr th {
     font-size: 16px;
     font-weight: bold;
     background-color: white;
     padding-top: 10px;
     padding-bottom: 10px;
 }
-div.car-expandable-faq-settings-admin form table.contact-details-table thead tr th {
+div.expandable-faq-settings-admin form table.contact-details-table thead tr th {
     padding-top: 8px;
     padding-bottom: 8px;
 }
-div.car-expandable-faq-settings-admin form table.contact-details-table tbody tr td > input[type="text"] {
+div.expandable-faq-settings-admin form table.contact-details-table tbody tr td > input[type="text"] {
     width: 200px;
 }
-div.car-expandable-faq-settings-admin form table tbody tr td > select.visibility-dropdown {
+div.expandable-faq-settings-admin form table tbody tr td > select.visibility-dropdown {
     width: 250px;
 }
-div.car-expandable-faq-settings-admin form table tbody tr td > select.requirement-dropdown {
+div.expandable-faq-settings-admin form table tbody tr td > select.requirement-dropdown {
     width: 140px;
 }
 div.expandable-faq-tabbed-admin .typography .big-labels select {
@@ -307,20 +307,20 @@ div.expandable-faq-tabbed-admin .col-date-field select {
     background-color: white;
     border: 1px solid #ECECEC;
 }
-div.car-expandable-faq-settings-admin input[type="text"] {
+div.expandable-faq-settings-admin input[type="text"] {
     width: 340px;
     padding: 8px;
     font-size: 14px;
     font-weight: normal;
 }
-div.car-expandable-faq-settings-admin textarea {
+div.expandable-faq-settings-admin textarea {
     padding: 8px;
     font-size: 14px;
     font-weight: normal;
     background-color: white;
     width: 340px;
 }
-div.car-expandable-faq-settings-admin select {
+div.expandable-faq-settings-admin select {
     height: 38px;
     width: 340px;
     padding: 8px;
@@ -330,7 +330,7 @@ div.car-expandable-faq-settings-admin select {
     background-color: white;
     border: 1px solid #ECECEC;
 }
-div.car-expandable-faq-settings-admin select.on-the-right-narrow-input-box {
+div.expandable-faq-settings-admin select.on-the-right-narrow-input-box {
     width: 267px;
     position: relative;
     top: -2px;
@@ -342,12 +342,12 @@ div.expandable-faq-tabbed-admin .col-search {
 }
 div.expandable-faq-tabbed-admin .col-search input[type="submit"],
 div.expandable-faq-tabbed-admin .col-search input[type="button"],
-div.car-expandable-faq-settings-admin input[type="submit"],
-div.car-expandable-faq-settings-admin input[type="button"],
-div.car-expandable-faq-status-admin input[type="submit"],
-div.car-expandable-faq-status-admin input[type="button"],
-div.car-expandable-faq-demos-admin input[type="submit"],
-div.car-expandable-faq-demos-admin input[type="button"] {
+div.expandable-faq-settings-admin input[type="submit"],
+div.expandable-faq-settings-admin input[type="button"],
+div.expandable-faq-status-admin input[type="submit"],
+div.expandable-faq-status-admin input[type="button"],
+div.expandable-faq-demos-admin input[type="submit"],
+div.expandable-faq-demos-admin input[type="button"] {
     cursor: pointer;
     text-align: center;
     font-weight: bold;
@@ -362,19 +362,19 @@ div.car-expandable-faq-demos-admin input[type="button"] {
 }
 div.expandable-faq-tabbed-admin .col-search input[type="submit"]:hover,
 div.expandable-faq-tabbed-admin .col-search input[type="button"]:hover,
-div.car-expandable-faq-settings-admin input[type="submit"]:hover,
-div.car-expandable-faq-settings-admin input[type="button"]:hover,
-div.car-expandable-faq-status-admin input[type="submit"]:hover,
-div.car-expandable-faq-status-admin input[type="button"]:hover,
-div.car-expandable-faq-demos-admin input[type="submit"]:hover,
-div.car-expandable-faq-demos-admin input[type="button"]:hover {
+div.expandable-faq-settings-admin input[type="submit"]:hover,
+div.expandable-faq-settings-admin input[type="button"]:hover,
+div.expandable-faq-status-admin input[type="submit"]:hover,
+div.expandable-faq-status-admin input[type="button"]:hover,
+div.expandable-faq-demos-admin input[type="submit"]:hover,
+div.expandable-faq-demos-admin input[type="button"]:hover {
     color: white;
     background-color: #2DA5DA;
 }
 div.expandable-faq-tabbed-admin .col-search input[type="submit"]:disabled,
 div.expandable-faq-tabbed-admin .col-search input[type="button"]:disabled,
-div.car-expandable-faq-settings-admin input[type="submit"]:disabled,
-div.car-expandable-faq-settings-admin input[type="button"]:disabled {
+div.expandable-faq-settings-admin input[type="submit"]:disabled,
+div.expandable-faq-settings-admin input[type="button"]:disabled {
     color: rgba(51, 51, 51, 0.5);
     background-color: #fff;
     cursor: default;
@@ -440,31 +440,31 @@ div.expandable-faq-tabbed-admin img.date-selector-image {
 
 
 /************************ RESPONDENTS ************************/
-div.car-expandable-faq-respondents-admin .respondent-search-form a,
-div.car-expandable-faq-respondents-admin .activity-search-form a {
+div.expandable-faq-respondents-admin .respondent-search-form a,
+div.expandable-faq-respondents-admin .activity-search-form a {
     text-decoration: none;
 }
-div.car-expandable-faq-respondents-admin h1.page-title,
-div.car-expandable-faq-respondents-admin h2.page-title {
+div.expandable-faq-respondents-admin h1.page-title,
+div.expandable-faq-respondents-admin h2.page-title {
     width: 300px;
     float: left;
 }
-div.car-expandable-faq-respondents-admin .respondent-search-fields {
+div.expandable-faq-respondents-admin .respondent-search-fields {
     font-size: 16px;
     float: left;
     text-align: right;
     margin-top: 3px;
     width: 664px;
 }
-div.car-expandable-faq-respondents-admin .activity-search-fields {
+div.expandable-faq-respondents-admin .activity-search-fields {
     font-size: 16px;
     float: left;
     text-align: right;
     margin-top: 3px;
     width: 778px;
 }
-div.car-expandable-faq-respondents-admin .respondent-search-fields select,
-div.car-expandable-faq-respondents-admin .activity-search-fields select {
+div.expandable-faq-respondents-admin .respondent-search-fields select,
+div.expandable-faq-respondents-admin .activity-search-fields select {
     height: 45px;
     width: 185px;
     padding: 10px;
@@ -473,19 +473,19 @@ div.car-expandable-faq-respondents-admin .activity-search-fields select {
     background-color: white;
     border: 1px solid #ECECEC;
 }
-div.car-expandable-faq-respondents-admin .respondent-search-fields input[type="text"],
-div.car-expandable-faq-respondents-admin .activity-search-fields input[type="text"] {
+div.expandable-faq-respondents-admin .respondent-search-fields input[type="text"],
+div.expandable-faq-respondents-admin .activity-search-fields input[type="text"] {
     width: 110px;
     padding: 10px;
     font-size: 16px;
     font-weight: bold;
 }
-div.car-expandable-faq-respondent-search-results h1.page-title,
-div.car-expandable-faq-respondent-search-results h2.page-title {
+div.expandable-faq-respondent-search-results h1.page-title,
+div.expandable-faq-respondent-search-results h2.page-title {
     width: 900px;
     float: left;
 }
-div.car-expandable-faq-respondent-search-results .back-to-list {
+div.expandable-faq-respondent-search-results .back-to-list {
     text-align: right;
     float: right;
     margin-top: 3px;
@@ -537,20 +537,20 @@ div.car-expandable-faq-respondent-search-results .back-to-list {
     width: 100%;
 }
 /************************ STATUS ************************/
-div.car-expandable-faq-status-admin input[type="text"] {
+div.expandable-faq-status-admin input[type="text"] {
     width: 340px;
     padding: 8px;
     font-size: 14px;
     font-weight: normal;
 }
-div.car-expandable-faq-status-admin textarea {
+div.expandable-faq-status-admin textarea {
     padding: 8px;
     font-size: 14px;
     font-weight: normal;
     background-color: white;
     width: 340px;
 }
-div.car-expandable-faq-status-admin select {
+div.expandable-faq-status-admin select {
     height: 38px;
     width: 340px;
     padding: 8px;
@@ -560,18 +560,18 @@ div.car-expandable-faq-status-admin select {
     background-color: white;
     border: 1px solid #ECECEC;
 }
-.car-expandable-faq-status-admin input.personal-token {
+.expandable-faq-status-admin input.personal-token {
 }
-.car-expandable-faq-status-admin form.activation-form {
+.expandable-faq-status-admin form.activation-form {
     line-height: 38px;
 }
 /************************ DEMOS ************************/
-.car-expandable-faq-demos-admin div.typography ul
+.expandable-faq-demos-admin div.typography ul
 {
     margin-top: 10px;
     margin-bottom: 20px;
 }
-.car-expandable-faq-demos-admin div.typography pre
+.expandable-faq-demos-admin div.typography pre
 {
     margin-top: 5px;
     padding-top: 5px;
@@ -582,12 +582,12 @@ div.car-expandable-faq-status-admin select {
     margin-bottom: 15px;
 }
 /************************ INSTRUCTIONS ************************/
-.car-expandable-faq-manual-admin div.typography ul
+.expandable-faq-manual-admin div.typography ul
 {
     margin-top: 10px;
     margin-bottom: 20px;
 }
-.car-expandable-faq-manual-admin div.typography pre
+.expandable-faq-manual-admin div.typography pre
 {
     margin-top: 5px;
     padding-top: 5px;

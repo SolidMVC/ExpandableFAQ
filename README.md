@@ -108,6 +108,9 @@ to your website's FAQ page and make automatically expand specific FAQ with a pag
 
 # Changelog
 
+= 6.1.6 =
+* Minor CSS tune-up.
+
 = 6.1.5 =
 * Abbreviation functions support added as `es(..)`, `at(..)`, `abh(..)`, `eh()`, `ej()`, `et()` for use mostly in templates, but they can also be used in models, if you use observer models that may be generating and returning to controller whole HTML blocks. Also these functions may be valuable for developers, that wants to have their HTML templates (or PHP-enhanced templates) be fully based only on SolidMVC (MIT-licensed), and not WordPress (GPL-licensed), as in this case your templates would be intensively calling only the MIT-licensed SolidMVC micro-framework’s functions. Additionally, this allows you to write a shorter code for your templates, which is easier to read for your designers.
 * escBrHTML(..) support added for language interface.

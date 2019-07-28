@@ -17,7 +17,7 @@ wp_enqueue_style('datatables-jqueryui');
 wp_enqueue_style('datatables-responsive-jqueryui');
 wp_enqueue_style('expandable-faq-admin');
 ?>
-<div class="car-expandable-faq-list-admin expandable-faq-tabbed-admin expandable-faq-tabbed-admin-wide bg-cyan">
+<div class="expandable-faq-list-admin expandable-faq-tabbed-admin expandable-faq-tabbed-admin-wide bg-cyan">
     <?php if ($errorMessage != ""): ?>
         <div class="admin-info-message admin-wide-message admin-error-message"><?=esc_br_html($errorMessage);?></div>
     <?php elseif ($okayMessage != ""): ?>
