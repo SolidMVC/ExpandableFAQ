@@ -37,7 +37,7 @@ defined( 'ABSPATH' ) or die( 'No script kiddies, please!' );
 /wp-content/plugins/ExpandableFAQ/UI/Templates/Front/FAQsList.php</pre>
                 To:<br />
                 <pre>
-/wp-content/themes/&lt;MY_THEME&gt;/ExpandableFAQ_UI/CarRental/Templates/Front/FAQsList.php</pre>
+/wp-content/themes/&lt;MY_THEME&gt;/ExpandableFAQ_UI/Templates/Front/FAQsList.php</pre>
                 And then edit the copied file however you want.
             </li>
             <li>

@@ -17,7 +17,7 @@ final class Patches61Z extends AbstractDatabase implements StackInterface, Datab
 {
     const CURRENT_MAJOR = 6; // Positive integer [X]
     const CURRENT_MINOR = 1; // Positive integer [Y]
-    const LATEST_PATCH = 6; // Positive integer [Z]
+    const LATEST_PATCH = 7; // Positive integer [Z]
     const LATEST_RELEASE = ''; // String
     const LATEST_BUILD_METADATA = ''; // String
     const PLUGIN_PREFIX = "expandable_faq_";

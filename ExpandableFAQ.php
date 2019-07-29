@@ -3,7 +3,7 @@
  * Plugin Name: Expandable FAQ
  * Plugin URI: https://wordpress.org/plugins/expandable-faq/
  * Description: It’s a high quality, native and responsive WordPress plugin to create and view F.A.Q.'s
- * Version: 6.1.6
+ * Version: 6.1.7
  * Author: KestutisIT
  * Author URI: https://profiles.wordpress.org/KestutisIT
  * Text Domain: expandable-faq
@@ -43,7 +43,7 @@ if(!class_exists('ExpandableFAQ\ExpandableFAQ'))
         const REQUIRED_PHP_VERSION = '5.6.0';
         const REQUIRED_WP_VERSION = 4.6;
         const OLDEST_COMPATIBLE_PLUGIN_SEMVER = '6.0.0';
-        const PLUGIN_SEMVER = '6.1.6';
+        const PLUGIN_SEMVER = '6.1.7';
 
         // Settings
         /**

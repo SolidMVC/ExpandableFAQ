@@ -129,8 +129,8 @@ final class SingleMenuController
     {
         try
         {
-            $objFAQController = new FAQ_Controller($this->conf, $this->lang);
-            $objFAQController->printContent();
+            $objFAQ_Controller = new FAQ_Controller($this->conf, $this->lang);
+            $objFAQ_Controller->printContent();
         }
         catch (\Exception $e)
         {

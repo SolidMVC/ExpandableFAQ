@@ -100,6 +100,9 @@ to your website's FAQ page and make automatically expand specific FAQ with a pag
 
 == Changelog ==
 
+= 6.1.7 =
+* One template minorly patched, front-end main JS file renamed to correct name.
+
 = 6.1.6 =
 * Minor CSS tune-up.
 
