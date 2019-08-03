@@ -45,7 +45,7 @@ At this point, if you need more than one language, I'd strongly advise to go wit
 **Seventh** - it has nice user experience - it's has a default design, it does allow you to have more than one F.A.Q. item open at the same time - so it don't have that annoying `accordion` feature.
 
 **But the most important** is that this plugin is and always be **ads-free**. I personally really hate these **freemium**, **ads-full** or **tracking** plugins which makes majority
-of the plugins on w.org plugins directly (and, actually, many of premium marketplaces). So this is the key features we always maintain:
+of the plugins on w.org plugins directory (and, actually, many of premium marketplaces). So this is the key features we always maintain:
 1. Never track your data (nor even by putting some kind of GDPR-compliance agreement checkbox, like `Error Log Monitor` plugin),
 2. Never make it pseudo-ads-full (even such a big plugins like `WooCommerce` or `Contact Form 7` has nearly 80% of their home screen or 20% of their main buttons about `how to install \ buy other plugins`
 - this is a really ugly behavior of pushing-more and going to Facebook-like business, where you get like drug-addicted to company products).
