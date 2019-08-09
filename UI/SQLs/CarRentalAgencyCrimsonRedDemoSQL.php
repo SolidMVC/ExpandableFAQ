@@ -4,7 +4,7 @@
  * @package     ExpandableFAQ
  * @author      Kestutis Matuliauskas
  * @copyright   Kestutis Matuliauskas
- * @License     @license See Legal/License.txt for details.
+ * @license     MIT License. See Legal/License.txt for details.
  *
  * @expandable-faq-plugin-demo
  * Demo UID: 1

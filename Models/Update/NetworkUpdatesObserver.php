@@ -88,7 +88,7 @@ final class NetworkUpdatesObserver implements PrimitiveObserverInterface
             switch_to_blog($blogId);
 
             $lang = new Language(
-                $this->conf->getTextDomain(), $this->conf->getGlobalLangPath(), $this->conf->getLocalLangPath(), get_locale()
+                $this->conf->getTextDomain(), $this->conf->getGlobalPluginLangPath(), $this->conf->getLocalLangPath(), get_locale()
             );
 
             // Update the database data

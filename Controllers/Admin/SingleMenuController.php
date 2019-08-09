@@ -50,7 +50,7 @@ final class SingleMenuController
 
         // For those, who have 'update_plugins' rights - update_plugins are official WordPress role for updates
         add_menu_page(
-            $this->lang->getText('LANG_MENU_EXPANDABLE_FAQ_TEXT'), $this->lang->getText('LANG_MENU_EXPANDABLE_FAQ_TEXT'),
+            $this->lang->getText('PLUGIN_NAME'), $this->lang->getText('PLUGIN_NAME'),
             "update_plugins", "{$urlPrefix}single-menu", array($this, "printSingleStatus"), $iconURL, $validMenuPosition
         );
         add_submenu_page(
@@ -72,7 +72,7 @@ final class SingleMenuController
 
         // For those, who have 'view_{$pluginPrefix}partner_earnings' rights
         add_menu_page(
-            $this->lang->getText('LANG_MENU_EXPANDABLE_FAQ_TEXT'), $this->lang->getText('LANG_MENU_EXPANDABLE_FAQ_TEXT'),
+            $this->lang->getText('PLUGIN_NAME'), $this->lang->getText('PLUGIN_NAME'),
             "view_{$pluginPrefix}all_faqs", "{$urlPrefix}single-menu", array($this, "printFAQ_Manager"), $iconURL, $validMenuPosition
         );
             // For those, who have 'view_{$pluginPrefix}all_faqs' or 'manage_{$pluginPrefix}all_faqs' rights

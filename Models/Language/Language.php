@@ -17,6 +17,7 @@ final class Language implements LanguageInterface
     // This is the error text before the language file will be loaded
     const LANG_ERROR_LANGUAGE_KEY_S_DO_NOT_EXIST_TEXT = 'Error: Language key %s do not exist!';
     const LANG_ERROR_UNABLE_TO_LOAD_LANGUAGE_FILE_TEXT = 'Unable to load %s language file from none of it&#39;s 2 paths.';
+    private $coreLocale = "en_US";
     private $locale = "en_US";
     private $lang = array();
     private $textDomain = 'unknown';
@@ -30,38 +31,110 @@ final class Language implements LanguageInterface
 
     /**
      * @param string $paramTextDomain
-     * @param string $paramGlobalLangPath
+     * @param string $paramGlobalPluginLangPath
      * @param string $paramLocalLangPath
      * @param string $paramLocale
      * @param bool $paramStrictLocale
      * @throws \Exception
      */
-    public function __construct($paramTextDomain, $paramGlobalLangPath, $paramLocalLangPath, $paramLocale = "en_US", $paramStrictLocale = FALSE)
+    public function __construct($paramTextDomain, $paramGlobalPluginLangPath, $paramLocalLangPath, $paramLocale = "en_US", $paramStrictLocale = FALSE)
     {
-        $this->setLocale($paramGlobalLangPath, $paramLocalLangPath, $paramLocale, $paramStrictLocale);
+        $this->setCoreLocale($paramGlobalPluginLangPath, $paramLocalLangPath, $paramLocale, $paramStrictLocale);
+        $this->setLocale($paramGlobalPluginLangPath, $paramLocalLangPath, $paramLocale, $paramStrictLocale);
         $this->setTranslate($paramTextDomain);
     }
 
     /**
-     * Load locale file
-     * @param string $paramGlobalLangPath
+     * Load core locale file
+     * @param string $paramGlobalPluginLangPath
      * @param string $paramLocalLangPath
      * @param string $paramLocale
      * @param bool $paramStrictLocale
      * @throws \Exception
      */
-    private function setLocale($paramGlobalLangPath, $paramLocalLangPath, $paramLocale = "en_US", $paramStrictLocale = FALSE)
+    private function setCoreLocale($paramGlobalPluginLangPath, $paramLocalLangPath, $paramLocale = "en_US", $paramStrictLocale = FALSE)
     {
-        $validGlobalLangPath = sanitize_text_field($paramGlobalLangPath);
+        $validGlobalPluginLangPath = sanitize_text_field($paramGlobalPluginLangPath);
+        $validLocalLangPath = sanitize_text_field($paramLocalLangPath);
+        $validCoreLocale = !is_array($paramLocale) ? preg_replace('[^-_0-9a-zA-Z]', '', $paramLocale) : 'en_US';
+
+        // If the locale mode is NOT strict, and 'lt_LT.php' file does not exist
+        // neither in /wp-content/languages/<PLUGIN_FOLDER_NAME>/,
+        // nor in /wp-content/plugins/<PLUGIN_FOLDER_NAME>/Languages/ folders
+        if(
+            $paramStrictLocale === FALSE &&
+            is_readable($validGlobalPluginLangPath.'core-'.$validCoreLocale.'.php') === FALSE &&
+            is_readable($validLocalLangPath.'core-'.$validCoreLocale.'.php') === FALSE
+        )
+        {
+            // then set language default to en_US (with en_US.php as a corresponding file)
+            $validCoreLocale = "en_US";
+        }
+
+        // Set core locale
+        if($validGlobalPluginLangPath != "SKIP" && is_readable($validGlobalPluginLangPath.'core-'.$validCoreLocale.'.php'))
+        {
+            // Set used core locale
+            $this->coreLocale = $validCoreLocale;
+
+            // Include the Unicode CLDR core language file
+            $unicodeCLRD_FileToInclude = $validGlobalPluginLangPath.'core-'.$validCoreLocale.'.php';
+            $lang = include $unicodeCLRD_FileToInclude;
+        } else if($validLocalLangPath != "SKIP" && is_readable($validLocalLangPath.'core-'.$validCoreLocale.'.php'))
+        {
+            // Set used core locale
+            $this->coreLocale = $validCoreLocale;
+
+            // Include the Unicode CLDR core language file
+            $unicodeCLRD_FileToInclude = $validLocalLangPath.'core-'.$validCoreLocale.'.php';
+            $lang = include $unicodeCLRD_FileToInclude;
+        } else
+        {
+            // Set used core locale
+            $this->coreLocale = "";
+
+            // Language file is not readable - do not include the language file
+            throw new \Exception(sprintf(static::LANG_ERROR_UNABLE_TO_LOAD_LANGUAGE_FILE_TEXT, 'core-'.$validCoreLocale));
+        }
+
+        // NOTE: This might be a system slowing-down process
+        if(sizeof($lang) > 0)
+        {
+            foreach($lang AS $key => $value)
+            {
+                $this->addText($key, $value);
+            }
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getCoreLocale()
+    {
+        return $this->coreLocale;
+    }
+
+    /**
+     * Load locale file
+     * @param string $paramGlobalPluginLangPath
+     * @param string $paramLocalLangPath
+     * @param string $paramLocale
+     * @param bool $paramStrictLocale
+     * @throws \Exception
+     */
+    private function setLocale($paramGlobalPluginLangPath, $paramLocalLangPath, $paramLocale = "en_US", $paramStrictLocale = FALSE)
+    {
+        $validGlobalPluginLangPath = sanitize_text_field($paramGlobalPluginLangPath);
         $validLocalLangPath = sanitize_text_field($paramLocalLangPath);
         $validLocale = !is_array($paramLocale) ? preg_replace('[^-_0-9a-zA-Z]', '', $paramLocale) : 'en_US';
 
         // If the locale mode is NOT strict, and 'lt_LT.php' file does not exist
-        // neither in /wp-content/languages/<EXT_FOLDER_NAME>/,
-        // nor in /wp-content/plugins/ExpandableFAQ/Languages/<EXT_FOLDER_NAME>/ folders
+        // neither in /wp-content/languages/<PLUGIN_FOLDER_NAME>/,
+        // nor in /wp-content/plugins/<PLUGIN_FOLDER_NAME>/Languages/ folders
         if(
             $paramStrictLocale === FALSE &&
-            is_readable($validGlobalLangPath.$validLocale.'.php') === FALSE &&
+            is_readable($validGlobalPluginLangPath.$validLocale.'.php') === FALSE &&
             is_readable($validLocalLangPath.$validLocale.'.php') === FALSE
         )
         {
@@ -69,26 +142,26 @@ final class Language implements LanguageInterface
             $validLocale = "en_US";
         }
 
-        if($validGlobalLangPath != "SKIP" && is_readable($validGlobalLangPath.$validLocale.'.php'))
+        // Set locale
+        if($validGlobalPluginLangPath != "SKIP" && is_readable($validGlobalPluginLangPath.$validLocale.'.php'))
         {
-            // Set used system locale
+            // Set used locale
             $this->locale = $validLocale;
 
             // Include the Unicode CLDR language file
-            $unicodeCLRDFileToInclude = $validGlobalLangPath.$validLocale.'.php';
-            $lang = include $unicodeCLRDFileToInclude;
+            $unicodeCLRD_FileToInclude = $validGlobalPluginLangPath.$validLocale.'.php';
+            $lang = include $unicodeCLRD_FileToInclude;
         } else if($validLocalLangPath != "SKIP" && is_readable($validLocalLangPath.$validLocale.'.php'))
         {
-            // Set used system locale
+            // Set used locale
             $this->locale = $validLocale;
 
             // Include the Unicode CLDR language file
-            $this->locale = $validLocale;
-            $unicodeCLRDFileToInclude = $validLocalLangPath.$validLocale.'.php';
-            $lang = include $unicodeCLRDFileToInclude;
+            $unicodeCLRD_FileToInclude = $validLocalLangPath.$validLocale.'.php';
+            $lang = include $unicodeCLRD_FileToInclude;
         } else
         {
-            // Set used system locale
+            // Set used locale
             $this->locale = "";
 
             // Language file is not readable - do not include the language file
@@ -403,7 +476,7 @@ final class Language implements LanguageInterface
      * @param $paramPostId
      * @return false|string
      */
-    public function getTranslatedUrl($paramPostId)
+    public function getTranslatedURL($paramPostId)
     {
         if($this->WMPLEnabled)
         {

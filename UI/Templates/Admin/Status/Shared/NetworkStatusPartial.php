@@ -2,7 +2,7 @@
 defined( 'ABSPATH' ) or die( 'No script kiddies, please!' );
 ?>
 <h1>
-    <span><?=esc_html($lang['LANG_STATUS_SYSTEM_TEXT']);?></span>
+    <span><?=esc_html(sprintf($lang['LANG_STATUS_S_PLUGIN_TEXT'], $lang['PLUGIN_NAME']));?></span>
 </h1>
 <form name="status_form" action="<?=esc_url($statusTabFormAction);?>" method="POST" class="status-form">
     <div style="padding-bottom: 20px;" class="big-text">
@@ -26,7 +26,7 @@ defined( 'ABSPATH' ) or die( 'No script kiddies, please!' );
                 <li><?=esc_html($lang['LANG_STATUS_UPDATE_STEP_UPLOAD_VIA_FTP_TEXT']);?>,</li>
                 <li><?=esc_html($lang['LANG_STATUS_UPDATE_STEP_UPLOAD_NEW_VERSION_TEXT']);?>,</li>
                 <li><?=esc_html($lang['LANG_STATUS_UPDATE_STEP_ACTIVATE_NEW_VERSION_TEXT']);?>,</li>
-                <li><?=esc_html($lang['LANG_STATUS_UPDATE_STEP_CLICK_UPDATE_TEXT']);?>,</li>
+                <li><?=esc_html(sprintf($lang['LANG_STATUS_UPDATE_STEP_S_CLICK_UPDATE_TEXT'], $lang['PLUGIN_NAME']));?>,</li>
                 <li><?=esc_html($lang['LANG_STATUS_UPDATE_STEP_DONE_TEXT']);?>.</li>
             </ol>
         <?php elseif($updateAvailable === FALSE && $updateExists === FALSE): ?>
@@ -39,14 +39,14 @@ defined( 'ABSPATH' ) or die( 'No script kiddies, please!' );
     <?php if($databaseMatchesCodeSemver === FALSE): ?>
         <?php if($canMajorlyUpgrade): ?>
             <div style="padding-bottom: 20px;" class="big-text">
-                <strong><?=esc_html($lang['LANG_STATUS_SYSTEM_READY_FOR_UPGRADE_TEXT']);?></strong>
+                <strong><?=esc_html(sprintf($lang['LANG_STATUS_S_READY_FOR_UPGRADE_TEXT'], $lang['PLUGIN_NAME']));?></strong>
             </div>
             <div style="text-align: center;" class="big-text">
                 <input type="submit" value="<?=esc_attr($lang['LANG_STATUS_UPGRADE_TO_NEXT_VERSION_TEXT']);?>" name="update" style="cursor: pointer;" />
             </div>
         <?php elseif($canUpdate): ?>
             <div style="padding-bottom: 20px;" class="big-text">
-                <strong><?=esc_html($lang['LANG_STATUS_SYSTEM_READY_FOR_UPDATE_TEXT']);?></strong>
+                <strong><?=esc_html(sprintf($lang['LANG_STATUS_S_READY_FOR_UPDATE_TEXT'], $lang['PLUGIN_NAME']));?></strong>
             </div>
             <div style="text-align: center" class="big-text">
                   <input type="submit" value="<?=esc_attr($lang['LANG_STATUS_UPDATE_TO_NEXT_VERSION_TEXT']);?>" name="update" style="cursor: pointer;" />

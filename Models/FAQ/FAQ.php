@@ -105,6 +105,13 @@ final class FAQ extends AbstractStack implements StackInterface, ElementInterfac
             $validFAQ_Order = !is_null($maxOrderResult) ? intval($maxOrderResult)+1 : 1;
         }
 
+        if($validFAQ_Question == "")
+        {
+            // F.A.Q. question is required
+            $ok = FALSE;
+            $this->errorMessages[] = $this->lang->getText('LANG_FAQ_QUESTION_REQUIRED_ERROR_TEXT');
+        }
+
         // Search for existing F.A.Q. question
         $faqQuestionExistsQuery = "
             SELECT faq_id
@@ -117,6 +124,13 @@ final class FAQ extends AbstractStack implements StackInterface, ElementInterfac
         {
             $ok = FALSE;
             $this->errorMessages[] = $this->lang->getText('LANG_FAQ_QUESTION_EXISTS_ERROR_TEXT');
+        }
+
+        if($validFAQ_Answer == "")
+        {
+            // F.A.Q. answer is required
+            $ok = FALSE;
+            $this->errorMessages[] = $this->lang->getText('LANG_FAQ_ANSWER_REQUIRED_ERROR_TEXT');
         }
 
         if($validFAQ_Id > 0 && $ok)

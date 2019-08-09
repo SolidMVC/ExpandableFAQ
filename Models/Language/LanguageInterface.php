@@ -13,13 +13,18 @@ interface LanguageInterface
 {
     /**
      * @param string $paramTextDomain
-     * @param string $paramGlobalLangPath
+     * @param string $paramGlobalPluginLangPath
      * @param string $paramLocalLangPath
      * @param string $paramLocale
      * @param bool $paramStrictLocale
      * @throws \Exception
      */
-    public function __construct($paramTextDomain, $paramGlobalLangPath, $paramLocalLangPath, $paramLocale = "en_US", $paramStrictLocale = FALSE);
+    public function __construct($paramTextDomain, $paramGlobalPluginLangPath, $paramLocalLangPath, $paramLocale = "en_US", $paramStrictLocale = FALSE);
+
+    /**
+     * @return string
+     */
+    public function getCoreLocale();
 
     /**
      * @return string
@@ -87,5 +92,5 @@ interface LanguageInterface
     public function canTranslateSQL();
     public function register($paramKey, $paramValue);
     public function getTranslated($paramKey, $paramNonTranslatedValue);
-    public function getTranslatedUrl($paramPostId);
+    public function getTranslatedURL($paramPostId);
 }

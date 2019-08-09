@@ -59,6 +59,7 @@ final class DemosObserver implements PrimitiveObserverInterface
         }
 
         $retDemos = array();
+        $uniqueDemoIds = array();
         foreach ($phpFiles AS $phpFile)
         {
             // Case-insensitive check - Find the position of the last occurrence of a case-insensitive substring in a string
@@ -78,23 +79,31 @@ final class DemosObserver implements PrimitiveObserverInterface
                 $validFileName = sanitize_file_name($phpFile['file_name']);
                 $validFileNameWithPath = $validFilePath . $validFileName;
 
-                $retDemos[] = array(
-                    "demo_id" => $validDemoId,
-                    "demo_name" => $validDemoName,
-                    "demo_enabled" => $validDemoEnabled,
-                    "file_path" => $validFilePath,
-                    "file_name" => $validFileName,
-                    "file_name_with_path" => $validFileNameWithPath,
-                );
+                if(!in_array($validDemoId, $uniqueDemoIds))
+                {
+                    // Add demo to stack
+                    $retDemos[] = array(
+                        "demo_id" => $validDemoId,
+                        "demo_name" => $validDemoName,
+                        "demo_enabled" => $validDemoEnabled,
+                        "file_path" => $validFilePath,
+                        "file_name" => $validFileName,
+                        "file_name_with_path" => $validFileNameWithPath,
+                    );
+
+                    // Add unique demo ID to stack
+                    $uniqueDemoIds[] = $validDemoId;
+                }
             }
 
             // DEBUG
             if($this->debugMode == 2)
             {
-                echo "<br /><br />\$phpDemoData: " . nl2br(print_r($phpDemoData, TRUE));
+                echo "<br /><br />\$phpDemoData: ".nl2br(print_r($phpDemoData, TRUE));
                 echo "<br /><br />File: {$phpFile['file_name']}";
                 echo "<br />\$firstPhpDemoPos: {$firstPhpDemoPos} === 0";
                 echo "<br />\$lastPhpPos: {$lastPhpPos} === \$requiredPhpPos: {$requiredPhpPos}";
+                echo "<br />\$uniqueDemoIds: ".print_r($uniqueDemoIds, TRUE);
             }
         }
 

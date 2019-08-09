@@ -28,6 +28,10 @@ final class Configuration implements ConfigurationInterface
     private $pluginHandlePrefix                 = "";
     private $pluginURL_Prefix                   = "";
     private $pluginCSS_Prefix                   = "";
+    private $galleryFolderName                  = "";
+    private $globalGalleryPath                  = "";
+    private $globalGalleryPathWithoutEndSlash   = "";
+    private $globalGalleryURL                   = "";
     private $themeUI_FolderName                 = "";
     private $pluginName                         = "";
     private $blogPrefix                         = "";
@@ -46,6 +50,7 @@ final class Configuration implements ConfigurationInterface
     private $librariesPath                      = "";
     private $localLangPath                      = "";
     private $globalLangPath                     = "";
+    private $globalPluginLangPath               = "";
     private $localLangRelPath                   = "";
 
     // URLs
@@ -206,6 +211,7 @@ final class Configuration implements ConfigurationInterface
         $this->localLangRelPath = $this->pluginFolderName.'/Languages'; // No slash at the end (!)
         $wpLangDir = str_replace(array('/', '\\'), array(DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR),WP_LANG_DIR);
         $this->globalLangPath = $wpLangDir.DIRECTORY_SEPARATOR;
+        $this->globalPluginLangPath = $wpLangDir.DIRECTORY_SEPARATOR.$this->pluginFolderName.DIRECTORY_SEPARATOR;
 
 
         /* ------------------------------------------------------------------------------------------------------- */
@@ -236,6 +242,7 @@ final class Configuration implements ConfigurationInterface
             echo "<br />[Configuration] Plugin Folder Name: {$this->pluginFolderName}\n";
             echo "<br />[Configuration] Local Lang Path: {$this->localLangPath}\n";
             echo "<br />[Configuration] Global Lang Path: {$this->globalLangPath}\n";
+            echo "<br />[Configuration] Global Plugin Lang Path: {$this->globalPluginLangPath}\n";
             echo "<br />[Configuration] Local Lang Rel Path: {$this->localLangRelPath}\n";
             echo "<br />[Configuration] Plugin URL: {$this->pluginURL}\n";
         }
@@ -480,6 +487,11 @@ final class Configuration implements ConfigurationInterface
     public function getGlobalLangPath()
     {
         return $this->globalLangPath;
+    }
+
+    public function getGlobalPluginLangPath()
+    {
+        return $this->globalPluginLangPath;
     }
 
     /**

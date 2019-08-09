@@ -590,7 +590,7 @@ final class MainController
                     switch_to_blog($paramBlogIdToDelete);
 
                     $lang = new \ExpandableFAQ\Models\Language\Language(
-                        $conf->getTextDomain(), $conf->getGlobalLangPath(), $conf->getLocalLangPath(), get_locale(), FALSE
+                        $conf->getTextDomain(), $conf->getGlobalPluginLangPath(), $conf->getLocalLangPath(), get_locale(), FALSE
                     );
 
                     if(is_null($lang))
@@ -1014,12 +1014,12 @@ final class MainController
             // See 1: http://geertdedeckere.be/article/loading-wordpress-language-files-the-right-way
             // See 2: https://ulrich.pogson.ch/load-theme-plugin-translations
             // wp-content/languages/<PLUGIN_FOLDER_NAME>/lt_LT.mo
-            load_textdomain($this->confWithoutRouting->getTextDomain(), $this->confWithoutRouting->getGlobalLangPath().$locale.'.mo');
+            load_textdomain($this->confWithoutRouting->getTextDomain(), $this->confWithoutRouting->getGlobalPluginLangPath().$locale.'.mo');
             // wp-content/plugins/ExpandableFAQ/Languages/<EXT_FOLDER_NAME>/lt_LT.mo
             load_plugin_textdomain($this->confWithoutRouting->getTextDomain(), FALSE, $this->confWithoutRouting->getLocalLangRelPath());
 
             $this->lang = new \ExpandableFAQ\Models\Language\Language(
-                $this->confWithoutRouting->getTextDomain(), $this->confWithoutRouting->getGlobalLangPath(), $this->confWithoutRouting->getLocalLangPath(), $locale, FALSE
+                $this->confWithoutRouting->getTextDomain(), $this->confWithoutRouting->getGlobalPluginLangPath(), $this->confWithoutRouting->getLocalLangPath(), $locale, FALSE
             );
         }
 

@@ -22,7 +22,7 @@ wp_enqueue_style('expandable-faq-main');
                 </dd>
             <?php endforeach; ?>
         </dl>
-    <?php else:?>
+    <?php else: ?>
         <div class="no-faqs-available"><?=esc_html($lang['LANG_FAQS_NONE_AVAILABLE_TEXT']);?></div>
     <?php endif; ?>
 </div>

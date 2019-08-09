@@ -84,6 +84,7 @@ interface ConfigurationInterface
     public function getLibrariesPath();
     public function getLocalLangPath();
     public function getGlobalLangPath();
+    public function getGlobalPluginLangPath();
     public function getLocalLangRelPath();
 
     // URL methods

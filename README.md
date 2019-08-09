@@ -108,6 +108,16 @@ to your website's FAQ page and make automatically expand specific FAQ with a pag
 
 # Changelog
 
+= 6.1.8 =
+* Minor HTML improvements.
+* Segregated core and plugin language files.
+* Global plugin lang path issue fixed.
+* Improved language file.
+* Improved language text.
+* License line text patched.
+* Duplicating demo UID check added to demos observer.
+* CSS class naming improved.
+
 = 6.1.7 =
 * One template minorly patched, front-end main JS file renamed to correct name.
 
