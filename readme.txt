@@ -52,7 +52,7 @@ Finally - the code is poetry - __the better is the web, the happier is the world
 
 - - - -
 == Live Demo ==
-[Expandable FAQ (Live Demo)](http://nativerental.com/cars/faq/ "Expandable FAQ (Live Demo)")
+[Expandable FAQ (Live Demo)](https://nativerental.com/cars/faq/ "Expandable FAQ (Live Demo)")
 
 == GitHub Repository (for those, who want to contribute via "Pull Requests") ==
 [https://github.com/SolidMVC/ExpandableFAQ](https://github.com/SolidMVC/ExpandableFAQ "ExpandableFAQ @GitHub")
@@ -99,6 +99,12 @@ to your website's FAQ page and make automatically expand specific FAQ with a pag
 
 
 == Changelog ==
+
+= 6.1.9 =
+* Fixed compatibility style routing bug
+* Refactored time(UTC)
+* HTTP changed to HTTPS
+* Refactored CSSFile to CSS_File
 
 = 6.1.8 =
 * Minor HTML improvements.

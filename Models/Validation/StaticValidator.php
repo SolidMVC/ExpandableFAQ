@@ -675,7 +675,7 @@ final class StaticValidator
         return $utcISO_Date;
     }
 
-    public static function getUTCTimestampFromLocalISODateTime($paramDate, $paramTime)
+    public static function getUTC_TimestampFromLocalISO_DateTime($paramDate, $paramTime)
     {
         $UTCTimestamp = 0;
         $validISODate = static::getValidISO_Date($paramDate, 'Y-m-d');
@@ -695,9 +695,9 @@ final class StaticValidator
     /*
      * Appears that this function is useless in the NS and nowhere used
      * While my brains still think that I want to add timezone offset, appears that correct way is to subtract it
-     * via getUTCTimestampFromLocalISODateTime($paramDate, $paramTime)
+     * via getUTC_TimestampFromLocalISO_DateTime($paramDate, $paramTime)
      */
-    public static function getLocalTimestampFromUTC_ISODateTime($paramDate, $paramTime)
+    public static function getLocalTimestampFromUTC_ISO_DateTime($paramDate, $paramTime)
     {
         $localTimestamp = 0;
         $validISODate = static::getValidISO_Date($paramDate, 'Y-m-d');

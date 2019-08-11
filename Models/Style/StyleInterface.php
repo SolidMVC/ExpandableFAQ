@@ -26,8 +26,8 @@ interface StyleInterface
     public function inDebug();
 
     // Getters
-    public function getParentThemeCompatibilityCSSURL();
-    public function getCurrentThemeCompatibilityCSSURL();
-    public function getSitewideCSSURL();
-    public function getLocalCSSURL();
+    public function getParentThemeCompatibilityCSS_URL();
+    public function getCurrentThemeCompatibilityCSS_URL();
+    public function getSitewideCSS_URL();
+    public function getLocalCSS_URL();
 }

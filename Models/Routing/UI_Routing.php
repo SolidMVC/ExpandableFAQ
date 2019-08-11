@@ -387,7 +387,7 @@ final class UI_Routing implements RoutingInterface
 
     public function getFrontSitewideCSS_URL($paramRelativeURL_AndFile = '', $paramReturnWithFileName = TRUE)
     {
-        $folderURL = $this->getURL('Assets/Front/CSS/Compatibility/'.$paramRelativeURL_AndFile, FALSE).'Assets/Front/CSS/Compatibility/';
+        $folderURL = $this->getURL('Assets/Front/CSS/Sitewide/'.$paramRelativeURL_AndFile, FALSE).'Assets/Front/CSS/Sitewide/';
 
         return $folderURL.($paramReturnWithFileName === TRUE ? $paramRelativeURL_AndFile : '');
     }

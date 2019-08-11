@@ -107,6 +107,11 @@ to your website's FAQ page and make automatically expand specific FAQ with a pag
 
 
 # Changelog
+= 6.1.9 =
+* Fixed compatibility style routing bug
+* Refactored time(UTC)
+* HTTP changed to HTTPS
+* Refactored CSSFile to CSS_File
 
 = 6.1.8 =
 * Minor HTML improvements.

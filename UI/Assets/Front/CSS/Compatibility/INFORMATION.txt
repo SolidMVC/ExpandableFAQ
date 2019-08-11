@@ -1,3 +1,14 @@
 What is compatibility styles?
-Style in this folder will get loaded only if the current active theme folder name
-will match the style file name (excl. the file extension).
+Compatibility style is a stylesheet that only gets loaded if it's file's name and header's
+theme name matches the current active theme on your site, i.e.:
+
+current active theme's folder: AvadaCar-child
+current active theme's stylesheet's theme name: Avada Car Child
+
+so the compatible stylesheet should be named: AvadaCar-child.css
+and it's theme name in the header should be: Avada Car Child
+
+This style is needed for example, when you are not satisfied
+with the plugin's current style and you want to make changes. This is a
+good way to keep things organized and your custom style won't get lost
+after an update. So basically this is a child-theme for your plugin

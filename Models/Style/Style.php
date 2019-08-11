@@ -16,7 +16,7 @@ final class Style implements StyleInterface
 {
     private $conf                 = NULL;
     private $lang                 = NULL;
-    private $debugMode            = 0;
+    private $debugMode            = 0; // 0 - disabled, 1 - regular debug, 2+ - deep debug
     private $styleName            = "";
     private $sitewideStyles       = array();
     private $compatibilityStyles  = array();
@@ -52,10 +52,12 @@ final class Style implements StyleInterface
 
         if($this->debugMode >= 2)
         {
-            echo "<br />CSS FILES:<br />".var_export($cssFiles, TRUE);
-            echo "<br />COMPATIBILITY STYLES: ".nl2br(print_r($this->compatibilityStyles, TRUE));
-            echo "<br /><br />GLOBAL STYLES: ".nl2br(print_r($this->sitewideStyles, TRUE));
-
+            echo "<br /><br />---------------------------------------------------------------------------------";
+            echo "<br /><strong>[setSitewideStyles()]</strong> \$cssFolderPath: {$cssFolderPath}</strong>";
+            echo "<br /><strong>[setSitewideStyles()]</strong> \$cssFolderURL: {$cssFolderURL}</strong>";
+            echo "<br /><strong>[setSitewideStyles()]</strong> CSS FILES:<br />".var_export($cssFiles, TRUE);
+            echo "<br /><br /><strong>[setSitewideStyles()]</strong> SITEWIDE STYLES: ".nl2br(print_r($this->sitewideStyles, TRUE));
+            echo "<br />---------------------------------------------------------------------------------";
         }
     }
 
@@ -79,10 +81,12 @@ final class Style implements StyleInterface
 
         if($this->debugMode >= 2)
         {
-            echo "<br />CSS FILES:<br />".var_export($cssFiles, TRUE);
-            echo "<br />COMPATIBILITY STYLES: ".nl2br(print_r($this->compatibilityStyles, TRUE));
-            echo "<br /><br />GLOBAL STYLES: ".nl2br(print_r($this->sitewideStyles, TRUE));
-
+            echo "<br /><br />---------------------------------------------------------------------------------";
+            echo "<br /><strong>[setCompatibilityStyles()]</strong> \$cssFolderPath: {$cssFolderPath}</strong>";
+            echo "<br /><strong>[setCompatibilityStyles()]</strong> \$cssFolderURL: {$cssFolderURL}</strong>";
+            echo "<br /><strong>[setCompatibilityStyles()]</strong> CSS FILES:<br />".var_export($cssFiles, TRUE);
+            echo "<br /><strong>[setCompatibilityStyles()]</strong> COMPATIBILITY STYLES: ".nl2br(print_r($this->compatibilityStyles, TRUE));
+            echo "<br />---------------------------------------------------------------------------------";
         }
     }
 
@@ -107,9 +111,12 @@ final class Style implements StyleInterface
 
         if($this->debugMode >= 2)
         {
-            echo "<br />CSS FILES:<br />".var_export($cssFiles, TRUE);
-            echo "<br /><br />SYSTEM STYLES: ".nl2br(print_r($this->localStyles, TRUE));
-
+            echo "<br /><br />---------------------------------------------------------------------------------";
+            echo "<br /><strong>[setLocalStyles()]</strong> \$cssFolderPath: {$cssFolderPath}</strong>";
+            echo "<br /><strong>[setLocalStyles()]</strong> \$cssFolderURL: {$cssFolderURL}</strong>";
+            echo "<br /><strong>[setLocalStyles()]</strong> CSS FILES:<br />".var_export($cssFiles, TRUE);
+            echo "<br /><br /><strong>[setLocalStyles()]</strong> LOCAL STYLES: ".nl2br(print_r($this->localStyles, TRUE));
+            echo "<br />---------------------------------------------------------------------------------";
         }
     }
 
@@ -118,7 +125,7 @@ final class Style implements StyleInterface
         return ($this->debugMode >= 1 ? TRUE : FALSE);
     }
 
-    public function getParentThemeCompatibilityCSSURL()
+    public function getParentThemeCompatibilityCSS_URL()
     {
         // Get parent theme name
         $parentThemeName = "";
@@ -148,7 +155,7 @@ final class Style implements StyleInterface
         return $compatibilityFileURL;
     }
 
-    public function getCurrentThemeCompatibilityCSSURL()
+    public function getCurrentThemeCompatibilityCSS_URL()
     {
         // Get current theme name
         $currentThemeName = "";
@@ -177,7 +184,7 @@ final class Style implements StyleInterface
         return $compatibilityFileURL;
     }
 
-    public function getSitewideCSSURL()
+    public function getSitewideCSS_URL()
     {
         // Get the stylesheet file and it's path
         $selectedFileURL = '';
@@ -207,7 +214,7 @@ final class Style implements StyleInterface
         return $fileURL;
     }
 
-    public function getLocalCSSURL()
+    public function getLocalCSS_URL()
     {
         // Get the stylesheet file and it's path
         $selectedFileURL = '';

@@ -221,7 +221,7 @@ final class Configuration implements ConfigurationInterface
         // esc_url replaces ' and & chars with &#39; and &amp; - but because we know that exact path,
         // we know it does not contains them, so we don't need to have two versions esc_url and esc_url_raw
         // Demo examples (__FILE__ = $this->pluginFolderAndFile):
-        // 1. plugin_dir_url(__FILE__) => http://nativerental.com/wp-content/plugins/ExpandableFAQ/
+        // 1. plugin_dir_url(__FILE__) => https://nativerental.com/wp-content/plugins/ExpandableFAQ/
         $this->pluginURL = esc_url(plugin_dir_url($this->pluginPathWithFilename));
 
 
