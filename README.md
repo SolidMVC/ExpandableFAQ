@@ -1,7 +1,7 @@
 # ExpandableFAQ
 It’s a MIT-licensed (can be used in premium themes), high quality, native and responsive WordPress plugin to create and view expandable F.A.Q.'s
 
-**Contributors:** KestutisIT
+**Contributors:** KestutisIT, mariusslo
 
 **Website link:** https://wordpress.org/plugins/expandable-faq/
 
@@ -62,7 +62,7 @@ Finally - the code is poetry - __the better is the web, the happier is the world
 
 - - - -
 # Live Demo
-[Expandable FAQ (Live Demo)](http://nativerental.com/cars/faq/ "Expandable FAQ (Live Demo)")
+[Expandable FAQ (Live Demo)](https://nativerental.com/cars/faq/ "Expandable FAQ (Live Demo)")
 
 
 # Installation
