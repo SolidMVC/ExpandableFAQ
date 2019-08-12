@@ -1,5 +1,5 @@
 === Expandable FAQ ===
-Contributors: KestutisIT
+Contributors: KestutisIT, mariusslo
 Donate link: https://profiles.wordpress.org/KestutisIT
 Website link: https://wordpress.org/plugins/expandable-faq/
 Tags: collapsible, expandable, faqs, expand, collapse
