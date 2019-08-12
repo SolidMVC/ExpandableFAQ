@@ -107,6 +107,9 @@ to your website's FAQ page and make automatically expand specific FAQ with a pag
 
 
 # Changelog
+= 6.1.10 =
+* Semver alignment with other SolidMVC models.
+
 = 6.1.9 =
 * Fixed compatibility style routing bug
 * Refactored time(UTC)
